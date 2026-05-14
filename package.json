@@ -1,0 +1,27 @@
+{
+  "name": "openfret",
+  "version": "1.0.0",
+  "description": "OpenFret is a free, open-source guitar songbook with built-in tuner, metronome, scales, and practice tools. Bring your own songs.",
+  "main": "index.html",
+  "scripts": {
+    "test": "node --test tests/smoke.test.cjs",
+    "start": "python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/openfret.git"
+  },
+  "keywords": [
+    "guitar",
+    "songbook",
+    "chords",
+    "tuner",
+    "metronome",
+    "music",
+    "practice",
+    "open-source"
+  ],
+  "author": "Adam Werbach and OpenFret contributors",
+  "license": "MIT",
+  "devDependencies": {}
+}

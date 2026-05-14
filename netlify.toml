@@ -1,0 +1,14 @@
+# OpenFret on Netlify.
+# No build step is required: this is a static site.
+# Drag the openfret/ folder onto https://app.netlify.com/drop, or connect this
+# repo to Netlify and Netlify will pick up the config below.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "microphone=(self)"

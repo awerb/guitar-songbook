@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OpenFret</title>
+    <meta name="description" content="OpenFret is a free, open-source guitar songbook with built-in tuner, metronome, scales, and practice tools. Bring your own songs.">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <img src="assets/openfret-header.svg" alt="OpenFret" class="splash-image">
+            <div class="tap-to-dismiss">Tap to enter</div>
+        </div>
+    </div>
+
+    <!-- Welcome banner (first run only) -->
+    <div class="welcome-banner" id="welcomeBanner" style="display:none;">
+        <div class="welcome-banner-content">
+            <strong>Welcome to OpenFret.</strong>
+            These are sample songs to get you started. Tap <button class="welcome-link" onclick="showAddSongModal()">+ Add Song</button> to add your own, or <button class="welcome-link" onclick="showHelpModal()">read the quick guide</button>.
+        </div>
+        <button class="welcome-close" onclick="dismissWelcomeBanner()" aria-label="Dismiss welcome">×</button>
+    </div>
+
+    <div class="header">
+        <h1 onclick="showSongList()" style="cursor: pointer;">OPENFRET</h1>
+        <div class="nav-tabs">
+            <button class="nav-tab active" id="songsTab" onclick="showTab('songs')">SONGS</button>
+            <button class="nav-tab" id="scalesTab" onclick="showTab('scales')">SCALES</button>
+            <button class="nav-tab" id="tunerTab" onclick="showTab('tuner')">TUNER</button>
+            <button class="nav-tab" id="metronomeTab" onclick="showTab('metronome')">METRONOME</button>
+            <button class="nav-tab" id="practiceTab" onclick="showTab('practice')">PRACTICE</button>
+        </div>
+        <div class="search-container" id="searchContainer">
+            <input type="text" class="search-input" placeholder="SEARCH SONGS" id="searchInput">
+        </div>
+        <div class="song-count" id="songCount"></div>
+        <div class="header-actions">
+            <button class="header-action-btn primary" onclick="showAddSongModal()">+ ADD SONG</button>
+            <button class="header-action-btn" onclick="showLibraryMenu()">LIBRARY</button>
+            <button class="header-action-btn" onclick="showChordChart()">CHORDS</button>
+            <button class="header-action-btn" onclick="showHelpModal()" aria-label="Help">?</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="song-list" id="songList"></div>
+
+        <div class="song-view" id="songView">
+            <button class="back-button" onclick="showSongList()">
+                ← BACK
+            </button>
+            <div class="song-content" id="songContent"></div>
+
+            <div class="auto-scroll" id="autoScrollControl">
+                <label>AUTO-SCROLL SPEED</label>
+                <input type="range" class="speed-control" id="scrollSpeed" min="0" max="100" value="50">
+                <button class="control-btn" onclick="stopAutoScroll()">STOP</button>
+            </div>
+        </div>
+
+        <div class="scales-section" id="scalesSection">
+            <h2>Pentatonic Scales</h2>
+            <p class="artist">The foundation of guitar soloing</p>
+
+            <div class="pentatonic-content">
+                <h3>The Five Patterns</h3>
+                <p>These five patterns of the minor pentatonic scale can be moved all over the fretboard. The key is determined by the root note (the red dot in these diagrams for A minor).</p>
+                <div class="pattern-grid">
+                    <div class="pattern-box">
+                        <h4>Pattern 1 (A Minor @ 5th fret)</h4>
+                        <div class="fretboard-diagram">
+E|---5---8---|
+B|---5---8---|
+G|---5---7---|
+D|---5---7---|
+A|---5---7---|
+E|---5---8---|
+                        </div>
+                    </div>
+                    <div class="pattern-box">
+                        <h4>Pattern 2 (A Minor @ 8th fret)</h4>
+                        <div class="fretboard-diagram">
+E|---8--10---|
+B|---8--10---|
+G|---7---9---|
+D|---7---9---|
+A|---7--10---|
+E|---8--10---|
+                        </div>
+                    </div>
+                    <div class="pattern-box">
+                        <h4>Pattern 3 (A Minor @ 10th fret)</h4>
+                        <div class="fretboard-diagram">
+E|--10--12---|
+B|--10--13---|
+G|---9--12---|
+D|---9--12---|
+A|--10--12---|
+E|--10--12---|
+                        </div>
+                    </div>
+                    <div class="pattern-box">
+                        <h4>Pattern 4 (A Minor @ 12th fret)</h4>
+                        <div class="fretboard-diagram">
+E|--12--15---|
+B|--13--15---|
+G|--12--14---|
+D|--12--14---|
+A|--12--15---|
+E|--12--15---|
+                        </div>
+                    </div>
+                    <div class="pattern-box">
+                        <h4>Pattern 5 (A Minor @ 15th or 3rd fret)</h4>
+                        <div class="fretboard-diagram">
+E|--15--17---|
+B|--15--17---|
+G|--14--17---|
+D|--14--17---|
+A|--15--17---|
+E|--15--17---|
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls" id="controls">
+        <div class="control-buttons">
+            <button class="control-btn" onclick="changeFontSize(-2)">A-</button>
+            <button class="control-btn" onclick="changeFontSize(2)">A+</button>
+            <button class="control-btn" onclick="toggleAutoScroll()">SCROLL</button>
+            <button class="control-btn" onclick="showChordChart()">CHORDS</button>
+            <button class="control-btn" onclick="openYouTube()">ORIGINAL</button>
+            <button class="control-btn" onclick="showDownloadModal()">DOWNLOAD</button>
+            <button class="control-btn" onclick="shareSong()">SHARE</button>
+            <button class="control-btn user-only" id="editSongBtn" onclick="editCurrentSong()" style="display:none;">EDIT</button>
+            <button class="control-btn user-only danger" id="deleteSongBtn" onclick="deleteCurrentSong()" style="display:none;">DELETE</button>
+        </div>
+    </div>
+
+    <!-- Add / Edit Song modal -->
+    <div class="of-modal" id="addSongModal">
+        <div class="of-modal-content">
+            <div class="of-modal-header">
+                <h3 id="addSongTitle">ADD A SONG</h3>
+                <button class="close-btn" onclick="closeAddSongModal()" aria-label="Close">×</button>
+            </div>
+            <form id="addSongForm" class="of-form" onsubmit="saveSongFromForm(event)">
+                <input type="hidden" id="songFormId" value="">
+                <label class="of-field">
+                    <span>Title</span>
+                    <input type="text" id="songFormTitle" required placeholder="Wagon Wheel">
+                </label>
+                <label class="of-field">
+                    <span>Artist</span>
+                    <input type="text" id="songFormArtist" placeholder="Old Crow Medicine Show">
+                </label>
+                <div class="of-field-row">
+                    <label class="of-field">
+                        <span>Genre</span>
+                        <select id="songFormGenre">
+                            <option value="folk">Folk</option>
+                            <option value="rock">Rock</option>
+                            <option value="blues">Blues</option>
+                            <option value="jazz">Jazz</option>
+                            <option value="country">Country</option>
+                            <option value="pop">Pop</option>
+                            <option value="other" selected>Other</option>
+                        </select>
+                    </label>
+                    <label class="of-field">
+                        <span>Chords (summary)</span>
+                        <input type="text" id="songFormChords" placeholder="G D Em C">
+                    </label>
+                </div>
+                <label class="of-field">
+                    <span>Lyrics with chord brackets</span>
+                    <textarea id="songFormLyrics" rows="14" placeholder="[G]Heading [D]down south to the [Em]land of the [C]pines..."></textarea>
+                </label>
+                <label class="of-field">
+                    <span>YouTube link (optional)</span>
+                    <input type="url" id="songFormYoutube" placeholder="https://www.youtube.com/watch?v=...">
+                </label>
+                <div class="of-form-actions">
+                    <button type="button" class="control-btn" onclick="closeAddSongModal()">CANCEL</button>
+                    <button type="submit" class="control-btn primary">SAVE SONG</button>
+                </div>
+                <p class="of-form-hint">Wrap chords in square brackets like <code>[Am]</code> right before the lyric they fall on. Saved in your browser only. Use Library &rarr; Export to back up.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Library menu modal -->
+    <div class="of-modal" id="libraryModal">
+        <div class="of-modal-content">
+            <div class="of-modal-header">
+                <h3>YOUR LIBRARY</h3>
+                <button class="close-btn" onclick="closeLibraryMenu()" aria-label="Close">×</button>
+            </div>
+            <div class="of-library-stats" id="libraryStats"></div>
+            <div class="of-library-actions">
+                <button class="control-btn" onclick="OpenFretApp.exportLibrary()">EXPORT TO FILE</button>
+                <label class="control-btn file-input-btn">
+                    IMPORT &amp; MERGE
+                    <input type="file" accept="application/json,.json" onchange="OpenFretApp.handleImport(event, 'merge')" hidden>
+                </label>
+                <label class="control-btn file-input-btn">
+                    IMPORT &amp; REPLACE
+                    <input type="file" accept="application/json,.json" onchange="OpenFretApp.handleImport(event, 'replace')" hidden>
+                </label>
+                <button class="control-btn" id="toggleSamplesBtn" onclick="OpenFretApp.toggleSamples()">HIDE SAMPLE SONGS</button>
+                <button class="control-btn danger" onclick="OpenFretApp.confirmReset()">RESET TO SAMPLES</button>
+            </div>
+            <p class="of-form-hint">Your songs live only in this browser, on this device. Export regularly to back them up or to copy them to another device.</p>
+        </div>
+    </div>
+
+    <!-- Help modal -->
+    <div class="of-modal" id="helpModal">
+        <div class="of-modal-content">
+            <div class="of-modal-header">
+                <h3>QUICK GUIDE</h3>
+                <button class="close-btn" onclick="closeHelpModal()" aria-label="Close">×</button>
+            </div>
+            <div class="of-help-content">
+                <h4>Add your first song</h4>
+                <p>Tap <strong>+ Add Song</strong> in the header. Paste your lyrics and put each chord in square brackets right before the syllable it lands on, like this:</p>
+                <pre>[G]Heading [D]down south to the [Em]land of the [C]pines</pre>
+                <h4>Edit or delete</h4>
+                <p>Open one of your own songs. The <strong>EDIT</strong> and <strong>DELETE</strong> buttons appear in the bottom controls. Sample songs are read-only; hide them all from the Library menu if you want a clean slate.</p>
+                <h4>Back up your library</h4>
+                <p>Open <strong>Library</strong> and tap <strong>Export to file</strong>. You'll get a JSON file you can save anywhere. To restore on the same or a different device, use <strong>Import &amp; Merge</strong>.</p>
+                <h4>Tools</h4>
+                <p>The header tabs include a <strong>Tuner</strong> (uses your microphone), a <strong>Metronome</strong>, a pentatonic <strong>Scales</strong> reference, and a <strong>Practice</strong> tab with backing tracks, fretboard quiz, and ear training.</p>
+                <h4>Where do my songs live?</h4>
+                <p>In your browser's localStorage. They never leave your device unless you export them. If you clear your browser data, your songs are gone, so export occasionally.</p>
+                <div class="of-form-actions">
+                    <button class="control-btn primary" onclick="closeHelpModal()">GOT IT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm dialog (generic) -->
+    <div class="of-modal" id="confirmModal">
+        <div class="of-modal-content of-modal-small">
+            <div class="of-modal-header">
+                <h3 id="confirmTitle">ARE YOU SURE?</h3>
+            </div>
+            <p id="confirmMessage" class="of-confirm-message"></p>
+            <div class="of-form-actions">
+                <button class="control-btn" onclick="OpenFretApp.cancelConfirm()">CANCEL</button>
+                <button class="control-btn danger" id="confirmOkBtn" onclick="OpenFretApp.acceptConfirm()">CONFIRM</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-modal" id="downloadModal">
+        <div class="modal-content">
+            <h3>DOWNLOAD OPTIONS</h3>
+            <p>Choose what to download:</p>
+            <div class="modal-buttons">
+                <button class="control-btn" onclick="downloadSong()">THIS SONG</button>
+                <button class="control-btn" onclick="downloadAll()">ALL SONGS</button>
+                <button class="control-btn" onclick="closeModal()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chord-chart-modal" id="chordChartModal">
+        <div class="chord-chart-content">
+            <div class="chord-chart-header">
+                <h3>GUITAR CHORD CHART</h3>
+                <button class="close-btn" onclick="closeChordChart()">×</button>
+            </div>
+            <div class="chord-sections">
+                <div class="chord-section">
+                    <h4>MAJOR CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">A</div>
+                            <pre>x o   o
+├─┬─┬─┬─┬─┐
+│ │ ● ● ● │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">B</div>
+                            <pre>x
+├─●─●─●─●─● 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 3
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ ● 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">C</div>
+                            <pre>x   o o
+├─┬─┬─┬─┬─┐
+│ │ │ │ ● │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">D</div>
+                            <pre>x x o
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ ● 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">E</div>
+                            <pre>o     o o
+├─┬─┬─┬─┬─┐
+│ │ │ ● │ │ 1
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">F</div>
+                            <pre>
+├─●─●─●─●─●─● 1
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 2
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">G</div>
+                            <pre>    o o o
+├─┬─┬─┬─┬─┐
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+● │ │ │ │ │ 3
+├─┼─┼─┼─┼─┤
+● │ │ │ │ ● 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="chord-section">
+                    <h4>MINOR CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">Am</div>
+                            <pre>x o   o o
+├─┬─┬─┬─┬─┐
+│ │ │ ● │ │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● ● │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Bm</div>
+                            <pre>x
+├─●─●─●─●─● 2
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 3
+├─┼─┼─┼─┼─┤
+│ │ ● ● │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Cm</div>
+                            <pre>x
+├─●─●─●─●─● 3
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 4
+├─┼─┼─┼─┼─┤
+│ │ ● │ ● │ 5
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Dm</div>
+                            <pre>x x o
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ ● 1
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Em</div>
+                            <pre>o     o o o
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">F#m</div>
+                            <pre>
+├─●─●─●─●─●─● 2
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 3
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">G#m</div>
+                            <pre>
+├─●─●─●─●─●─● 4
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 5
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 6
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="chord-section">
+                    <h4>7TH CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">A7</div>
+                            <pre>x o   o o
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ │ ● │ ● │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">B7</div>
+                            <pre>x   o   o
+├─┬─┬─┬─┬─┐
+│ │ ● │ ● │ 1
+├─┼─┼─┼─┼─┤
+│ ● │ ● │ │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">C7</div>
+                            <pre>x   o o
+├─┬─┬─┬─┬─┐
+│ │ │ │ ● │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+│ ● │ ● │ │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">D7</div>
+                            <pre>x x o
+├─┬─┬─┬─┬─┐
+│ │ │ ● │ ● 1
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">E7</div>
+                            <pre>o   o o o
+├─┬─┬─┬─┬─┐
+│ │ │ ● │ │ 1
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">F#7</div>
+                            <pre>
+├─●─●─●─●─●─● 2
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 3
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">G7</div>
+                            <pre>    o o o
+├─┬─┬─┬─┬─┐
+● │ │ │ │ │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ ● 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="chord-section">
+                    <h4>SHARP/FLAT CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">C#</div>
+                            <pre>x
+├─●─●─●─●─● 4
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 5
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ ● 6
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">C#m</div>
+                            <pre>x
+├─●─●─●─●─● 4
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 5
+├─┼─┼─┼─┼─┤
+│ │ ● │ ● │ 6
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Eb</div>
+                            <pre>x x
+├─┬─┬─┬─┬─┐
+│ │ │ ● ● ● 1
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Ebm</div>
+                            <pre>x x
+├─┬─┬─┬─┬─┐
+│ │ │ ● ● ● 1
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 3
+├─┼─┼─┼─┼─┤
+│ │ ● ● │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">F#</div>
+                            <pre>
+├─●─●─●─●─●─● 2
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 3
+├─┼─┼─┼─┼─┤
+│ ● ● │ │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Bb</div>
+                            <pre>x
+├─●─●─●─●─● 1
+├─┼─┼─┼─┼─┤
+│ │ │ │ ● │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ ● 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">Ab7</div>
+                            <pre>
+├─●─●─●─●─●─● 4
+├─┼─┼─┼─┼─┤
+│ │ │ ● │ │ 5
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 6
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="chord-section">
+                    <h4>EXTENDED &amp; OTHER CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">Am7</div>
+                            <pre>x o   o o o
+├─┬─┬─┬─┬─┐
+│ │ │ ● │ │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">G/C</div>
+                            <pre>x   o o o
+├─┬─┬─┬─┬─┐
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+● │ │ │ │ │ 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">C/G</div>
+                            <pre>    o o
+├─┬─┬─┬─┬─┐
+│ │ │ │ ● │ 1
+├─┼─┼─┼─┼─┤
+│ │ ● │ │ │ 2
+├─┼─┼─┼─┼─┤
+● │ │ │ │ ● 3
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="chord-section">
+                    <h4>POWER CHORDS</h4>
+                    <div class="chord-grid">
+                        <div class="chord-diagram">
+                            <div class="chord-name">E5</div>
+                            <pre>o x x x x x
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 2
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">F#5</div>
+                            <pre>  x x x x x
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+● │ │ │ │ │ 2
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 4
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                        <div class="chord-diagram">
+                            <div class="chord-name">G5</div>
+                            <pre>  x x x x x
+├─┬─┬─┬─┬─┐
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+● │ │ │ │ │ 3
+├─┼─┼─┼─┼─┤
+│ │ │ │ │ │
+├─┼─┼─┼─┼─┤
+│ ● │ │ │ │ 5
+└─┴─┴─┴─┴─┘</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guitar Tuner Section -->
+    <div class="tuner-section" id="tunerSection">
+        <h2>Guitar Tuner</h2>
+        <p class="artist">Microphone tuning with reference notes on the same screen</p>
+
+        <div class="mic-tuner active" id="micTuner">
+            <div class="mic-controls">
+                <button class="mic-button" id="micButton">Start Listening</button>
+            </div>
+
+            <div class="tuning-display">
+                <div class="detected-note" id="detectedNote">Play a note</div>
+                <div class="target-note-display" id="targetNoteDisplay">Target: standard tuning</div>
+                <div class="frequency-display" id="frequencyDisplay">-- Hz</div>
+
+                <div class="tuning-meter">
+                    <div class="meter-center-band"></div>
+                    <div class="meter-needle" id="meterNeedle"></div>
+                </div>
+
+                <div class="meter-labels">
+                    <span>Flat</span>
+                    <span>Perfect</span>
+                    <span>Sharp</span>
+                </div>
+
+                <div class="cents-display" id="centsDisplay">0 cents</div>
+                <div class="tuning-status" id="tuningStatus">Click "Start Listening" to begin</div>
+            </div>
+        </div>
+
+        <div class="reference-tuner active" id="referenceTuner">
+            <div class="reference-heading">
+                <h3>Reference Notes</h3>
+                <p>Tap a string note to hear it while you tune.</p>
+            </div>
+            <div class="volume-control">
+                <label for="volumeSlider">Volume:</label>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="70">
+            </div>
+
+            <div class="strings-container">
+                <button class="string-button" data-note="E4" data-freq="329.63" data-string="1">
+                    <div class="string-info">
+                        <span class="string-note">E (High)</span>
+                        <span class="string-number">1</span>
+                    </div>
+                    <div class="frequency">329.63 Hz</div>
+                </button>
+
+                <button class="string-button" data-note="B3" data-freq="246.94" data-string="2">
+                    <div class="string-info">
+                        <span class="string-note">B</span>
+                        <span class="string-number">2</span>
+                    </div>
+                    <div class="frequency">246.94 Hz</div>
+                </button>
+
+                <button class="string-button" data-note="G3" data-freq="196.00" data-string="3">
+                    <div class="string-info">
+                        <span class="string-note">G</span>
+                        <span class="string-number">3</span>
+                    </div>
+                    <div class="frequency">196.00 Hz</div>
+                </button>
+
+                <button class="string-button" data-note="D3" data-freq="146.83" data-string="4">
+                    <div class="string-info">
+                        <span class="string-note">D</span>
+                        <span class="string-number">4</span>
+                    </div>
+                    <div class="frequency">146.83 Hz</div>
+                </button>
+
+                <button class="string-button" data-note="A2" data-freq="110.00" data-string="5">
+                    <div class="string-info">
+                        <span class="string-note">A</span>
+                        <span class="string-number">5</span>
+                    </div>
+                    <div class="frequency">110.00 Hz</div>
+                </button>
+
+                <button class="string-button" data-note="E2" data-freq="82.41" data-string="6">
+                    <div class="string-info">
+                        <span class="string-note">E (Low)</span>
+                        <span class="string-number">6</span>
+                    </div>
+                    <div class="frequency">82.41 Hz</div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metronome Section -->
+    <div class="metronome-section" id="metronomeSection">
+        <h2>Metronome</h2>
+        <p class="artist">Guitar practice tool</p>
+
+        <div class="bpm-display">
+            <div class="bpm-number" id="bpmDisplay">120</div>
+            <div class="bpm-label">BPM</div>
+        </div>
+
+        <div class="beat-indicator" id="beatIndicator">
+            <div class="beat-dot" data-beat="0"></div>
+            <div class="beat-dot" data-beat="1"></div>
+            <div class="beat-dot" data-beat="2"></div>
+            <div class="beat-dot" data-beat="3"></div>
+        </div>
+
+        <div class="metronome-controls">
+            <div class="control-group">
+                <label class="control-label">Tempo</label>
+                <input type="range" id="bpmSlider" class="bpm-slider" min="40" max="200" value="120">
+                <div class="slider-labels">
+                    <span>40</span>
+                    <span>200</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <input type="number" id="bpmInput" class="bpm-input" min="40" max="200" value="120">
+                <div class="beats-group">
+                    <label class="beats-label">Beats:</label>
+                    <select id="beatsSelect" class="beats-select">
+                        <option value="2">2/4</option>
+                        <option value="3">3/4</option>
+                        <option value="4" selected>4/4</option>
+                        <option value="6">6/8</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="preset-buttons">
+                <button class="preset-btn" data-bpm="60">
+                    <span>Ballad</span>
+                    <div class="preset-bpm">60</div>
+                </button>
+                <button class="preset-btn" data-bpm="80">
+                    <span>Slow</span>
+                    <div class="preset-bpm">80</div>
+                </button>
+                <button class="preset-btn" data-bpm="120">
+                    <span>Moderate</span>
+                    <div class="preset-bpm">120</div>
+                </button>
+                <button class="preset-btn" data-bpm="140">
+                    <span>Fast</span>
+                    <div class="preset-bpm">140</div>
+                </button>
+                <button class="preset-btn" data-bpm="180">
+                    <span>Very Fast</span>
+                    <div class="preset-bpm">180</div>
+                </button>
+            </div>
+
+            <div class="main-controls">
+                <button id="playStopBtn" class="play-stop-btn">
+                    <span id="playStopText">Start</span>
+                </button>
+                <button id="tapBtn" class="tap-btn">Tap</button>
+            </div>
+
+            <button id="resetBtn" class="reset-btn">Reset</button>
+        </div>
+    </div>
+
+    <!-- Practice Section -->
+    <div class="practice-section" id="practiceSection">
+        <h2>Practice</h2>
+        <p class="artist">Backing tracks, fretboard quiz &amp; ear training</p>
+
+        <div class="practice-mode-toggle">
+            <button class="practice-mode-button active" id="backingMode" onclick="switchPracticeMode('backing')">Backing Tracks</button>
+            <button class="practice-mode-button" id="fretboardMode" onclick="switchPracticeMode('fretboard')">Fretboard Quiz</button>
+            <button class="practice-mode-button" id="earMode" onclick="switchPracticeMode('ear')">Ear Training</button>
+        </div>
+
+        <div class="practice-panel active" id="backingPanel">
+            <div class="backing-controls">
+                <div class="backing-row">
+                    <label>Key</label>
+                    <select class="backing-select" id="backingKey">
+                        <option value="C">C</option>
+                        <option value="C#">C# / Db</option>
+                        <option value="D">D</option>
+                        <option value="D#">D# / Eb</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="F#">F# / Gb</option>
+                        <option value="G">G</option>
+                        <option value="G#">G# / Ab</option>
+                        <option value="A" selected>A</option>
+                        <option value="A#">A# / Bb</option>
+                        <option value="B">B</option>
+                    </select>
+                </div>
+                <div class="backing-row">
+                    <label>Style</label>
+                    <select class="backing-select" id="backingProgression">
+                        <option value="12bar">12-Bar Blues</option>
+                        <option value="145">I - IV - V - I</option>
+                        <option value="1564">I - V - vi - IV (Pop)</option>
+                        <option value="251">ii - V - I (Jazz)</option>
+                        <option value="1645">I - vi - IV - V (50s)</option>
+                        <option value="minor">i - iv - v - i (Minor)</option>
+                    </select>
+                </div>
+                <div class="backing-bpm">
+                    <label>BPM</label>
+                    <input type="range" id="backingBpm" min="40" max="220" value="100">
+                    <span class="backing-bpm-value" id="backingBpmValue">100</span>
+                </div>
+            </div>
+            <button class="backing-play-btn" id="backingPlayBtn">Play</button>
+            <div class="chord-display" id="chordDisplayArea">
+                <div class="current-chord" id="currentChordDisplay">--</div>
+                <div class="chord-sequence" id="chordSequence"></div>
+            </div>
+        </div>
+
+        <div class="practice-panel" id="fretboardPanel">
+            <div class="quiz-controls">
+                <button class="quiz-btn active" id="findNoteBtn" onclick="setQuizMode('find')">Find the Note</button>
+                <button class="quiz-btn" id="nameNoteBtn" onclick="setQuizMode('name')">Name the Note</button>
+            </div>
+            <div class="quiz-prompt" id="quizPrompt">
+                <div class="target-note" id="targetNote">--</div>
+                <div class="quiz-instruction" id="quizInstruction">Press "New Question" to start</div>
+            </div>
+            <div class="quiz-score" id="quizScore">Score: 0 / 0</div>
+            <div class="fretboard-container">
+                <svg class="fretboard-svg" id="fretboardSvg" width="720" height="180" viewBox="0 0 720 180"></svg>
+            </div>
+            <div class="quiz-controls">
+                <button class="quiz-btn" id="newQuestionBtn" onclick="newQuestion()">New Question</button>
+            </div>
+            <div class="interval-choices" id="nameNoteChoices" style="display:none;"></div>
+        </div>
+
+        <div class="practice-panel" id="earPanel">
+            <div class="ear-direction-toggle">
+                <button class="ear-dir-btn active" id="earAsc" onclick="setEarDirection('ascending')">Ascending</button>
+                <button class="ear-dir-btn" id="earDesc" onclick="setEarDirection('descending')">Descending</button>
+                <button class="ear-dir-btn" id="earHarm" onclick="setEarDirection('harmonic')">Harmonic</button>
+            </div>
+            <div class="ear-trainer-controls">
+                <button class="ear-play-btn" id="earPlayBtn" onclick="playEarInterval()">Play Interval</button>
+            </div>
+            <div class="ear-feedback" id="earFeedback"></div>
+            <div class="interval-choices" id="intervalChoices"></div>
+            <div class="ear-score" id="earScore">Score: 0 / 0</div>
+        </div>
+    </div>
+
+    <script src="data/sample-songs.js"></script>
+    <script src="js/library.js"></script>
+    <script src="js/onboarding.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
