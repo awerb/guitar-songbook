@@ -757,6 +757,8 @@
             document.getElementById('songList').style.display = 'none';
             document.getElementById('songView').style.display = 'block';
             document.getElementById('controls').style.display = 'block';
+            var _sc = document.getElementById('songCount');
+            if (_sc) _sc.style.display = 'none';
 
             // Hide header while reading
             document.querySelector('.header').style.display = 'none';
@@ -782,9 +784,11 @@
             const view = document.getElementById('songView');
             const controls = document.getElementById('controls');
             const search = document.getElementById('searchInput');
-            if (list) list.style.display = 'block';
+            if (list) list.style.display = 'grid';
             if (view) view.style.display = 'none';
             if (controls) controls.style.display = 'none';
+            var _scount = document.getElementById('songCount');
+            if (_scount) _scount.style.display = 'block';
             if (search) search.value = '';
 
             document.querySelector('.header').style.display = 'block';
@@ -1605,7 +1609,7 @@
 
             if (tab === 'songs') {
                 songsTab.classList.add('active');
-                songList.style.display = 'block';
+                songList.style.display = 'grid';
                 searchContainer.style.display = 'block';
                 songCount.style.display = 'block';
                 showSongList();

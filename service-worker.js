@@ -9,7 +9,7 @@
  *
  * Bump CACHE_VERSION whenever you ship a release that changes any cached file.
  */
-const CACHE_VERSION = 'songbook-v1';
+const CACHE_VERSION = 'songbook-v2';
 const APP_SHELL = [
     './',
     './index.html',
