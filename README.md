@@ -13,6 +13,16 @@ Songbook is a free, open-source guitar songbook that lives in your browser. Add 
 
 It's for the player with a notebook full of songs they keep forgetting the chords to. The one who doesn't want to scroll past ads to read a chord sheet they wrote themselves. The campfire strummer, the open-mic regular, the basement jammer, the couch noodler. The person who thinks their songbook should belong to them, not a website.
 
+<p align="center">
+  <img src="assets/screenshot-home.png" alt="Songbook home: dense list of your songs with chord summaries" width="22%">
+  &nbsp;
+  <img src="assets/screenshot-song-view.png" alt="Playing a song: lyrics with inline chords and reading controls" width="22%">
+  &nbsp;
+  <img src="assets/screenshot-tuner.png" alt="Built-in microphone tuner with reference notes" width="22%">
+  &nbsp;
+  <img src="assets/screenshot-metronome.png" alt="Metronome with tempo presets and beat indicator" width="22%">
+</p>
+
 ## What you get
 
 - **A real songbook.** Search, large-text reading mode, and auto-scroll for hands-free playing through long verses.
