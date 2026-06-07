@@ -1,7 +1,7 @@
 /**
- * OpenFret service worker.
+ * Songbook service worker.
  *
- * Caches the app shell so OpenFret keeps working offline after the first visit.
+ * Caches the app shell so Songbook keeps working offline after the first visit.
  * Strategy:
  *   - Install: pre-cache the core app shell (HTML, CSS, JS, sample songs, key images).
  *   - Activate: clean up old caches when the version bumps.
@@ -9,7 +9,7 @@
  *
  * Bump CACHE_VERSION whenever you ship a release that changes any cached file.
  */
-const CACHE_VERSION = 'openfret-v3';
+const CACHE_VERSION = 'songbook-v1';
 const APP_SHELL = [
     './',
     './index.html',
@@ -18,10 +18,9 @@ const APP_SHELL = [
     './js/library.js',
     './js/onboarding.js',
     './data/sample-songs.js',
-    './assets/openfret-banner.jpg',
-    './assets/openfret-icon.png',
-    './assets/openfret-wordmark.png',
-    './assets/openfret-wordmark.webp',
+    './assets/songbook-banner.jpg',
+    './assets/songbook-icon.png',
+    './assets/songbook-wordmark.png',
     './manifest.json'
 ];
 

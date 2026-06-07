@@ -1,5 +1,5 @@
 /**
- * OpenFret sample songs.
+ * Songbook sample songs.
  *
  * Every song in this file is in the public domain in the United States
  * (composed before 1929 or a traditional folk song with no known author).
@@ -17,7 +17,7 @@
  *   license   "Public Domain" with brief justification
  *   sample    true (marks this as a built-in sample, not a user song)
  */
-window.OPENFRET_SAMPLE_SONGS = [
+window.SONGBOOK_SAMPLE_SONGS = [
     {
         id: "sample-amazing-grace",
         title: "Amazing Grace",
@@ -301,6 +301,6 @@ It's been [D7]said she knocks 'em dead when she lands in town
     }
 ];
 
-// Backward-compat alias so legacy code expecting OPENFRET_SONGS still works
+// Backward-compat alias so legacy code expecting SONGBOOK_SONGS still works
 // before the library layer merges samples + user songs.
-window.OPENFRET_SONGS = window.OPENFRET_SAMPLE_SONGS;
+window.SONGBOOK_SONGS = window.SONGBOOK_SAMPLE_SONGS;

@@ -1,5 +1,5 @@
 /**
- * OpenFret onboarding.
+ * Songbook onboarding.
  *
  * - Shows a dismissible welcome banner on first visit.
  * - Provides a help modal accessible from the header "?" button.
@@ -8,7 +8,7 @@
 (function () {
     'use strict';
 
-    var BANNER_KEY = 'openfret.welcomeDismissed.v1';
+    var BANNER_KEY = 'songbook.welcomeDismissed.v1';
 
     function isBannerDismissed() {
         return localStorage.getItem(BANNER_KEY) === 'true';
@@ -37,7 +37,7 @@
     }
 
     // Expose globally so inline onclick attributes in index.html can call them.
-    window.OpenFretOnboarding = {
+    window.SongbookOnboarding = {
         dismissBanner: dismissBanner,
         showBannerIfNeeded: showBannerIfNeeded,
         showHelpModal: showHelpModal,
@@ -56,7 +56,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('./service-worker.js').catch(function (err) {
-                console.warn('OpenFret service worker registration failed:', err);
+                console.warn('Songbook service worker registration failed:', err);
             });
         });
     }

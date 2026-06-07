@@ -1,10 +1,10 @@
-# Contributing to OpenFret
+# Contributing to Songbook
 
-Thanks for thinking about contributing. OpenFret is small on purpose, so the bar for contribution is low and the bar for adding complexity is high.
+Thanks for thinking about contributing. Songbook is small on purpose, so the bar for contribution is low and the bar for adding complexity is high.
 
 ## Ground rules
 
-- **No build step.** OpenFret runs as plain HTML, CSS, and JavaScript. Anything that requires bundling, transpiling, or a server-side step is a non-starter unless we have a really good reason.
+- **No build step.** Songbook runs as plain HTML, CSS, and JavaScript. Anything that requires bundling, transpiling, or a server-side step is a non-starter unless we have a really good reason.
 - **No third-party tracking.** No analytics, no ad scripts, no remote calls.
 - **Stay vanilla.** Avoid frameworks. The codebase is intentionally readable by anyone who knows a little JS.
 - **Sample songs must be verifiably in the public domain.** If you propose a new sample, include the year and a one-line justification.

@@ -1,6 +1,6 @@
-# OpenFret on Netlify.
+# Songbook on Netlify.
 # No build step is required: this is a static site.
-# Drag the openfret/ folder onto https://app.netlify.com/drop, or connect this
+# Drag the guitar-songbook/ folder onto https://app.netlify.com/drop, or connect this
 # repo to Netlify and Netlify will pick up the config below.
 
 [build]

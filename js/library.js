@@ -1,5 +1,5 @@
 /**
- * OpenFret library layer.
+ * Songbook library layer.
  *
  * Responsibilities:
  *   - merge built-in sample songs with user-added songs from localStorage
@@ -8,7 +8,7 @@
  *   - import a JSON file (replace or merge)
  *   - hide / show sample songs
  *
- * Public surface (attached to window.OpenFretLibrary):
+ * Public surface (attached to window.SongbookLibrary):
  *   getAllSongs()           -> array of song objects (samples + user, respecting hide flag)
  *   getUserSongs()          -> array of user-added song objects
  *   getSongById(id)         -> single song object or null
@@ -26,8 +26,8 @@
 (function () {
     'use strict';
 
-    var STORAGE_KEY = 'openfret.userSongs.v1';
-    var SAMPLES_HIDDEN_KEY = 'openfret.samplesHidden.v1';
+    var STORAGE_KEY = 'songbook.userSongs.v1';
+    var SAMPLES_HIDDEN_KEY = 'songbook.samplesHidden.v1';
 
     var listeners = [];
 
@@ -38,7 +38,7 @@
             var parsed = JSON.parse(raw);
             return Array.isArray(parsed) ? parsed : [];
         } catch (e) {
-            console.warn('OpenFret: could not read user songs from localStorage.', e);
+            console.warn('Songbook: could not read user songs from localStorage.', e);
             return [];
         }
     }
@@ -47,14 +47,14 @@
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
         } catch (e) {
-            console.error('OpenFret: could not save user songs to localStorage.', e);
+            console.error('Songbook: could not save user songs to localStorage.', e);
             alert('Sorry, I could not save your song. Your browser storage may be full or disabled.');
         }
         notifyChange();
     }
 
     function getSamples() {
-        return Array.isArray(window.OPENFRET_SAMPLE_SONGS) ? window.OPENFRET_SAMPLE_SONGS.slice() : [];
+        return Array.isArray(window.SONGBOOK_SAMPLE_SONGS) ? window.SONGBOOK_SAMPLE_SONGS.slice() : [];
     }
 
     function areSamplesHidden() {
@@ -150,7 +150,7 @@
 
     function exportToFile() {
         var data = {
-            app: 'OpenFret',
+            app: 'Songbook',
             version: 1,
             exportedAt: new Date().toISOString(),
             songs: readUserSongs()
@@ -161,7 +161,7 @@
         var a = document.createElement('a');
         var stamp = new Date().toISOString().slice(0, 10);
         a.href = url;
-        a.download = 'openfret-library-' + stamp + '.json';
+        a.download = 'songbook-library-' + stamp + '.json';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -179,7 +179,7 @@
                         : Array.isArray(parsed.songs) ? parsed.songs
                         : null;
                     if (!incoming) {
-                        return reject(new Error('That file does not look like an OpenFret library.'));
+                        return reject(new Error('That file does not look like an Songbook library.'));
                     }
                     var clean = incoming
                         .filter(function (s) { return s && s.title; })
@@ -290,7 +290,7 @@
         });
     }
 
-    window.OpenFretLibrary = {
+    window.SongbookLibrary = {
         getAllSongs: getAllSongs,
         getUserSongs: getUserSongs,
         getSongById: getSongById,
