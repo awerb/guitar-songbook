@@ -6,7 +6,7 @@ Every song in every pack is verifiably public domain in the United States. Each 
 
 ## Included packs
 
-- **`campfire-classics.json`** — 8 traditional campfire songs everyone knows. Three-chord-friendly.
+- **`campfire-classics.json`** — 10 traditional campfire songs everyone knows. Three- and four-chord-friendly.
 - **`blues-101.json`** — 6 foundational blues and early jazz numbers. Perfect for learning the 12-bar form and dominant 7th voicings.
 - **`holiday-classics.json`** — 6 traditional Christmas carols. Great for group singing in December.
 
