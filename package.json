@@ -1,6 +1,6 @@
 {
   "name": "guitar-songbook",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Songbook is a free, open-source guitar songbook with built-in tuner, metronome, scales, and practice tools. Bring your own songs.",
   "main": "index.html",
   "scripts": {
