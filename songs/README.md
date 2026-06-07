@@ -12,11 +12,11 @@ Every song in every pack is verifiably public domain in the United States. Each 
 
 ## Format
 
-Each file is an OpenFret library export. Same shape as the file you'd get from **Library → Export to file**:
+Each file is an Songbook library export. Same shape as the file you'd get from **Library → Export to file**:
 
 ```json
 {
-  "app": "OpenFret",
+  "app": "Songbook",
   "version": 1,
   "name": "Pack name",
   "description": "What's in this pack.",

@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="assets/openfret-wordmark.png" alt="OpenFret" width="420">
+  <img src="assets/songbook-wordmark.png" alt="Songbook" width="420">
 </p>
 
 <p align="center">
-  <img src="assets/openfret-banner.jpg" alt="OpenFret — your personal guitar songbook" width="100%">
+  <img src="assets/songbook-banner.jpg" alt="Songbook — your personal guitar songbook" width="100%">
 </p>
 
-# OpenFret
+# Songbook
 
 **Your guitar. Your songs. Your phone. No accounts. No ads. No monthly fee.**
 
-[**→ Try the live demo**](https://awerb.github.io/openfret/) · [**Star on GitHub**](https://github.com/awerb/openfret)
+[**→ Try the live demo**](https://awerb.github.io/guitar-songbook/) · [**Star on GitHub**](https://github.com/awerb/guitar-songbook)
 
-OpenFret is a free, open-source guitar songbook that lives in your browser. Add your own chord sheets through a simple form, then pull them up on any device when you need them. A microphone tuner, metronome, scales reference, chord chart, and practice tools come built in.
+Songbook is a free, open-source guitar songbook that lives in your browser. Add your own chord sheets through a simple form, then pull them up on any device when you need them. A microphone tuner, metronome, scales reference, chord chart, and practice tools come built in.
 
 It's for the player with a notebook full of songs they keep forgetting the chords to. The one who doesn't want to scroll past ads to read a chord sheet they wrote themselves. The campfire strummer, the open-mic regular, the basement jammer, the couch noodler. The person who thinks their songbook should belong to them, not a website.
 
@@ -32,7 +32,7 @@ It's for the player with a notebook full of songs they keep forgetting the chord
 
 ## Add your first song in 30 seconds
 
-1. Open OpenFret.
+1. Open Songbook.
 2. Tap **+ Add Song** in the header.
 3. Type the title, artist, chords summary, and the lyrics. Wrap each chord in square brackets right before the syllable it falls on:
    ```
@@ -44,7 +44,7 @@ To back your songs up or move them to another device, open **Library → Export 
 
 ## Sample songs
 
-OpenFret ships with 10 verified public-domain songs across folk, blues, jazz, and rock-style arrangements. Each entry includes a `license` field with the source attribution.
+Songbook ships with 10 verified public-domain songs across folk, blues, jazz, and rock-style arrangements. Each entry includes a `license` field with the source attribution.
 
 | Title | Artist | Genre | License |
 |---|---|---|---|
@@ -69,7 +69,7 @@ Your songs never leave your device. There is no server, no telemetry, no third-p
 
 The whole app is plain HTML, CSS, and JavaScript. No build step. No npm install. Pick the path that fits you:
 
-**GitHub Pages (recommended, about 1 minute).** Fork this repo. In your fork go to **Settings → Pages → Source: GitHub Actions**. The included workflow auto-publishes your songbook at `https://YOUR-USERNAME.github.io/openfret/` and redeploys on every push.
+**GitHub Pages (recommended, about 1 minute).** Fork this repo. In your fork go to **Settings → Pages → Source: GitHub Actions**. The included workflow auto-publishes your songbook at `https://YOUR-USERNAME.github.io/guitar-songbook/` and redeploys on every push.
 
 **Locally.** Clone the repo and open `index.html` in your browser. For full microphone support, run `python3 -m http.server 8000` in the folder and visit `http://localhost:8000/`.
 
@@ -82,25 +82,21 @@ The whole app is plain HTML, CSS, and JavaScript. No build step. No npm install.
 
 </details>
 
-<p align="center">
-  <img src="assets/openfret-banner-electric.jpg" alt="OpenFret — Pacific Coast Highway, est. 1977" width="100%">
-</p>
-
 ## Customize the look
 
-- **Header image**: replace `assets/openfret-banner.jpg` with your own. The included assets folder also contains `openfret-banner-electric.jpg` and `openfret-poster.jpg` if you want a different vibe.
+- **Header image**: replace `assets/songbook-banner.jpg` with your own. The included assets folder also contains `songbook-poster.jpg` if you want a different vibe.
 - **Title and tagline**: edit the `<title>` and `<h1>` in `index.html`.
 - **Colors**: theme tokens live near the top of `styles/main.css`. The default is a high-contrast dark theme.
 - **Tabs**: remove a tab by deleting its `<button class="nav-tab">` in `index.html` and the corresponding section.
 
 <p align="center">
-  <img src="assets/openfret-poster.jpg" alt="OpenFret poster — your personal guitar songbook" width="60%">
+  <img src="assets/songbook-poster.jpg" alt="Songbook poster — your personal guitar songbook" width="60%">
 </p>
 
 ## Project layout
 
 ```
-openfret/
+guitar-songbook/
 ├── index.html              app markup, modals, all UI structure
 ├── styles/main.css         app styles
 ├── data/sample-songs.js    bundled public-domain sample songs
@@ -140,7 +136,7 @@ Tested on the current versions of Chrome, Safari, Firefox, and Edge, on both des
 
 ## License
 
-OpenFret is [MIT licensed](LICENSE). The bundled sample songs are individually marked as public domain in `data/sample-songs.js`.
+Songbook is [MIT licensed](LICENSE). The bundled sample songs are individually marked as public domain in `data/sample-songs.js`.
 
 ## Credits
 
@@ -148,6 +144,6 @@ Forked from a personal songbook project by Adam Werbach. Made open-source so any
 
 ## Showcase
 
-Are you using OpenFret? Open a PR adding your deployment to this list.
+Are you using Songbook? Open a PR adding your deployment to this list.
 
 - _Your songbook here._

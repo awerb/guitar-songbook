@@ -635,7 +635,7 @@
         });
 
         // ===================================================================
-        // SONG LIBRARY (samples + user songs via OpenFretLibrary)
+        // SONG LIBRARY (samples + user songs via SongbookLibrary)
         // ===================================================================
 
         let currentSong = null;
@@ -644,11 +644,11 @@
         let scrollInterval = null;
 
         function getSongs() {
-            if (window.OpenFretLibrary && typeof window.OpenFretLibrary.getAllSongs === 'function') {
-                return window.OpenFretLibrary.getAllSongs();
+            if (window.SongbookLibrary && typeof window.SongbookLibrary.getAllSongs === 'function') {
+                return window.SongbookLibrary.getAllSongs();
             }
             // Fallback if library script failed to load
-            return Array.isArray(window.OPENFRET_SONGS) ? window.OPENFRET_SONGS : [];
+            return Array.isArray(window.SONGBOOK_SONGS) ? window.SONGBOOK_SONGS : [];
         }
 
         function escapeHtml(s) {
@@ -666,8 +666,8 @@
             updateSongCount();
             showTab('songs');
             // Re-render whenever the library changes (add/edit/delete/import/etc.)
-            if (window.OpenFretLibrary) {
-                window.OpenFretLibrary.onChange(function () {
+            if (window.SongbookLibrary) {
+                window.SongbookLibrary.onChange(function () {
                     renderSongList();
                     updateSongCount();
                     refreshLibraryStats();
@@ -690,22 +690,22 @@
                 songListEl.innerHTML = `
                     <div class="empty-state">
                         <picture>
-                            <source srcset="assets/openfret-wordmark.webp" type="image/webp">
-                            <img src="assets/openfret-wordmark.png" alt="OpenFret" class="empty-state-wordmark">
+                            <source srcset="assets/songbook-wordmark.webp" type="image/webp">
+                            <img src="assets/songbook-wordmark.png" alt="Songbook" class="empty-state-wordmark">
                         </picture>
-                        <img src="assets/openfret-icon.png" alt="" class="empty-state-icon">
+                        <img src="assets/songbook-icon.png" alt="" class="empty-state-icon">
                         <h3>Your songbook is empty.</h3>
                         <p>Tap <strong>+ Add Song</strong> to drop in your first chord sheet, browse a starter pack to get going fast, or import a library you've exported from another device.</p>
                         <div class="empty-state-actions">
                             <button class="control-btn primary" onclick="showAddSongModal()">+ ADD YOUR FIRST SONG</button>
                             <button class="control-btn" onclick="showLibraryMenu()">BROWSE STARTER PACKS</button>
                         </div>
-                        <p class="empty-state-hint">Or <button class="welcome-link" onclick="OpenFretApp.unhideSamplesAndRefresh()">show the 10 sample songs</button> to see what's possible.</p>
+                        <p class="empty-state-hint">Or <button class="welcome-link" onclick="SongbookApp.unhideSamplesAndRefresh()">show the 10 sample songs</button> to see what's possible.</p>
                     </div>`;
                 return;
             }
             songListEl.innerHTML = songs.map(function (song) {
-                const isSample = window.OpenFretLibrary && window.OpenFretLibrary.isSampleSong(song);
+                const isSample = window.SongbookLibrary && window.SongbookLibrary.isSampleSong(song);
                 const badge = isSample ? '<span class="song-badge sample">SAMPLE</span>' : '<span class="song-badge mine">MINE</span>';
                 return `
                     <div class="song-item" data-song-id="${escapeHtml(song.id)}" onclick="showSongById('${escapeHtml(song.id)}')">
@@ -762,7 +762,7 @@
             document.querySelector('.header').style.display = 'none';
 
             // Show / hide edit & delete based on whether this is a user song
-            const isSample = window.OpenFretLibrary && window.OpenFretLibrary.isSampleSong(song);
+            const isSample = window.SongbookLibrary && window.SongbookLibrary.isSampleSong(song);
             const editBtn = document.getElementById('editSongBtn');
             const deleteBtn = document.getElementById('deleteSongBtn');
             if (editBtn) editBtn.style.display = isSample ? 'none' : 'inline-block';
@@ -865,7 +865,7 @@
 
         function downloadAll() {
             const songs = getSongs();
-            let content = "OPENFRET SONGBOOK\n\n";
+            let content = "SONGBOOK SONGBOOK\n\n";
             songs.forEach(song => {
                 content += `${song.title}\n${song.artist || ''}\nChords: ${song.chords || ''}\n\n${song.lyrics || ''}\n\n${'='.repeat(50)}\n\n`;
             });
@@ -874,7 +874,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'OpenFret_Songbook.txt';
+            a.download = 'Songbook_Songbook.txt';
             a.click();
             URL.revokeObjectURL(url);
             closeModal();
@@ -885,7 +885,7 @@
 
             const shareData = {
                 title: currentSong.title,
-                text: `Check out "${currentSong.title}" by ${currentSong.artist || 'Unknown'} in my OpenFret songbook.`,
+                text: `Check out "${currentSong.title}" by ${currentSong.artist || 'Unknown'} in my Songbook songbook.`,
                 url: window.location.href
             };
 
@@ -931,7 +931,7 @@
         }
 
         function editCurrentSong() {
-            if (!currentSong || (window.OpenFretLibrary && window.OpenFretLibrary.isSampleSong(currentSong))) return;
+            if (!currentSong || (window.SongbookLibrary && window.SongbookLibrary.isSampleSong(currentSong))) return;
             document.getElementById('addSongTitle').textContent = 'EDIT SONG';
             document.getElementById('songFormId').value = currentSong.id;
             document.getElementById('songFormTitle').value = currentSong.title || '';
@@ -956,14 +956,14 @@
             };
             if (!data.title.trim()) return;
             if (id) {
-                const updated = window.OpenFretLibrary.updateSong(id, data);
+                const updated = window.SongbookLibrary.updateSong(id, data);
                 if (updated) {
                     currentSong = updated;
                     closeAddSongModal();
                     showSongById(id);
                 }
             } else {
-                const created = window.OpenFretLibrary.addSong(data);
+                const created = window.SongbookLibrary.addSong(data);
                 closeAddSongModal();
                 if (created) showSongById(created.id);
             }
@@ -971,13 +971,13 @@
 
         function deleteCurrentSong() {
             if (!currentSong || !currentSongId) return;
-            if (window.OpenFretLibrary && window.OpenFretLibrary.isSampleSong(currentSong)) return;
-            OpenFretApp.openConfirm(
+            if (window.SongbookLibrary && window.SongbookLibrary.isSampleSong(currentSong)) return;
+            SongbookApp.openConfirm(
                 'DELETE SONG?',
                 `"${currentSong.title}" will be permanently removed from your library. This cannot be undone.`,
                 'DELETE',
                 function () {
-                    window.OpenFretLibrary.deleteSong(currentSongId);
+                    window.SongbookLibrary.deleteSong(currentSongId);
                     currentSong = null;
                     currentSongId = null;
                     showSongList();
@@ -994,16 +994,16 @@
             refreshLibraryStats();
             renderStarterPacks();
             const toggleBtn = document.getElementById('toggleSamplesBtn');
-            if (toggleBtn && window.OpenFretLibrary) {
-                toggleBtn.textContent = window.OpenFretLibrary.areSamplesHidden() ? 'SHOW SAMPLE SONGS' : 'HIDE SAMPLE SONGS';
+            if (toggleBtn && window.SongbookLibrary) {
+                toggleBtn.textContent = window.SongbookLibrary.areSamplesHidden() ? 'SHOW SAMPLE SONGS' : 'HIDE SAMPLE SONGS';
             }
             document.getElementById('libraryModal').style.display = 'flex';
         }
 
         function renderStarterPacks() {
             const list = document.getElementById('packList');
-            if (!list || !window.OpenFretLibrary) return;
-            const packs = window.OpenFretLibrary.getStarterPacks();
+            if (!list || !window.SongbookLibrary) return;
+            const packs = window.SongbookLibrary.getStarterPacks();
             list.innerHTML = packs.map(function (p) {
                 return `
                     <div class="of-pack">
@@ -1011,7 +1011,7 @@
                             <div class="of-pack-name">${escapeHtml(p.name)}</div>
                             <div class="of-pack-desc">${escapeHtml(p.description)}</div>
                         </div>
-                        <button class="control-btn" onclick="OpenFretApp.importStarterPack('${escapeHtml(p.file)}', this)">IMPORT</button>
+                        <button class="control-btn" onclick="SongbookApp.importStarterPack('${escapeHtml(p.file)}', this)">IMPORT</button>
                     </div>`;
             }).join('');
         }
@@ -1022,10 +1022,10 @@
 
         function refreshLibraryStats() {
             const el = document.getElementById('libraryStats');
-            if (!el || !window.OpenFretLibrary) return;
-            const user = window.OpenFretLibrary.getUserSongs().length;
-            const samples = (window.OPENFRET_SAMPLE_SONGS || []).length;
-            const hidden = window.OpenFretLibrary.areSamplesHidden();
+            if (!el || !window.SongbookLibrary) return;
+            const user = window.SongbookLibrary.getUserSongs().length;
+            const samples = (window.SONGBOOK_SAMPLE_SONGS || []).length;
+            const hidden = window.SongbookLibrary.areSamplesHidden();
             el.innerHTML = `
                 <div><strong>${user}</strong> of your songs</div>
                 <div>${samples} sample songs ${hidden ? '<em>(hidden)</em>' : ''}</div>
@@ -1038,14 +1038,14 @@
 
         const confirmState = { onAccept: null };
 
-        const OpenFretApp = {
+        const SongbookApp = {
             exportLibrary: function () {
-                if (window.OpenFretLibrary) window.OpenFretLibrary.exportToFile();
+                if (window.SongbookLibrary) window.SongbookLibrary.exportToFile();
             },
             handleImport: function (event, mode) {
                 const file = event.target.files && event.target.files[0];
                 if (!file) return;
-                window.OpenFretLibrary.importFromFile(file, mode)
+                window.SongbookLibrary.importFromFile(file, mode)
                     .then(function (added) {
                         alert(`Imported ${added} song${added === 1 ? '' : 's'}.`);
                         closeLibraryMenu();
@@ -1056,21 +1056,21 @@
                     .then(function () { event.target.value = ''; });
             },
             toggleSamples: function () {
-                if (!window.OpenFretLibrary) return;
-                const next = !window.OpenFretLibrary.areSamplesHidden();
-                window.OpenFretLibrary.setSamplesHidden(next);
+                if (!window.SongbookLibrary) return;
+                const next = !window.SongbookLibrary.areSamplesHidden();
+                window.SongbookLibrary.setSamplesHidden(next);
                 const toggleBtn = document.getElementById('toggleSamplesBtn');
                 if (toggleBtn) toggleBtn.textContent = next ? 'SHOW SAMPLE SONGS' : 'HIDE SAMPLE SONGS';
             },
             unhideSamplesAndRefresh: function () {
-                if (!window.OpenFretLibrary) return;
-                window.OpenFretLibrary.setSamplesHidden(false);
+                if (!window.SongbookLibrary) return;
+                window.SongbookLibrary.setSamplesHidden(false);
             },
             importStarterPack: function (filename, btn) {
-                if (!window.OpenFretLibrary) return;
+                if (!window.SongbookLibrary) return;
                 const original = btn ? btn.textContent : null;
                 if (btn) { btn.textContent = 'IMPORTING...'; btn.disabled = true; }
-                window.OpenFretLibrary.importPack(filename)
+                window.SongbookLibrary.importPack(filename)
                     .then(function (added) {
                         if (added === 0) {
                             alert('That pack is already in your library.');
@@ -1086,12 +1086,12 @@
                     });
             },
             confirmReset: function () {
-                OpenFretApp.openConfirm(
+                SongbookApp.openConfirm(
                     'RESET TO SAMPLES?',
                     'This will delete all songs you have added and unhide the sample songs. This cannot be undone.',
                     'RESET',
                     function () {
-                        window.OpenFretLibrary.resetToSamples();
+                        window.SongbookLibrary.resetToSamples();
                         closeLibraryMenu();
                         showSongList();
                         showTab('songs');
@@ -1117,7 +1117,7 @@
                 confirmState.onAccept = null;
             }
         };
-        window.OpenFretApp = OpenFretApp;
+        window.SongbookApp = SongbookApp;
 
         // ===================================================================
         // PRACTICE SECTION (unchanged from upstream)
@@ -1639,7 +1639,7 @@
                 closeAddSongModal();
                 closeLibraryMenu();
                 closeHelpModal();
-                OpenFretApp.cancelConfirm();
+                SongbookApp.cancelConfirm();
             }
         });
 

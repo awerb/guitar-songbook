@@ -40,10 +40,17 @@
         }
 
         .header-wordmark {
-            height: 22px;
-            width: auto;
-            max-width: 90%;
+            display: block;
+            margin: 0 auto;
+            height: 30px;
+            width: 200px;
+            max-width: 70%;
+            object-fit: contain;
+            object-position: center;
             user-select: none;
+        }
+        @media (max-width: 480px) {
+            .header-wordmark { height: 24px; width: 160px; }
         }
 
         .search-container {
@@ -2131,7 +2138,7 @@
         }
 
 /* =====================================================================
-   OpenFret additions: welcome banner, header actions, modals, song badges
+   Songbook additions: welcome banner, header actions, modals, song badges
    ===================================================================== */
 
 .welcome-banner {
@@ -2271,7 +2278,7 @@
     text-align: center;
 }
 
-/* Generic OpenFret modal (.of-modal) */
+/* Generic Songbook modal (.of-modal) */
 .of-modal {
     display: none;
     position: fixed;
@@ -2466,10 +2473,10 @@
 }
 
 /* =====================================================================
-   OpenFret v1.1: empty state, starter packs, wordmark image
+   Songbook v1.1: empty state, starter packs, wordmark image
    ===================================================================== */
 
-/* Wordmark image in the header (replaces the OPENFRET text h1) */
+/* Wordmark image in the header (replaces the SONGBOOK text h1) */
 .header-wordmark {
     max-width: 100%;
     height: auto;

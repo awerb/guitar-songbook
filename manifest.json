@@ -1,6 +1,6 @@
 {
-  "name": "OpenFret",
-  "short_name": "OpenFret",
+  "name": "Songbook",
+  "short_name": "Songbook",
   "description": "Your personal guitar songbook. Bring your own songs. Runs in your browser.",
   "start_url": "./",
   "scope": "./",
@@ -11,19 +11,19 @@
   "categories": ["music", "education", "productivity"],
   "icons": [
     {
-      "src": "assets/openfret-icon.png",
+      "src": "assets/songbook-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/openfret-icon.png",
+      "src": "assets/songbook-icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/openfret-icon.png",
+      "src": "assets/songbook-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -31,18 +31,18 @@
   ],
   "screenshots": [
     {
-      "src": "assets/openfret-screenshot-wordmark.jpg",
+      "src": "assets/songbook-screenshot-wordmark.jpg",
       "sizes": "1280x720",
       "type": "image/jpeg",
       "form_factor": "wide",
-      "label": "OpenFret — your personal guitar songbook"
+      "label": "Songbook — your personal guitar songbook"
     },
     {
-      "src": "assets/openfret-banner.jpg",
-      "sizes": "1599x900",
+      "src": "assets/songbook-banner.jpg",
+      "sizes": "1600x900",
       "type": "image/jpeg",
       "form_factor": "wide",
-      "label": "OpenFret guitar songbook"
+      "label": "Songbook artwork"
     }
   ]
 }

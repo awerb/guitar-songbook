@@ -1,4 +1,4 @@
-name: Deploy OpenFret to GitHub Pages
+name: Deploy Songbook to GitHub Pages
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the whole repo. If your OpenFret lives in a subfolder,
-          # change this path to that folder (e.g. "./openfret").
+          # Upload the whole repo. If your Songbook lives in a subfolder,
+          # change this path to that folder (e.g. "./guitar-songbook").
           path: '.'
 
   deploy:

@@ -27,11 +27,11 @@ test("index.html loads extracted stylesheet and scripts", () => {
   assert.doesNotMatch(html, /<style>/);
 });
 
-test("index.html uses the OpenFret brand", () => {
+test("index.html uses the Songbook brand", () => {
   const html = read(indexPath);
-  assert.match(html, /<title>OpenFret<\/title>/);
-  // Brand surfaces as either the OPENFRET wordmark image or the text aria-label
-  assert.match(html, /OpenFret|OPENFRET/);
+  assert.match(html, /<title>Songbook<\/title>/);
+  // Brand surfaces as either the SONGBOOK wordmark image or the text aria-label
+  assert.match(html, /Songbook|SONGBOOK/);
   assert.doesNotMatch(html, /Werbach/i);
 });
 
@@ -47,9 +47,9 @@ test("index.html ships PWA + Open Graph wiring", () => {
 
 test("manifest.json is valid and references the icon", () => {
   const manifest = JSON.parse(read(path.join(root, "manifest.json")));
-  assert.equal(manifest.name, "OpenFret");
+  assert.equal(manifest.name, "Songbook");
   assert.ok(Array.isArray(manifest.icons) && manifest.icons.length > 0);
-  manifest.icons.forEach(i => assert.ok(i.src.includes("openfret-icon")));
+  manifest.icons.forEach(i => assert.ok(i.src.includes("songbook-icon")));
 });
 
 test("starter pack JSON files are valid", () => {
@@ -85,13 +85,13 @@ test("app script exposes core songbook flow", () => {
   assert.match(js, /function showSongById\(id\)/);
   assert.match(js, /function showTab\(tab\)/);
   assert.match(js, /window\.addEventListener\('DOMContentLoaded', init\);/);
-  assert.match(js, /OpenFretLibrary/);
+  assert.match(js, /SongbookLibrary/);
   assert.doesNotMatch(js, /WERBACH_SONGS/);
 });
 
 test("library module exposes the public API", () => {
   const js = read(libraryPath);
-  assert.match(js, /window\.OpenFretLibrary\s*=/);
+  assert.match(js, /window\.SongbookLibrary\s*=/);
   assert.match(js, /getAllSongs/);
   assert.match(js, /addSong/);
   assert.match(js, /updateSong/);
@@ -102,7 +102,7 @@ test("library module exposes the public API", () => {
 
 test("onboarding module wires the welcome banner", () => {
   const js = read(onboardingPath);
-  assert.match(js, /window\.OpenFretOnboarding\s*=/);
+  assert.match(js, /window\.SongbookOnboarding\s*=/);
   assert.match(js, /showBannerIfNeeded/);
 });
 
@@ -110,7 +110,7 @@ test("sample songs catalog ships exactly the curated 10 PD entries", () => {
   const songs = read(samplesPath);
   const titleCount = (songs.match(/title:\s*"/g) || []).length;
   assert.equal(titleCount, 10, `expected 10 sample songs, found ${titleCount}`);
-  assert.match(songs, /window\.OPENFRET_SAMPLE_SONGS/);
+  assert.match(songs, /window\.SONGBOOK_SAMPLE_SONGS/);
   assert.match(songs, /Public Domain/i);
   assert.doesNotMatch(songs, /Werbach/i);
 });
