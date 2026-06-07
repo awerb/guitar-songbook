@@ -4,13 +4,27 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-06-07
+
+The rebrand and redesign release. OpenFret becomes **Songbook**, with a fresh visual identity, a denser layout that puts more song on screen, and a refined sand-on-black aesthetic that echoes the SONGBOOK wordmark.
+
 ### Changed
 - **Renamed project from OpenFret to Songbook**. The visible brand, JS namespace, asset filenames, localStorage prefix, and PWA identity all rebrand. The repo is renamed `awerb/openfret` to `awerb/guitar-songbook` (GitHub auto-redirects the old URL). The new public URL is `https://awerb.github.io/guitar-songbook/`.
-- New SONGBOOK wordmark and PCH-themed artistic banner.
-- Favicon and PWA icon: new "G" cork-textured mark replaces the old "O".
+- **Redesigned the layout for density and readability.** Header shrunk from ~280px stack to ~100px sticky topbar with wordmark left, actions right, single-row nav tabs. Search removed from the home page. Song-list grid now actually renders two columns on desktop (a long-standing inline-style bug forced single-column even when CSS asked for grid). Song count and header both hide while reading a song, so the lyrics get the full screen.
+- **New SONGBOOK wordmark** and PCH-themed artistic banner replace the OpenFret wordmark and acoustic/electric banners.
+- **Favicon and PWA icon**: new "G" cork-textured mark replaces the old "O".
+- **Typography**: Oswald (a condensed display face) echoes the chunky wordmark across headings, BPM displays, and primary buttons.
+- **Sand/cork accent color** from the wordmark is now a real system token: active tabs, primary buttons, inline chords on the song-playing view, hover states, slider thumbs, and meter needles.
+- **Tuner is two-column on desktop** so the meter and reference notes share one screen instead of forcing a scroll.
+- **Mobile screenshots** added to the README so first-time visitors see the redesigned app.
+- New 1200x630 Open Graph / Twitter social card built from the artistic banner.
 - `localStorage` key prefix migrated from `openfret.*` to `songbook.*`.
 - `OpenFretApp` JS namespace renamed to `SongbookApp`.
-- Service worker cache reset to `songbook-v1`.
+- Service worker cache reset to `songbook-v2`.
+
+### Notes
+- This is a breaking rename, but the only behavior change for existing users is the localStorage key prefix — and there were no existing users at the time of the rebrand.
+- GitHub redirects `awerb.github.io/openfret/` to `awerb.github.io/guitar-songbook/`, so old bookmarks still work.
 
 ## [1.1.0] - 2026-05-14
 
