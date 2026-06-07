@@ -29,6 +29,9 @@
     <meta name="twitter:description" content="Your guitar. Your songs. Your phone. No accounts. No ads. No monthly fee.">
     <meta name="twitter:image" content="assets/songbook-social-card.jpg">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -50,9 +53,17 @@
     </div>
 
     <div class="header">
-        <h1 onclick="showSongList()" style="cursor: pointer;" aria-label="Songbook">
-            <img src="assets/songbook-wordmark.png" alt="Songbook" class="header-wordmark">
-        </h1>
+        <div class="header-topbar">
+            <h1 onclick="showSongList()" style="cursor: pointer;" aria-label="Songbook">
+                <img src="assets/songbook-wordmark.png" alt="Songbook" class="header-wordmark">
+            </h1>
+            <div class="header-actions">
+                <button class="header-action-btn primary" onclick="showAddSongModal()">+ ADD SONG</button>
+                <button class="header-action-btn" onclick="showLibraryMenu()">LIBRARY</button>
+                <button class="header-action-btn" onclick="showChordChart()">CHORDS</button>
+                <button class="header-action-btn" onclick="showHelpModal()" aria-label="Help">?</button>
+            </div>
+        </div>
         <div class="nav-tabs">
             <button class="nav-tab active" id="songsTab" onclick="showTab('songs')">SONGS</button>
             <button class="nav-tab" id="scalesTab" onclick="showTab('scales')">SCALES</button>
@@ -60,19 +71,12 @@
             <button class="nav-tab" id="metronomeTab" onclick="showTab('metronome')">METRONOME</button>
             <button class="nav-tab" id="practiceTab" onclick="showTab('practice')">PRACTICE</button>
         </div>
-        <div class="search-container" id="searchContainer">
-            <input type="text" class="search-input" placeholder="SEARCH SONGS" id="searchInput">
-        </div>
-        <div class="song-count" id="songCount"></div>
-        <div class="header-actions">
-            <button class="header-action-btn primary" onclick="showAddSongModal()">+ ADD SONG</button>
-            <button class="header-action-btn" onclick="showLibraryMenu()">LIBRARY</button>
-            <button class="header-action-btn" onclick="showChordChart()">CHORDS</button>
-            <button class="header-action-btn" onclick="showHelpModal()" aria-label="Help">?</button>
-        </div>
+        <!-- Home search removed per spec; hidden stub kept for script compatibility -->
+        <div class="search-container" id="searchContainer" style="display:none;"></div>
     </div>
 
     <div class="main-container">
+        <div class="song-count" id="songCount"></div>
         <div class="song-list" id="songList"></div>
 
         <div class="song-view" id="songView">
@@ -711,6 +715,7 @@ E|--15--17---|
         <h2>Guitar Tuner</h2>
         <p class="artist">Microphone tuning with reference notes on the same screen</p>
 
+        <div class="tuner-grid">
         <div class="mic-tuner active" id="micTuner">
             <div class="mic-controls">
                 <button class="mic-button" id="micButton">Start Listening</button>
@@ -796,6 +801,7 @@ E|--15--17---|
                     <div class="frequency">82.41 Hz</div>
                 </button>
             </div>
+        </div>
         </div>
     </div>
 

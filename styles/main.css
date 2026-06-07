@@ -1,3 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #0b0b0b;
+    --bg-2: #151515;
+    --bg-3: #1e1e1e;
+    --ink: #f4efe6;
+    --ink-2: rgba(244,239,230,0.62);
+    --ink-3: rgba(244,239,230,0.40);
+    --sand: #dcc39a;
+    --sand-bright: #ebd6ac;
+    --sand-dim: rgba(220,195,154,0.14);
+    --line: rgba(244,239,230,0.10);
+    --line-2: rgba(244,239,230,0.20);
+    --display: 'Oswald', 'Helvetica Neue', Arial, sans-serif;
+    --mono: ui-monospace, 'SFMono-Regular', Menlo, 'Courier New', monospace;
+    --on-sand: #1c1606;
+}
+
         * {
             margin: 0;
             padding: 0;
@@ -6,57 +25,66 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-            background: #000;
-            color: #fff;
+            background: var(--bg);
+            color: var(--ink);
             min-height: 100vh;
             overflow-x: hidden;
-            font-weight: 300;
-            letter-spacing: 0.02em;
+            font-weight: 400;
+            letter-spacing: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .header {
-            background: #000;
-            padding: 10px 16px 8px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(11,11,11,0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 0;
+            text-align: left;
+            border-bottom: 1px solid var(--line);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
+        .header-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 11px 22px 10px;
+        }
+
         .header h1 {
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin: 0 0 6px;
+            font-size: 0;
+            margin: 0;
             line-height: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
         }
 
         .header h1 picture,
         .header h1 img.header-wordmark {
-            display: inline-block;
+            display: block;
             vertical-align: middle;
         }
 
         .header-wordmark {
             display: block;
-            margin: 0 auto;
-            height: 30px;
-            width: 200px;
-            max-width: 70%;
+            margin: 0;
+            height: 26px;
+            width: auto;
+            max-width: none;
             object-fit: contain;
-            object-position: center;
+            object-position: left center;
             user-select: none;
-        }
-        @media (max-width: 480px) {
-            .header-wordmark { height: 24px; width: 160px; }
         }
 
         .search-container {
-            position: relative;
-            max-width: 500px;
-            margin: 0 auto;
+            display: none;
         }
 
         .search-input {
@@ -84,66 +112,80 @@
         }
 
         .main-container {
-            max-width: 800px;
+            max-width: 1120px;
             margin: 0 auto;
-            padding: 14px 20px 24px;
+            padding: 18px 22px 30px;
         }
 
         .song-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 0 36px;
             width: 100%;
         }
 
         .song-item {
             background: transparent;
             margin: 0;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 0 13px;
+            border-bottom: 1px solid var(--line);
             cursor: pointer;
-            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: padding-left 0.18s ease, border-color 0.18s ease;
         }
 
         .song-item:hover {
             padding-left: 10px;
+            border-bottom-color: var(--line-2);
         }
 
-        .song-item:hover .song-chords {
-            background: rgba(255,255,255,0.2);
-            border-color: rgba(255,255,255,0.5);
+        .song-item:hover .song-title {
+            color: var(--sand);
         }
 
         .song-title {
-            font-size: 16px;
-            font-weight: 400;
-            margin-bottom: 2px;
-            letter-spacing: 0.02em;
+            font-family: var(--display);
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: 0.005em;
+            line-height: 1.05;
+            color: var(--ink);
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+            transition: color 0.18s ease;
         }
 
         .song-artist {
-            color: rgba(255,255,255,0.5);
-            font-size: 9px;
-            margin-bottom: 3px;
+            color: var(--ink-3);
+            font-size: 10px;
+            margin: 0;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.16em;
         }
 
         .song-chords {
-            color: #fff;
-            font-size: 11px;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 0.1em;
+            color: var(--sand);
+            font-size: 11.5px;
+            font-family: var(--mono);
+            letter-spacing: 0.12em;
             font-weight: 500;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 8px;
-            margin-top: 8px;
+            background: transparent;
+            padding: 0;
+            margin: 2px 0 0;
             display: inline-block;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: none;
         }
 
         .song-view {
             display: none;
+            max-width: 760px;
+            margin: 0 auto;
+            padding-bottom: 80px;
             animation: fadeIn 0.3s ease;
         }
 
@@ -154,73 +196,79 @@
 
         .back-button {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 12px 24px;
+            border: 1px solid var(--line-2);
+            color: var(--ink-2);
+            padding: 9px 18px;
             cursor: pointer;
-            margin-bottom: 40px;
+            margin-bottom: 22px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
-            font-weight: 300;
-            letter-spacing: 0.1em;
+            transition: all 0.18s ease;
+            font-family: var(--display);
+            font-weight: 500;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             font-size: 12px;
         }
 
         .back-button:hover {
-            background: #fff;
-            color: #000;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .song-content {
             background: transparent;
             padding: 0;
-            margin-bottom: 80px;
+            margin-bottom: 40px;
             border: none;
         }
 
         .song-content h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            font-weight: 300;
-            letter-spacing: 0.02em;
+            font-family: var(--display);
+            font-size: 32px;
+            margin-bottom: 3px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            line-height: 1.04;
+            color: var(--ink);
         }
 
         .song-content .artist {
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 40px;
+            color: var(--sand);
+            margin-bottom: 22px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 13px;
+            letter-spacing: 0.18em;
+            font-size: 11px;
         }
 
         .lyrics {
-            font-size: 16px;
-            line-height: 1.4;
+            font-size: 17px;
+            line-height: 1.5;
             white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
+            font-family: var(--mono);
             font-weight: 400;
-            color: #fff;
+            color: var(--ink);
         }
 
         .chord {
-            color: #fff;
-            font-weight: 600;
-            background: rgba(255,255,255,0.2);
-            padding: 3px 8px;
-            margin: 0 2px;
-            border: 1px solid rgba(255,255,255,0.4);
-            display: inline-block;
-            font-size: 14px;
-            transition: all 0.2s ease;
+            color: var(--sand);
+            font-weight: 700;
+            background: transparent;
+            padding: 0 1px;
+            margin: 0;
+            border: none;
+            display: inline;
+            font-size: 15px;
+            transition: color 0.18s ease;
         }
 
         .chord:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.6);
-            box-shadow: 0 0 10px rgba(255,255,255,0.3);
+            background: transparent;
+            border-color: transparent;
+            color: var(--sand-bright);
+            box-shadow: none;
         }
 
         .controls {
@@ -228,35 +276,42 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: #000;
-            padding: 20px;
+            background: rgba(11,11,11,0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            padding: 12px 18px;
             display: none;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            border-top: 1px solid var(--line);
+            z-index: 90;
         }
 
         .control-buttons {
             display: flex;
-            gap: 15px;
+            gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
+            max-width: 760px;
+            margin: 0 auto;
         }
 
         .control-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 10px 20px;
+            border: 1px solid var(--line-2);
+            color: var(--ink-2);
+            padding: 9px 16px;
             cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s ease;
+            font-size: 11px;
+            transition: all 0.18s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 300;
+            letter-spacing: 0.12em;
+            font-family: var(--display);
+            font-weight: 500;
         }
 
         .control-btn:hover {
-            background: #fff;
-            color: #000;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .download-modal {
@@ -282,10 +337,12 @@
         }
 
         .modal-content h3 {
-            font-weight: 300;
-            font-size: 24px;
+            font-family: var(--display);
+            font-weight: 600;
+            font-size: 22px;
             margin-bottom: 20px;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
 
         .modal-content p {
@@ -330,25 +387,29 @@
         }
 
         .chord-chart-header h3 {
-            font-weight: 300;
-            font-size: 28px;
-            letter-spacing: 0.1em;
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 26px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--ink);
         }
 
         .close-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
+            border: 1px solid var(--line-2);
+            color: var(--ink-2);
             width: 40px;
             height: 40px;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
         }
 
         .close-btn:hover {
-            background: #fff;
-            color: #000;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .chord-section {
@@ -356,11 +417,13 @@
         }
 
         .chord-section h4 {
-            font-weight: 300;
-            font-size: 18px;
-            letter-spacing: 0.1em;
+            font-family: var(--display);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.16em;
             margin-bottom: 20px;
-            color: rgba(255,255,255,0.7);
+            color: var(--sand);
+            text-transform: uppercase;
         }
 
         .chord-grid {
@@ -370,17 +433,19 @@
         }
 
         .chord-diagram {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: var(--bg-2);
+            border: 1px solid var(--line);
             padding: 20px;
             text-align: center;
         }
 
         .chord-name {
-            font-size: 24px;
-            font-weight: 400;
+            font-family: var(--display);
+            font-size: 22px;
+            font-weight: 600;
             margin-bottom: 15px;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
+            color: var(--sand);
         }
 
         .chord-diagram pre {
@@ -460,12 +525,14 @@
         }
 
         .song-count {
-            color: rgba(255,255,255,0.4);
-            font-size: 10px;
-            margin-top: 4px;
+            grid-column: 1 / -1;
+            color: var(--ink-3);
+            font-size: 11px;
+            margin: 0 0 12px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 300;
+            letter-spacing: 0.22em;
+            font-family: var(--display);
+            font-weight: 500;
         }
 
         .header-chord-btn {
@@ -489,39 +556,67 @@
 
         .nav-tabs {
             display: flex;
-            gap: 12px;
+            gap: 2px;
             justify-content: center;
-            margin: 8px 0;
+            margin: 0;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 14px;
+            border-top: 1px solid var(--line);
         }
 
         .nav-tab {
             background: transparent;
             border: none;
-            color: rgba(255,255,255,0.5);
-            padding: 6px 18px;
+            color: var(--ink-3);
+            padding: 11px 16px;
             cursor: pointer;
             font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 300;
-            transition: all 0.3s ease;
+            letter-spacing: 0.14em;
+            font-family: var(--display);
+            font-weight: 500;
+            transition: color 0.18s ease, border-color 0.18s ease;
             border-bottom: 2px solid transparent;
+            white-space: nowrap;
         }
 
         .nav-tab:hover {
-            color: rgba(255,255,255,0.8);
+            color: var(--ink-2);
         }
 
         .nav-tab.active {
-            color: #fff;
-            border-bottom-color: #fff;
+            color: var(--ink);
+            border-bottom-color: var(--sand);
         }
 
         .scales-section {
             display: none;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 24px 22px 60px;
+        }
+
+        .scales-section h2,
+        .scales-section > p.artist {
+            text-align: center;
+        }
+
+        .scales-section h2 {
+            font-family: var(--display);
+            font-size: 27px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            margin-bottom: 4px;
+            color: var(--ink);
+        }
+
+        .scales-section > p.artist {
+            color: var(--sand);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 11px;
+            margin-bottom: 26px;
         }
 
         .learning-grid {
@@ -624,35 +719,51 @@
         /* Guitar Tuner Styles */
         .tuner-section {
             display: none;
-            padding: 40px 20px;
-            max-width: 1200px;
+            padding: 22px 22px 60px;
+            max-width: 1120px;
             margin: 0 auto;
         }
 
         .tuner-section h2 {
-            font-size: 36px;
-            font-weight: 300;
-            margin-bottom: 10px;
+            font-family: var(--display);
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 4px;
             text-align: center;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
+            color: var(--ink);
         }
 
         .tuner-section .artist {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 16px;
-            opacity: 0.8;
-            font-weight: 300;
+            margin-bottom: 22px;
+            font-size: 12px;
+            color: var(--ink-2);
+            font-weight: 400;
+            letter-spacing: 0.04em;
         }
 
         /* Microphone Tuner Section */
+        .tuner-grid {
+            display: grid;
+            gap: 22px;
+            max-width: 980px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        @media (min-width: 820px) {
+            .tuner-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
         .mic-tuner {
             display: block;
-            margin: 30px 0;
-            max-width: 720px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0;
+            max-width: none;
         }
 
         .mic-tuner.active {
@@ -660,32 +771,34 @@
         }
 
         .mic-controls {
-            margin-bottom: 30px;
+            margin-bottom: 0;
             text-align: center;
         }
 
         .mic-button {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 18px 34px;
-            font-size: 18px;
-            font-weight: 300;
+            background: var(--sand);
+            border: 1px solid var(--sand);
+            color: var(--on-sand);
+            width: 100%;
+            padding: 15px 32px;
+            font-size: 14px;
+            font-family: var(--display);
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.14em;
         }
 
         .mic-button:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+            background: var(--sand-bright);
+            border-color: var(--sand-bright);
         }
 
         .mic-button.listening {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: transparent;
+            color: var(--ink);
+            border-color: var(--line-2);
             animation: listening-pulse 2s infinite;
         }
 
@@ -695,24 +808,25 @@
         }
 
         .tuning-display {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 32px 24px;
-            margin: 20px 0;
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            padding: 22px;
+            margin: 14px 0 0;
             text-align: center;
-            border-radius: 18px;
+            border-radius: 16px;
         }
 
         .detected-note {
-            font-size: 56px;
-            font-weight: 400;
-            color: #fff;
-            margin-bottom: 8px;
-            min-height: 60px;
+            font-family: var(--display);
+            font-size: 54px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+            min-height: 58px;
             display: flex;
             align-items: center;
             justify-content: center;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.02em;
         }
 
         .detected-note.in-tune {
@@ -721,18 +835,20 @@
         }
 
         .target-note-display {
-            font-size: 14px;
-            color: rgba(255,255,255,0.75);
+            font-family: var(--display);
+            font-size: 12px;
+            color: var(--sand);
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.16em;
             margin-bottom: 14px;
         }
 
         .frequency-display {
-            font-size: 18px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 22px;
-            font-weight: 300;
+            font-family: var(--mono);
+            font-size: 16px;
+            color: var(--ink-2);
+            margin-bottom: 20px;
+            font-weight: 400;
         }
 
         .tuning-meter {
@@ -769,10 +885,10 @@
             left: 50%;
             width: 6px;
             height: calc(100% - 8px);
-            background: #fff;
+            background: var(--sand-bright);
             transform: translateX(-50%);
             transition: left 0.18s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 12px rgba(235,214,172,0.6);
             border-radius: 999px;
         }
 
@@ -788,10 +904,11 @@
         }
 
         .cents-display {
-            font-size: 28px;
-            font-weight: 500;
-            margin-top: 20px;
-            color: #fff;
+            font-family: var(--display);
+            font-size: 26px;
+            font-weight: 600;
+            margin-top: 18px;
+            color: var(--ink);
         }
 
         .cents-display.sharp {
@@ -807,11 +924,13 @@
         }
 
         .tuning-status {
-            font-size: 16px;
-            margin-top: 15px;
-            font-weight: 400;
+            font-family: var(--display);
+            font-size: 12px;
+            margin-top: 14px;
+            font-weight: 500;
+            color: var(--ink-2);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
         }
 
         .status-listening {
@@ -829,9 +948,8 @@
         /* Reference Tones Section */
         .reference-tuner {
             display: block;
-            max-width: 720px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: none;
+            margin: 0;
         }
 
         .reference-tuner.inactive {
@@ -840,20 +958,22 @@
 
         .reference-heading {
             text-align: center;
-            margin: 26px 0 18px;
+            margin: 18px 0 14px;
         }
 
         .reference-heading h3 {
-            font-size: 20px;
-            font-weight: 400;
-            letter-spacing: 0.08em;
+            font-family: var(--display);
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            color: var(--ink);
         }
 
         .reference-heading p {
-            font-size: 14px;
-            color: rgba(255,255,255,0.68);
+            font-size: 13px;
+            color: var(--ink-2);
         }
 
         .volume-control {
@@ -872,32 +992,32 @@
         }
 
         .string-button {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            border-radius: 18px;
-            padding: 18px 16px;
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            border-radius: 12px;
+            padding: 14px 14px;
             font-size: 18px;
             font-weight: 400;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.06em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .string-button:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+            background: var(--bg-3);
+            border-color: var(--sand);
         }
 
         .string-button.playing {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .string-info {
@@ -908,26 +1028,30 @@
         }
 
         .string-note {
-            font-size: 18px;
-            font-weight: 400;
+            font-family: var(--display);
+            font-size: 16px;
+            font-weight: 600;
         }
 
         .string-number {
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.3);
-            width: 30px;
-            height: 30px;
+            background: var(--sand-dim);
+            color: var(--sand);
+            border: 1px solid rgba(220,195,154,0.3);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
+            font-family: var(--display);
+            font-weight: 600;
         }
 
         .string-button.playing .string-number {
-            background: rgba(0,0,0,0.2);
-            color: #000;
-            border-color: rgba(0,0,0,0.3);
+            background: rgba(28,22,6,0.18);
+            color: var(--on-sand);
+            border-color: rgba(28,22,6,0.3);
         }
 
         .frequency {
@@ -995,48 +1119,52 @@
         /* Practice Section Styles */
         .practice-section {
             display: none;
-            padding: 40px 20px;
-            max-width: 800px;
+            padding: 22px 22px 60px;
+            max-width: 820px;
             margin: 0 auto;
         }
 
         .practice-section h2 {
-            font-size: 36px;
-            font-weight: 300;
-            margin-bottom: 10px;
+            font-family: var(--display);
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 4px;
             text-align: center;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
+            color: var(--ink);
         }
 
         .practice-section .artist {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 16px;
-            opacity: 0.8;
-            font-weight: 300;
+            margin-bottom: 24px;
+            font-size: 12px;
+            color: var(--ink-2);
+            font-weight: 400;
+            letter-spacing: 0.04em;
         }
 
         .practice-mode-toggle {
             display: flex;
             justify-content: center;
             gap: 0;
-            margin: 30px auto;
+            margin: 0 auto 22px;
             max-width: 600px;
         }
 
         .practice-mode-button {
             flex: 1;
-            padding: 15px 20px;
-            border: 1px solid rgba(255,255,255,0.3);
+            padding: 14px 18px;
+            border: 1px solid var(--line-2);
             background: transparent;
-            color: #fff;
+            color: var(--ink-2);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 300;
+            transition: all 0.18s ease;
+            font-family: var(--display);
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .practice-mode-button:not(:last-child) {
@@ -1044,19 +1172,20 @@
         }
 
         .practice-mode-button:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--sand-dim);
+            color: var(--ink);
         }
 
         .practice-mode-button.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .practice-panel {
             display: none;
             max-width: 600px;
-            margin: 30px auto;
+            margin: 0 auto;
         }
 
         .practice-panel.active {
@@ -1087,12 +1216,12 @@
         }
 
         .backing-select {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
+            background: var(--bg-2);
+            border: 1px solid var(--line-2);
+            color: var(--ink);
             padding: 10px 15px;
             font-size: 14px;
-            font-weight: 300;
+            font-weight: 400;
             cursor: pointer;
             flex: 1;
             max-width: 250px;
@@ -1123,28 +1252,30 @@
         }
 
         .backing-play-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 15px 40px;
-            font-size: 16px;
-            font-weight: 300;
+            background: var(--sand);
+            border: 1px solid var(--sand);
+            color: var(--on-sand);
+            padding: 14px 44px;
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
+            letter-spacing: 0.14em;
+            transition: all 0.18s ease;
             display: block;
             margin: 0 auto;
         }
 
         .backing-play-btn:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--sand-bright);
+            border-color: var(--sand-bright);
         }
 
         .backing-play-btn.playing {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: transparent;
+            color: var(--ink);
+            border-color: var(--line-2);
         }
 
         .chord-display {
@@ -1153,9 +1284,11 @@
         }
 
         .chord-display .current-chord {
-            font-size: 72px;
-            font-weight: 300;
-            letter-spacing: 0.1em;
+            font-family: var(--display);
+            font-size: 76px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            color: var(--sand);
             transition: opacity 0.15s ease;
         }
 
@@ -1169,17 +1302,19 @@
 
         .chord-display .chord-step {
             padding: 8px 14px;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid var(--line);
+            font-family: var(--display);
             font-size: 14px;
-            font-weight: 300;
+            font-weight: 500;
             opacity: 0.4;
             transition: all 0.2s ease;
         }
 
         .chord-display .chord-step.active {
             opacity: 1;
-            border-color: #fff;
-            background: rgba(255,255,255,0.1);
+            border-color: var(--sand);
+            color: var(--sand);
+            background: var(--sand-dim);
         }
 
         /* Fretboard Quiz */
@@ -1246,24 +1381,27 @@
 
         .quiz-btn {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 12px 25px;
-            font-size: 14px;
-            font-weight: 300;
+            border: 1px solid var(--line-2);
+            color: var(--ink-2);
+            padding: 11px 24px;
+            font-family: var(--display);
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
         }
 
         .quiz-btn:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--sand-dim);
+            color: var(--ink);
         }
 
         .quiz-btn.active {
-            background: #fff;
-            color: #000;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         /* Ear Trainer */
@@ -1273,21 +1411,23 @@
         }
 
         .ear-play-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 18px 40px;
-            font-size: 18px;
-            font-weight: 300;
+            background: var(--sand);
+            border: 1px solid var(--sand);
+            color: var(--on-sand);
+            padding: 16px 44px;
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
+            letter-spacing: 0.14em;
+            transition: all 0.18s ease;
             margin-bottom: 10px;
         }
 
         .ear-play-btn:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--sand-bright);
+            border-color: var(--sand-bright);
         }
 
         .ear-direction-toggle {
@@ -1301,15 +1441,16 @@
         .ear-dir-btn {
             flex: 1;
             padding: 10px 15px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid var(--line-2);
             background: transparent;
-            color: #fff;
+            color: var(--ink-2);
             cursor: pointer;
+            font-family: var(--display);
             font-size: 12px;
-            font-weight: 300;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
         }
 
         .ear-dir-btn:not(:last-child) {
@@ -1317,9 +1458,9 @@
         }
 
         .ear-dir-btn.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: var(--sand);
+            color: var(--on-sand);
+            border-color: var(--sand);
         }
 
         .interval-choices {
@@ -1334,19 +1475,21 @@
 
         .interval-btn {
             padding: 14px 10px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid var(--line-2);
             background: transparent;
-            color: #fff;
+            color: var(--ink);
             cursor: pointer;
+            font-family: var(--display);
             font-size: 13px;
-            font-weight: 300;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            transition: all 0.2s ease;
+            transition: all 0.18s ease;
         }
 
         .interval-btn:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--sand-dim);
+            border-color: var(--sand);
         }
 
         .interval-btn.correct {
@@ -1380,55 +1523,60 @@
         /* Metronome Styles */
         .metronome-section {
             display: none;
-            padding: 40px 20px;
+            padding: 22px 22px 60px;
             max-width: 600px;
             margin: 0 auto;
         }
 
         .metronome-section h2 {
-            font-size: 36px;
-            font-weight: 300;
-            margin-bottom: 10px;
+            font-family: var(--display);
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 4px;
             text-align: center;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
+            color: var(--ink);
         }
 
         .metronome-section .artist {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 16px;
-            opacity: 0.8;
-            font-weight: 300;
+            margin-bottom: 24px;
+            font-size: 12px;
+            color: var(--ink-2);
+            font-weight: 400;
+            letter-spacing: 0.04em;
         }
 
         .bpm-display {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 22px;
         }
 
         .bpm-number {
-            font-size: 72px;
-            font-weight: 300;
-            color: #fff;
-            margin-bottom: 10px;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 0.1em;
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--sand);
+            margin-bottom: 6px;
+            font-family: var(--display);
+            letter-spacing: 0.01em;
+            line-height: 1;
         }
 
         .bpm-label {
-            font-size: 18px;
-            color: rgba(255,255,255,0.7);
-            font-weight: 300;
+            font-family: var(--display);
+            font-size: 14px;
+            color: var(--ink-3);
+            font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.3em;
         }
 
         .beat-indicator {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 26px;
         }
 
         .beat-dot {
@@ -1441,14 +1589,14 @@
         }
 
         .beat-dot.active {
-            background: #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            background: var(--sand);
+            box-shadow: 0 0 16px rgba(220,195,154,0.55);
             transform: scale(1.25);
         }
 
         .beat-dot.accent {
-            background: #ff6666;
-            box-shadow: 0 0 15px rgba(255,102,102,0.5);
+            background: var(--sand-bright);
+            box-shadow: 0 0 18px rgba(235,214,172,0.7);
         }
 
         .metronome-controls {
@@ -1517,14 +1665,14 @@
 
         .bpm-input {
             flex: 1;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
+            padding: 14px;
+            background: var(--bg-2);
+            border: 1px solid var(--line-2);
+            color: var(--ink);
             text-align: center;
-            font-family: 'Courier New', monospace;
+            font-family: var(--mono);
             font-size: 16px;
-            font-weight: 300;
+            font-weight: 400;
         }
 
         .bpm-input:focus {
@@ -1549,9 +1697,9 @@
 
         .beats-select {
             padding: 8px 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
+            background: var(--bg-2);
+            border: 1px solid var(--line-2);
+            color: var(--ink);
             font-size: 14px;
         }
 
@@ -1567,24 +1715,26 @@
         }
 
         .preset-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            padding: 15px 10px;
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            padding: 14px 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
             text-align: center;
-            font-weight: 300;
+            font-weight: 400;
         }
 
         .preset-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
+            background: var(--bg-3);
+            border-color: var(--sand);
         }
 
         .preset-btn span {
             display: block;
-            font-size: 14px;
+            font-family: var(--display);
+            font-size: 13px;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
@@ -1602,21 +1752,22 @@
 
         .play-stop-btn {
             flex: 1;
-            padding: 20px;
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            font-size: 16px;
-            font-weight: 300;
+            padding: 18px;
+            background: var(--sand);
+            border: 1px solid var(--sand);
+            color: var(--on-sand);
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.14em;
         }
 
         .play-stop-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+            background: var(--sand-bright);
+            border-color: var(--sand-bright);
         }
 
         .play-stop-btn.playing {
@@ -1630,21 +1781,22 @@
         }
 
         .tap-btn {
-            padding: 20px 30px;
+            padding: 18px 30px;
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            font-size: 16px;
-            font-weight: 300;
+            border: 1px solid var(--line-2);
+            color: var(--ink);
+            font-family: var(--display);
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
         }
 
         .tap-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+            background: var(--sand-dim);
+            border-color: var(--sand);
         }
 
         .tap-btn.active {
@@ -1654,21 +1806,22 @@
 
         .reset-btn {
             width: 100%;
-            padding: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            font-size: 14px;
-            font-weight: 300;
+            padding: 13px;
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--ink-2);
+            font-family: var(--display);
+            font-size: 12px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.18s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
         }
 
         .reset-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
+            background: var(--bg-2);
+            border-color: var(--line-2);
         }
 
         /* Splash Screen Styles */
@@ -1748,31 +1901,47 @@
             
             /* Header improvements */
             .header {
-                padding: 6px 10px 6px;
+                padding: 0;
+            }
+
+            .header-topbar {
+                flex-wrap: wrap;
+                gap: 8px 10px;
+                padding: 8px 14px;
             }
 
             .header h1 {
-                font-size: 16px;
-                margin: 0 0 4px;
-                letter-spacing: 0.1em;
+                margin: 0;
             }
 
             .header-wordmark {
-                height: 16px;
+                height: 20px;
+            }
+
+            .header-actions {
+                gap: 5px;
+            }
+
+            .header-action-btn {
+                padding: 6px 9px;
+                font-size: 9px;
+                letter-spacing: 0.07em;
             }
 
             /* Navigation tabs */
             .nav-tabs {
-                display: grid;
-                grid-template-columns: repeat(5, 1fr);
-                gap: 4px;
-                margin: 4px 0 6px;
+                display: flex;
+                gap: 0;
+                margin: 0;
+                padding: 0;
             }
 
             .nav-tab {
-                padding: 6px 2px;
-                font-size: 9px;
-                letter-spacing: 0.03em;
+                flex: 1;
+                padding: 10px 2px;
+                font-size: 10px;
+                letter-spacing: 0.05em;
+                text-align: center;
             }
 
             /* Search and controls */
@@ -1803,7 +1972,7 @@
             }
 
             .main-container {
-                padding: 8px 14px 24px;
+                padding: 14px 16px 28px;
             }
             
             /* Song list */
@@ -2093,31 +2262,23 @@
         
         /* Mobile adjustments for smaller screens */
         @media (max-width: 400px) {
-            .header h1 {
-                font-size: 14px;
-            }
-
             .header-wordmark {
-                height: 14px;
-            }
-
-            .nav-tabs {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 3px;
+                height: 18px;
             }
 
             .nav-tab {
-                padding: 5px 2px;
-                font-size: 8px;
+                padding: 9px 1px;
+                font-size: 9px;
+                letter-spacing: 0.03em;
             }
 
             .header-action-btn {
-                padding: 4px 7px;
-                font-size: 8px;
+                padding: 6px 8px;
+                font-size: 8.5px;
             }
             
             .song-content h2 {
-                font-size: 20px;
+                font-size: 24px;
             }
             
             .lyrics {
@@ -2143,15 +2304,16 @@
 
 .welcome-banner {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 14px 20px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    line-height: 1.5;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    border-left: 3px solid var(--sand);
+    padding: 10px 18px;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.45;
 }
 
 .welcome-banner-content { flex: 1; }
@@ -2189,37 +2351,43 @@
 /* Header action buttons */
 .header-actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 6px;
-    justify-content: center;
-    margin-top: 8px;
+    justify-content: flex-end;
+    margin: 0;
+    flex-shrink: 0;
 }
 
 .header-action-btn {
     background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 5px 12px;
+    color: var(--ink-2);
+    border: 1px solid var(--line-2);
+    padding: 7px 13px;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-weight: 400;
-    transition: all 0.2s ease;
+    font-family: var(--display);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.18s ease;
 }
 
 .header-action-btn:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.6);
+    color: var(--ink);
+    border-color: var(--sand);
+    background: var(--sand-dim);
 }
 
 .header-action-btn.primary {
-    background: #fff;
-    color: #000;
+    background: var(--sand);
+    color: var(--on-sand);
+    border-color: var(--sand);
 }
 
 .header-action-btn.primary:hover {
-    background: rgba(255,255,255,0.85);
+    background: var(--sand-bright);
+    border-color: var(--sand-bright);
 }
 
 /* Replace the legacy .header-chord-btn so it doesn't fight the new layout */
@@ -2229,26 +2397,29 @@
 .song-badge {
     display: inline-block;
     font-size: 8px;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.16em;
     padding: 2px 6px;
-    margin-left: 6px;
+    margin-left: 0;
     vertical-align: middle;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: rgba(255,255,255,0.8);
+    border: 1px solid var(--line-2);
+    color: var(--ink-3);
     text-transform: uppercase;
+    font-family: var(--display);
     font-weight: 500;
+    position: relative;
+    top: -1px;
 }
 
 .song-badge.sample {
     background: transparent;
-    color: rgba(255,255,255,0.5);
-    border-color: rgba(255,255,255,0.2);
+    color: var(--ink-3);
+    border-color: var(--line);
 }
 
 .song-badge.mine {
-    background: rgba(255,255,255,0.15);
-    color: #fff;
-    border-color: rgba(255,255,255,0.5);
+    background: var(--sand-dim);
+    color: var(--sand);
+    border-color: rgba(220,195,154,0.35);
 }
 
 /* Empty state */
@@ -2293,11 +2464,11 @@
 
 .of-modal-content {
     background: #0a0a0a;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid var(--line-2);
     width: 100%;
     max-width: 640px;
     padding: 28px;
-    color: #fff;
+    color: var(--ink);
 }
 
 .of-modal-content.of-modal-small { max-width: 460px; }
@@ -2310,10 +2481,12 @@
 }
 
 .of-modal-header h3 {
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.15em;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: var(--ink);
 }
 
 .of-form { display: flex; flex-direction: column; gap: 14px; }
@@ -2409,13 +2582,14 @@
 }
 
 .control-btn.primary {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
+    background: var(--sand);
+    color: var(--on-sand);
+    border-color: var(--sand);
 }
 
 .control-btn.primary:hover {
-    background: rgba(255,255,255,0.85);
+    background: var(--sand-bright);
+    border-color: var(--sand-bright);
 }
 
 .control-btn.danger {
@@ -2476,17 +2650,17 @@
    Songbook v1.1: empty state, starter packs, wordmark image
    ===================================================================== */
 
-/* Wordmark image in the header (replaces the SONGBOOK text h1) */
+/* Wordmark image in the header (compact app-bar size) */
 .header-wordmark {
-    max-width: 100%;
-    height: auto;
-    width: 320px;
-    display: inline-block;
+    height: 26px;
+    width: auto;
+    max-width: 220px;
+    display: block;
     vertical-align: middle;
 }
 
 @media (max-width: 480px) {
-    .header-wordmark { width: 220px; }
+    .header-wordmark { height: 21px; }
 }
 
 /* Empty state */
@@ -2600,4 +2774,77 @@
         align-items: stretch;
     }
     .of-pack .control-btn { width: 100%; }
+}
+
+/* =====================================================================
+   Tabs polish: sand-tinted sliders + cohesive data readouts
+   ===================================================================== */
+
+input[type="range"] { accent-color: var(--sand); }
+
+.bpm-slider::-webkit-slider-thumb,
+.volume-slider::-webkit-slider-thumb,
+.speed-control::-webkit-slider-thumb {
+    background: var(--sand);
+}
+.bpm-slider::-moz-range-thumb,
+.volume-slider::-moz-range-thumb,
+.speed-control::-moz-range-thumb {
+    background: var(--sand);
+}
+
+.backing-bpm input[type="range"] { accent-color: var(--sand); }
+
+.backing-bpm-value {
+    font-family: var(--mono);
+    color: var(--ink);
+}
+
+.backing-row label,
+.backing-bpm label,
+.control-label,
+.beats-label {
+    font-family: var(--display);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+}
+
+.quiz-prompt .target-note,
+.fretboard .target-note,
+#targetNote {
+    font-family: var(--display);
+    font-weight: 700;
+    color: var(--sand);
+    letter-spacing: 0.02em;
+}
+
+.quiz-prompt .quiz-instruction {
+    color: var(--ink-2);
+}
+
+.quiz-score,
+.ear-score {
+    font-family: var(--display);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+}
+
+.ear-feedback {
+    font-family: var(--display);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.interval-btn.correct {
+    background: rgba(120,220,140,0.16);
+    border-color: rgba(120,220,140,0.55);
+    color: #8fe6a3;
+}
+
+.interval-btn.incorrect {
+    background: rgba(230,130,130,0.16);
+    border-color: rgba(230,130,130,0.55);
+    color: #ef9a9a;
 }
