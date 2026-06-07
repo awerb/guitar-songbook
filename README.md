@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="assets/songbook-wordmark.png" alt="Songbook" width="420">
-</p>
 
 <p align="center">
   <img src="assets/songbook-banner.jpg" alt="Songbook — your personal guitar songbook" width="100%">
