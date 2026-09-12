@@ -1042,7 +1042,71 @@
 
         const confirmState = { onAccept: null };
 
+        // PWA install prompt handling
+        const PWA_DISMISS_KEY = 'songbook.installDismissed.v1';
+        let deferredInstallPrompt = null;
+
+        function isAppInstalled() {
+            // Check display-mode: standalone (installed PWA)
+            if (window.matchMedia('(display-mode: standalone)').matches) return true;
+            // iOS standalone mode
+            if (window.navigator.standalone === true) return true;
+            return false;
+        }
+
+        function isInstallDismissed() {
+            return localStorage.getItem(PWA_DISMISS_KEY) === 'true';
+        }
+
+        function showInstallWrapper() {
+            const wrapper = document.getElementById('pwaInstallWrapper');
+            if (wrapper) wrapper.style.display = 'inline-flex';
+        }
+
+        function hideInstallWrapper() {
+            const wrapper = document.getElementById('pwaInstallWrapper');
+            if (wrapper) wrapper.style.display = 'none';
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            // Only show if not already installed and not dismissed
+            if (!isAppInstalled() && !isInstallDismissed()) {
+                showInstallWrapper();
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            // Mark as permanently dismissed once installed
+            localStorage.setItem(PWA_DISMISS_KEY, 'true');
+            hideInstallWrapper();
+        });
+
+        // Hide install prompt if already in standalone mode on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isAppInstalled()) {
+                localStorage.setItem(PWA_DISMISS_KEY, 'true');
+                hideInstallWrapper();
+            }
+        });
+
         const SongbookApp = {
+            promptInstall: async function () {
+                if (!deferredInstallPrompt) return;
+                deferredInstallPrompt.prompt();
+                const { outcome } = await deferredInstallPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredInstallPrompt = null;
+                    localStorage.setItem(PWA_DISMISS_KEY, 'true');
+                    hideInstallWrapper();
+                }
+            },
+            dismissInstall: function () {
+                localStorage.setItem(PWA_DISMISS_KEY, 'true');
+                hideInstallWrapper();
+            },
             exportLibrary: function () {
                 if (window.SongbookLibrary) window.SongbookLibrary.exportToFile();
             },

@@ -1,0 +1,52 @@
+{
+  "app": "Songbook",
+  "version": 1,
+  "name": "Rosh Hashanah acoustic",
+  "description": "Personal-practice acoustic set for Rosh Hashanah: Wildflowers, I Shall Be Released, (Sittin' On) The Dock of the Bay, and The Heart of the Matter.",
+  "songs": [
+    {
+      "id": "rosh-hashanah-wildflowers-tom-petty",
+      "title": "Wildflowers",
+      "artist": "Tom Petty",
+      "genre": "rock",
+      "chords": "Capo 5: Fadd9 C G Am D/F# C/E",
+      "lyrics": "(Capo 5 — shapes relative to capo)\n\n[Fadd9]You belong among the [C]wild[G]flowers\n[Fadd9]You belong in a [C]boat out at [G]sea\n[Fadd9]Sail away, [C]kill off the [G]hours\n[Fadd9]You belong somewhere you [C]feel [G]free\n\n[Fadd9]Run away, [C]find you a [G]lover\n[Fadd9]Go away somewhere all [C]bright and [G]new\n[Fadd9]I have [C]seen no [G]other\n[Fadd9]Who compares with [C]you\n[Fadd9]You belong among the [C]wild[G]flowers\n[Fadd9]You belong in a [C]boat out at [G]sea\n[Fadd9]You belong with your [C]love on your [G]arm\n[Fadd9]You belong somewhere you [C]feel [G]free\n\n(Bridge — x2)\n[Fadd9] [C/E] [Am] [D/F#] [G] [G]\n[Fadd9] [Am] [G] [G]\n\n[Fadd9]Run away, [C]go find a [G]lover\n[Fadd9]Run away, let your [C]heart be your [G]guide\n[Fadd9]You deserve the [C]deepest of [G]cover\n[Fadd9]You belong in that [C]home by and [G]by\n[Fadd9]You belong among the [C]wild[G]flowers\n[Fadd9]You belong somewhere [C]close to [G]me\n[Fadd9]Far away from your [C]trouble and [G]worry\n[Fadd9]You belong somewhere you [C]feel [G]free\n[Fadd9]You belong somewhere you [C]feel [G]free",
+      "youtube": "https://www.youtube.com/results?search_query=tom+petty+wildflowers+guitar+chords",
+      "license": "Personal practice arrangement only — not for republication",
+      "sample": false
+    },
+    {
+      "id": "rosh-hashanah-i-shall-be-released-bob-dylan",
+      "title": "I Shall Be Released",
+      "artist": "Bob Dylan",
+      "genre": "folk",
+      "chords": "Capo 2: G Am Bm C D",
+      "lyrics": "(Capo 2 — G shapes; sounding A)\n\n[G]They say ev'rything can be re[Am]placed,\n[Bm]Yet ev'ry distance is [Am]not [G]near.\n[G]So I remember ev'ry [Am]face\n[Bm]Of ev'ry man who put me [Am]here.[G]\n\n[G]I see my light come [Am]shining\n[Bm]From the west unto the [D]east.[G]\n[G]Any day now, [Am]any day now,\n[Bm]I shall be re[D]leased.[G]\n\n[G]They say ev'ry man needs pro[Am]tection,\n[Bm]They say ev'ry man must [D]fall.[G]\n[G]Yet I swear I see my re[Am]flection\n[Bm]Some place so high above this [D]wall.[G]\n\n[G]I see my light come [Am]shining\n[Bm]From the west unto the [D]east.[G]\n[G]Any day now, [Am]any day now,\n[Bm]I shall be re[D]leased.[G]\n\n[G]Well yonder stands a man in this lonely [Am]crowd,\n[Bm]A man who swears he's not to [D]blame.[G]\n[G]All day long I hear him shout so [Am]loud,\n[Bm]Calling out that he's been [D]framed.[G]\n\n[G]I see my light come [Am]shining\n[Bm]From the west unto the [D]east.[G]\n[G]Any day now, [Am]any day now,\n[Bm]I shall be re[D]leased.[G]",
+      "youtube": "https://www.youtube.com/results?search_query=bob+dylan+i+shall+be+released+guitar+chords",
+      "license": "Personal practice arrangement only — not for republication",
+      "sample": false
+    },
+    {
+      "id": "rosh-hashanah-dock-of-the-bay-otis-redding",
+      "title": "(Sittin' On) The Dock of the Bay",
+      "artist": "Otis Redding",
+      "genre": "soul",
+      "chords": "G B7 C A E D F",
+      "lyrics": "(No capo — key of G)\n\n[G]Sittin' in the mornin' [B7]sun\n[C]I'll be sittin' when the evenin' [A]comes\n[G]Watching the ships roll [B7]in\n[C]And then I watch 'em roll away a[A]gain, yeah\n\n[G]I'm sittin' on the dock of the [E]bay\n[G]Watching the tide roll a[E]way\n[G]Ooo, I'm just sittin' on the dock of the [A]bay\n[G]Wastin' [E]time\n\n[G]I left my home in [B7]Georgia\n[C]Headed for the 'Frisco [A]Bay\n[G]'Cause I've had nothing to live [B7]for\n[C]And look like nothin's gonna come my [A]way\n\n[G]So I'm just gonna sit on the dock of the [E]bay\n[G]Watching the tide roll a[E]way\n[G]Ooo, I'm sittin' on the dock of the [A]bay\n[G]Wastin' [E]time\n\n[G]Looks like [D]nothing's gonna [C]change[G]\n[G]Everything [D]still remains the [C]same[G]\n[G]I can't do [D]what ten people tell me to [C]do[G]\n[F]So I guess I'll remain the [D]same, yes\n\n[G]Sittin' here resting my [B7]bones\n[C]And this loneliness won't leave me a[A]lone\n[G]It's two thousand miles I [B7]roamed\n[C]Just to make this dock my [A]home\n\n[G]Now I'm just gonna sit on the dock of the [E]bay\n[G]Watching the tide roll a[E]way\n[G]Ooo, I'm sittin' on the dock of the [A]bay\n[G]Wastin' [E]time",
+      "youtube": "https://www.youtube.com/results?search_query=otis+redding+dock+of+the+bay+guitar+chords",
+      "license": "Personal practice arrangement only — not for republication",
+      "sample": false
+    },
+    {
+      "id": "heart-of-the-matter-don-henley",
+      "title": "The Heart of the Matter",
+      "artist": "Don Henley",
+      "genre": "rock",
+      "chords": "D A G Bm Em Asus4 C Am G/B (intro: D–Dsus4 riff)",
+      "lyrics": "(No capo — key of D. Intro: D / Dsus4 riff)\n\n[D]I got the call today that I [A]didn't wanna hear\n[G]But I knew that it would come\n[D]An old, true friend of ours was [A]talkin' on the phone\n[G]She said you found someone\n[A]And I thought of all the bad luck and the struggles we went through\n[G]How I lost me, and you lost you\n[A]What are those voices outside love's open door\n[G]Make us blow off our contentment\n[Asus4]And beg for something [A]more\n\n[D]I'm learning to live with[Em]out you [G]now\n[A]But I miss you sometimes\n[D]The more I know, the [Em]less I understand\n[G]All the things I thought I knew\n[A]I'm learning again\n[D]I been tryin' to get down\n[Bm]To the heart of the matter\n[G]But my will gets weak\n[A]And my thoughts seem to scatter but I think it's a[D]bout\n[Bm]Forgiveness, forgiveness\n[G]Even if even if [A]you don't love me any[D]more\n\n[D]Oh these times are so uncertain\nThere's a [A]yearning undefined\n[G]And people filled with rage\n[D]We all need a little tenderness\nHow can [A]love survive\n[G]In such a graceless age\n[A]The trust and self-assurance\nThat lead to happiness\n[G]They're the very things we kill I guess\n[A]Pride and competition cannot fill these empty arms\n[G]And the work I put between us\n[Asus4]You know it doesn't keep me [A]warm\n\n[D]I'm learning to live with[Em]out you [G]now\n[A]But I miss you baby\n[D]The more I know, the [Em]less I understand\n[G]All the things I thought I'd figured out\n[A]I have to learn again\n[D]I been tryin' to get down\n[Bm]To the heart of the matter\n[G]But everything changes\n[A]And my friends seem to scatter but I think it's a[D]bout\n[Bm]Forgiveness, forgiveness\n[G]Even if [A]you don't love me any[D]more\n\n[C]There are people in your life [G/B]who've come and gone\n[Am]They'll let you down, you know they'll [G/B]hurt your pride\n[C]You better put it all behind you baby, be[G/B]cause life goes on\n[A]You keep carrying that anger it'll eat you up inside, baby\n\n[D]I been tryin' to get down\n[Bm]To the heart of the matter\n[G]But my will gets weak\n[A]And my thoughts seem to scatter but I think it's a[D]bout\n[Bm]Forgiveness, forgiveness\n[G]Even if [A]you don't love me\n[D]I been tryin' to get down\n[Bm]To the heart of the matter\n[G]Because the flesh will get weak\n[A]And the ashes will scatter so I'm thinkin' a[D]bout\n[Bm]Forgiveness, forgiveness\n[G]Even if [A]you don't love me any[D]more",
+      "youtube": "https://www.youtube.com/results?search_query=don+henley+heart+of+the+matter+guitar+chords",
+      "license": "Personal practice arrangement only — not for republication",
+      "sample": false
+    }
+  ]
+}
