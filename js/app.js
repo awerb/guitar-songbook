@@ -1042,7 +1042,33 @@
 
         const confirmState = { onAccept: null };
 
+        // PWA install prompt handling
+        let deferredInstallPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const installBtn = document.getElementById('pwaInstallBtn');
+            if (installBtn) installBtn.style.display = 'inline-block';
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            const installBtn = document.getElementById('pwaInstallBtn');
+            if (installBtn) installBtn.style.display = 'none';
+        });
+
         const SongbookApp = {
+            promptInstall: async function () {
+                if (!deferredInstallPrompt) return;
+                deferredInstallPrompt.prompt();
+                const { outcome } = await deferredInstallPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredInstallPrompt = null;
+                    const installBtn = document.getElementById('pwaInstallBtn');
+                    if (installBtn) installBtn.style.display = 'none';
+                }
+            },
             exportLibrary: function () {
                 if (window.SongbookLibrary) window.SongbookLibrary.exportToFile();
             },

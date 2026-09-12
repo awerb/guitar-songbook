@@ -4,6 +4,20 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Added
+- **PWA install button** in the header. On supported browsers (Chrome, Edge, Android Chrome), an "INSTALL" button appears when the browser offers PWA installation. Tap it to install Songbook to your home screen.
+- **Proper 192×192 and 180×180 icons** for better home-screen quality on Android and iOS.
+- **Starter pack pre-caching**. The service worker now caches all three starter pack JSON files so they work offline after first visit.
+
+### Changed
+- **Service worker version bumped to v3** to pick up new cached assets.
+- **Improved offline fallback** in the service worker — navigation requests fall back to the cached app shell when offline.
+- **Help modal updated** with clearer install instructions for all platforms.
+- **README updated** with a new "Offline & PWA" section documenting what works offline. PWA removed from the roadmap (it's shipped!).
+
+### Fixed
+- **Manifest icon sizing**: The 192×192 icon entry now points to an actual 192×192 image instead of scaling down the 512×512 icon.
+
 ## [2.0.0] - 2026-06-07
 
 The rebrand and redesign release. OpenFret becomes **Songbook**, with a fresh visual identity, a denser layout that puts more song on screen, and a refined sand-on-black aesthetic that echoes the SONGBOOK wordmark.

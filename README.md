@@ -35,7 +35,7 @@ It's for the player with a notebook full of songs they keep forgetting the chord
 - **Pentatonic scales reference** with all five fretboard patterns.
 - **Chord chart** covering major, minor, 7th, sharp/flat, extended, and power chords.
 - **Practice tab** with a backing track player, fretboard note quiz, and interval ear training.
-- **Works offline-first.** Once the page is loaded, no network needed. Your songs live in your browser, never on a server.
+- **Works offline.** Install Songbook as a PWA (Add to Home Screen). After your first visit, the app shell, your songs, and all tools work without network. Your songs live in your browser's localStorage, never on a server.
 
 ## Add your first song in 30 seconds
 
@@ -124,6 +124,15 @@ guitar-songbook/
 └── CHANGELOG.md
 ```
 
+## Offline & PWA
+
+Songbook is a Progressive Web App. After your first visit:
+
+- **Install it:** On supported browsers, look for the **INSTALL** button in the header or use your browser's install option (Chrome/Edge: address bar icon; Safari iOS: Share → Add to Home Screen).
+- **Works offline:** The app shell (HTML, CSS, JS), sample songs, and starter packs are cached by the service worker. Your own songs live in localStorage — always available, no network needed.
+- **Tools work offline:** Tuner, metronome, scales reference, and practice tools use Web Audio API and run entirely in-browser.
+- **What needs network:** YouTube links to original recordings require internet. Google Fonts are fetched on first load but the app remains usable without them.
+
 ## Roadmap
 
 Planned, but not yet built:
@@ -132,7 +141,6 @@ Planned, but not yet built:
 - Capo helper (pick a capo position, see chord shapes)
 - Multi-device sync via a shareable URL with the song JSON encoded
 - Print-friendly stylesheet
-- PWA install with offline support
 - Optional chord diagrams inline with the lyrics
 
 PRs welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).

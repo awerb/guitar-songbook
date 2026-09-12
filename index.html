@@ -8,7 +8,7 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/songbook-icon.png">
-    <link rel="apple-touch-icon" href="assets/songbook-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/songbook-icon-180.png">
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -61,6 +61,7 @@
                 <button class="header-action-btn primary" onclick="showAddSongModal()">+ ADD SONG</button>
                 <button class="header-action-btn" onclick="showLibraryMenu()">LIBRARY</button>
                 <button class="header-action-btn" onclick="showChordChart()">CHORDS</button>
+                <button class="header-action-btn pwa-install-btn" id="pwaInstallBtn" onclick="SongbookApp.promptInstall()" style="display:none;">INSTALL</button>
                 <button class="header-action-btn" onclick="showHelpModal()" aria-label="Help">?</button>
             </div>
         </div>
@@ -264,12 +265,12 @@ E|--15--17---|
                 <button class="close-btn" onclick="closeHelpModal()" aria-label="Close">×</button>
             </div>
             <div class="of-help-content">
-                <h4>Bookmark or install on your phone</h4>
-                <p>Songbook works best on a phone. Add it to your home screen so it's one tap away, just like a normal app.</p>
-                <p><strong>iPhone (Safari):</strong> tap the <strong>Share button</strong> at the bottom of the screen (square with an up arrow), scroll down, tap <strong>Add to Home Screen</strong>, then <strong>Add</strong>. The "O" icon will appear on your home screen.</p>
-                <p><strong>Android (Chrome):</strong> tap the <strong>three-dot menu</strong> at the top right, then <strong>Add to Home screen</strong> or <strong>Install app</strong>. Confirm.</p>
-                <p><strong>Mac/Windows (Chrome or Edge):</strong> look for a small <strong>Install</strong> icon at the right end of the address bar (usually looks like a screen with a down arrow), click it, then <strong>Install</strong>.</p>
-                <p>Once installed, Songbook opens in its own window with no browser bars and works offline.</p>
+                <h4>Install as an app</h4>
+                <p>Songbook works best on a phone. Install it to your home screen so it's one tap away, just like a native app — and it works offline after your first visit.</p>
+                <p><strong>Desktop Chrome/Edge:</strong> if you see an <strong>INSTALL</strong> button in the header, tap it. Otherwise, look for a small install icon at the right end of the address bar.</p>
+                <p><strong>Android (Chrome):</strong> tap the <strong>INSTALL</strong> button in the header if visible, or tap the <strong>three-dot menu</strong> at the top right, then <strong>Install app</strong>.</p>
+                <p><strong>iPhone (Safari):</strong> tap the <strong>Share button</strong> at the bottom of the screen (square with an up arrow), scroll down, tap <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</p>
+                <p>Once installed, Songbook opens in its own window with no browser bars. Your songs (stored in localStorage) and all tools (tuner, metronome, practice) work fully offline.</p>
 
                 <h4>Add your first song</h4>
                 <p>Tap <strong>+ Add Song</strong> in the header. Paste your lyrics and put each chord in square brackets right before the syllable it lands on, like this:</p>

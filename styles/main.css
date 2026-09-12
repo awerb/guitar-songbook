@@ -2388,6 +2388,24 @@
     border-color: var(--sand-bright);
 }
 
+.header-action-btn.pwa-install-btn {
+    background: linear-gradient(135deg, var(--sand) 0%, var(--sand-bright) 100%);
+    color: var(--on-sand);
+    border-color: var(--sand);
+    animation: pwa-pulse 2s ease-in-out infinite;
+}
+
+.header-action-btn.pwa-install-btn:hover {
+    background: var(--sand-bright);
+    border-color: var(--sand-bright);
+    animation: none;
+}
+
+@keyframes pwa-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
 /* Replace the legacy .header-chord-btn so it doesn't fight the new layout */
 .header-chord-btn { display: none; }
 

@@ -17,7 +17,7 @@
       "purpose": "any"
     },
     {
-      "src": "assets/songbook-icon.png",
+      "src": "assets/songbook-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
@@ -25,6 +25,12 @@
     {
       "src": "assets/songbook-icon.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/songbook-icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     }
