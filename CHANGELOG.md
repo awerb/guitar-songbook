@@ -6,8 +6,10 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 
 ### Added
 - **PWA install button** in the header. On supported browsers (Chrome, Edge, Android Chrome), an "INSTALL" button appears when the browser offers PWA installation. Tap it to install Songbook to your home screen.
+- **Dismissible install prompt**. The INSTALL button now has a dismiss (×) control. Once dismissed, the prompt won't reappear. If the app is installed (standalone mode detected), the prompt is permanently hidden.
 - **Proper 192×192 and 180×180 icons** for better home-screen quality on Android and iOS.
-- **Starter pack pre-caching**. The service worker now caches all three starter pack JSON files so they work offline after first visit.
+- **Starter pack pre-caching**. The service worker now caches all starter pack JSON files so they work offline after first visit.
+- **Rosh Hashanah Acoustic pack** (4 songs). Reflective acoustic songs for the High Holidays: Wildflowers (Tom Petty), I Shall Be Released (Bob Dylan), Dock of the Bay (Otis Redding), The Heart of the Matter (Don Henley). Personal practice arrangements only.
 
 ### Changed
 - **Service worker version bumped to v3** to pick up new cached assets.
