@@ -61,7 +61,10 @@
                 <button class="header-action-btn primary" onclick="showAddSongModal()">+ ADD SONG</button>
                 <button class="header-action-btn" onclick="showLibraryMenu()">LIBRARY</button>
                 <button class="header-action-btn" onclick="showChordChart()">CHORDS</button>
-                <button class="header-action-btn pwa-install-btn" id="pwaInstallBtn" onclick="SongbookApp.promptInstall()" style="display:none;">INSTALL</button>
+                <span class="pwa-install-wrapper" id="pwaInstallWrapper" style="display:none;">
+                    <button class="header-action-btn pwa-install-btn" id="pwaInstallBtn" onclick="SongbookApp.promptInstall()">INSTALL</button>
+                    <button class="pwa-install-dismiss" onclick="SongbookApp.dismissInstall()" aria-label="Dismiss install prompt">×</button>
+                </span>
                 <button class="header-action-btn" onclick="showHelpModal()" aria-label="Help">?</button>
             </div>
         </div>

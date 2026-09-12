@@ -2388,10 +2388,19 @@
     border-color: var(--sand-bright);
 }
 
+.pwa-install-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+}
+
 .header-action-btn.pwa-install-btn {
     background: linear-gradient(135deg, var(--sand) 0%, var(--sand-bright) 100%);
     color: var(--on-sand);
     border-color: var(--sand);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     animation: pwa-pulse 2s ease-in-out infinite;
 }
 
@@ -2399,6 +2408,26 @@
     background: var(--sand-bright);
     border-color: var(--sand-bright);
     animation: none;
+}
+
+.pwa-install-dismiss {
+    background: transparent;
+    color: var(--ink-3);
+    border: 1px solid var(--line-2);
+    border-left: none;
+    padding: 7px 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.pwa-install-dismiss:hover {
+    color: var(--ink);
+    background: var(--sand-dim);
+    border-color: var(--sand);
 }
 
 @keyframes pwa-pulse {
