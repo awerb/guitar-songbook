@@ -34,7 +34,8 @@ const APP_SHELL = [
     './manifest.json',
     './songs/campfire-classics.json',
     './songs/blues-101.json',
-    './songs/holiday-classics.json'
+    './songs/holiday-classics.json',
+    './songs/rosh-hashanah-acoustic.json'
 ];
 
 self.addEventListener('install', (event) => {

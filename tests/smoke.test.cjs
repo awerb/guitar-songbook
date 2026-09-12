@@ -62,7 +62,9 @@ test("starter pack JSON files are valid", () => {
     assert.ok(Array.isArray(pack.songs) && pack.songs.length > 0, `${file} must have songs`);
     pack.songs.forEach(s => {
       assert.ok(s.title, `${file}: every song needs a title`);
-      assert.ok(s.license && /public domain/i.test(s.license), `${file}: every song must be PD`);
+      // License must be either public domain OR personal practice (private repo)
+      const hasValidLicense = s.license && (/public domain/i.test(s.license) || /personal practice/i.test(s.license));
+      assert.ok(hasValidLicense, `${file}: every song must have a valid license (PD or personal practice)`);
     });
   });
 });

@@ -271,7 +271,8 @@
     var STARTER_PACKS = [
         { file: 'campfire-classics.json', name: 'Campfire Classics', description: '10 traditional campfire songs everyone knows. Three- and four-chord-friendly.' },
         { file: 'blues-101.json',          name: 'Blues 101',          description: '6 foundational blues and early jazz numbers. 12-bar form practice.' },
-        { file: 'holiday-classics.json',   name: 'Holiday Classics',   description: '6 traditional Christmas carols. Great for group singing.' }
+        { file: 'holiday-classics.json',   name: 'Holiday Classics',   description: '6 traditional Christmas carols. Great for group singing.' },
+        { file: 'rosh-hashanah-acoustic.json', name: 'Rosh Hashanah Acoustic', description: '4 reflective acoustic songs for the High Holidays. Personal practice arrangements.' }
     ];
 
     function getStarterPacks() { return STARTER_PACKS.slice(); }
