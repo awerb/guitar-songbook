@@ -1668,6 +1668,9 @@
             if (tab !== 'practice' && typeof stopBackingTrack === 'function') {
                 stopBackingTrack();
             }
+            if (tab !== 'scales' && window.SongbookScales) {
+                window.SongbookScales.stop();
+            }
 
             document.querySelector('.header').style.display = 'block';
 

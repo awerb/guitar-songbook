@@ -32,7 +32,7 @@ It's for the player with a notebook full of songs they keep forgetting the chord
 - **Microphone tuner.** Pitch detection with cents accuracy and a steady "in tune" indicator that holds when you nail it.
 - **Reference notes** for all six strings (E A D G B E), tappable while you tune.
 - **Metronome** with tap tempo, presets from ballad to very fast, and 2/4 / 3/4 / 4/4 / 6/8.
-- **Pentatonic scales reference** with all five fretboard patterns.
+- **Interactive scale chart.** Pick any key and scale (pentatonic, blues, the seven modes, harmonic and melodic minor). See every note on the neck or one CAGED shape at a time, labeled by note name, interval, or finger. Combine neighboring shapes to connect positions, play the shape back at any tempo in practice patterns (up and down, groups of 3 or 4, thirds) with a scrolling tab, and highlight the chord tones of any chord in the key.
 - **Chord chart** covering major, minor, 7th, sharp/flat, extended, and power chords.
 - **Practice tab** with a backing track player, fretboard note quiz, and interval ear training.
 - **Works offline.** Install Songbook as a PWA (Add to Home Screen). After your first visit, the app shell, your songs, and all tools work without network. Your songs live in your browser's localStorage, never on a server.

@@ -5,6 +5,7 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 ## [Unreleased]
 
 ### Added
+- **Interactive scale chart** in the SCALES tab, replacing the static pentatonic text diagrams. Key and scale pickers (13 scales), Notes / Intervals / Fingers labels, CAGED shape buttons ordered up the neck with colored outlines, combine shapes, zoom to shape, tap a note to hear it, playback with practice patterns, tempo, notes per beat, metronome click and a tab view that follows the playing note, plus diatonic chord tones.
 - **PWA install button** in the header. On supported browsers (Chrome, Edge, Android Chrome), an "INSTALL" button appears when the browser offers PWA installation. Tap it to install Songbook to your home screen.
 - **Dismissible install prompt**. The INSTALL button now has a dismiss (×) control. Once dismissed, the prompt won't reappear. If the app is installed (standalone mode detected), the prompt is permanently hidden.
 - **Proper 192×192 and 180×180 icons** for better home-screen quality on Android and iOS.
@@ -12,7 +13,7 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 - **Rosh Hashanah Acoustic pack** (4 songs). Reflective acoustic songs for the High Holidays: Wildflowers (Tom Petty), I Shall Be Released (Bob Dylan), Dock of the Bay (Otis Redding), The Heart of the Matter (Don Henley). Personal practice arrangements only.
 
 ### Changed
-- **Service worker version bumped to v3** to pick up new cached assets.
+- **Service worker version bumped to v4** to cache the scale chart script.
 - **Improved offline fallback** in the service worker — navigation requests fall back to the cached app shell when offline.
 - **Help modal updated** with clearer install instructions for all platforms.
 - **README updated** with a new "Offline & PWA" section documenting what works offline. PWA removed from the roadmap (it's shipped!).
