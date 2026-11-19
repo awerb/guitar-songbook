@@ -97,69 +97,88 @@
         </div>
 
         <div class="scales-section" id="scalesSection">
-            <h2>Pentatonic Scales</h2>
-            <p class="artist">The foundation of guitar soloing</p>
+            <div class="sx-focusbar" id="sxFocusBar">
+                <strong id="sxFocusTitle"></strong>
+                <button type="button" class="sx-focus-exit" id="sxFocusExit">Exit focus</button>
+            </div>
+            <h2 id="sxTitle">A Minor Pentatonic</h2>
 
-            <div class="pentatonic-content">
-                <h3>The Five Patterns</h3>
-                <p>These five patterns of the minor pentatonic scale can be moved all over the fretboard. The key is determined by the root note (the red dot in these diagrams for A minor).</p>
-                <div class="pattern-grid">
-                    <div class="pattern-box">
-                        <h4>Pattern 1 (A Minor @ 5th fret)</h4>
-                        <div class="fretboard-diagram">
-E|---5---8---|
-B|---5---8---|
-G|---5---7---|
-D|---5---7---|
-A|---5---7---|
-E|---5---8---|
-                        </div>
-                    </div>
-                    <div class="pattern-box">
-                        <h4>Pattern 2 (A Minor @ 8th fret)</h4>
-                        <div class="fretboard-diagram">
-E|---8--10---|
-B|---8--10---|
-G|---7---9---|
-D|---7---9---|
-A|---7--10---|
-E|---8--10---|
-                        </div>
-                    </div>
-                    <div class="pattern-box">
-                        <h4>Pattern 3 (A Minor @ 10th fret)</h4>
-                        <div class="fretboard-diagram">
-E|--10--12---|
-B|--10--13---|
-G|---9--12---|
-D|---9--12---|
-A|--10--12---|
-E|--10--12---|
-                        </div>
-                    </div>
-                    <div class="pattern-box">
-                        <h4>Pattern 4 (A Minor @ 12th fret)</h4>
-                        <div class="fretboard-diagram">
-E|--12--15---|
-B|--13--15---|
-G|--12--14---|
-D|--12--14---|
-A|--12--15---|
-E|--12--15---|
-                        </div>
-                    </div>
-                    <div class="pattern-box">
-                        <h4>Pattern 5 (A Minor @ 15th or 3rd fret)</h4>
-                        <div class="fretboard-diagram">
-E|--15--17---|
-B|--15--17---|
-G|--14--17---|
-D|--14--17---|
-A|--15--17---|
-E|--15--17---|
-                        </div>
-                    </div>
+            <div class="sx-pickers">
+                <label class="sx-field sx-field-key">
+                    <span>Key</span>
+                    <select id="sxKey" class="sx-select"></select>
+                </label>
+                <label class="sx-field sx-field-wide">
+                    <span>Scale</span>
+                    <select id="sxScale" class="sx-select"></select>
+                </label>
+            </div>
+
+            <div class="sx-seg" id="sxLabels" role="group" aria-label="Note labels">
+                <button type="button" data-mode="notes">Notes</button>
+                <button type="button" data-mode="intervals">Intervals</button>
+                <button type="button" data-mode="fingers">Fingers</button>
+            </div>
+
+            <div class="sx-board-card">
+                <div class="sx-board" id="sxBoard"></div>
+                <p class="sx-finger-hint" id="sxFingerHint">Pick a shape to see fingers.</p>
+
+                <div class="sx-shapes">
+                    <button type="button" class="sx-arrow" id="sxPrev" aria-label="Previous shape">&lsaquo;</button>
+                    <div class="sx-shape-btns" id="sxShapeBtns"></div>
+                    <button type="button" class="sx-arrow" id="sxNext" aria-label="Next shape">&rsaquo;</button>
                 </div>
+                <p class="sx-caption" id="sxCaption"></p>
+
+                <div class="sx-chord-row">
+                    <span class="sx-row-label">Chords</span>
+                    <div class="sx-chords" id="sxChords"></div>
+                </div>
+                <p class="sx-chord-note" id="sxChordNote"></p>
+            </div>
+
+            <div class="sx-tab-card">
+                <div class="sx-tab" id="sxTab" aria-label="Tab of the practice pattern"></div>
+            </div>
+
+            <div class="sx-card sx-settings">
+                <div class="sx-player">
+                    <label class="sx-field">
+                        <span>Pattern</span>
+                        <select id="sxPattern" class="sx-select"></select>
+                    </label>
+                </div>
+                <div class="sx-toggles">
+                    <label><input type="checkbox" id="sxClick"> Click</label>
+                    <label><input type="checkbox" id="sxCombine"> Connect two shapes</label>
+                </div>
+            </div>
+
+            <div class="sx-card">
+                <h3 class="sx-h3">Notes in this scale</h3>
+                <div class="sx-formula" id="sxFormula"></div>
+            </div>
+
+            <details class="sx-card sx-guide">
+                <summary>How to practice</summary>
+                <ol>
+                    <li><strong>Pick one shape.</strong> Start with E. Red notes are the root.</li>
+                    <li><strong>Play along slowly.</strong> Press Play at 60 and play up and down with it.</li>
+                    <li><strong>Check your fingers.</strong> Tap Fingers. One finger per fret.</li>
+                    <li><strong>Speed up.</strong> Add 5 BPM when it feels easy. Then try Groups of 3.</li>
+                    <li><strong>Move on.</strong> Learn the next shape, then connect the two.</li>
+                </ol>
+            </details>
+
+            <div class="sx-transport" id="sxTransport">
+                <button type="button" class="sx-play" id="sxPlay"><span aria-hidden="true">&#9654;</span> Play</button>
+                <div class="sx-bpm">
+                    <button type="button" id="sxBpmDown" aria-label="Slower">&minus;</button>
+                    <label class="sx-bpm-value"><input type="number" id="sxBpm" min="30" max="260" step="1" inputmode="numeric" aria-label="Tempo in BPM"><span>BPM</span></label>
+                    <button type="button" id="sxBpmUp" aria-label="Faster">+</button>
+                </div>
+                <button type="button" class="sx-focus-btn" id="sxFocus" aria-pressed="false">Focus</button>
             </div>
         </div>
     </div>
@@ -283,7 +302,7 @@ E|--15--17---|
                 <h4>Back up your library</h4>
                 <p>Open <strong>Library</strong> and tap <strong>Export to file</strong>. You'll get a JSON file you can save anywhere. To restore on the same or a different device, use <strong>Import &amp; Merge</strong>.</p>
                 <h4>Tools</h4>
-                <p>The header tabs include a <strong>Tuner</strong> (uses your microphone), a <strong>Metronome</strong>, a pentatonic <strong>Scales</strong> reference, and a <strong>Practice</strong> tab with backing tracks, fretboard quiz, and ear training.</p>
+                <p>The header tabs include a <strong>Tuner</strong> (uses your microphone), a <strong>Metronome</strong>, a <strong>Scales</strong> chart with CAGED shapes and playback, and a <strong>Practice</strong> tab with backing tracks, fretboard quiz, and ear training.</p>
                 <h4>Where do my songs live?</h4>
                 <p>In your browser's localStorage. They never leave your device unless you export them. If you clear your browser data, your songs are gone, so export occasionally.</p>
                 <div class="of-form-actions">
@@ -975,5 +994,6 @@ E|--15--17---|
     <script src="js/library.js"></script>
     <script src="js/onboarding.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/scales.js"></script>
 </body>
 </html>

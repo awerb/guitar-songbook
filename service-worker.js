@@ -16,7 +16,7 @@
  *
  * Bump CACHE_VERSION whenever you ship a release that changes any cached file.
  */
-const CACHE_VERSION = 'songbook-v3';
+const CACHE_VERSION = 'songbook-v4';
 const APP_SHELL = [
     './',
     './index.html',
@@ -24,6 +24,7 @@ const APP_SHELL = [
     './js/app.js',
     './js/library.js',
     './js/onboarding.js',
+    './js/scales.js',
     './data/sample-songs.js',
     './assets/songbook-banner.jpg',
     './assets/songbook-icon.png',
