@@ -173,10 +173,16 @@ test("scales are spelled with the right letters", () => {
   assert.deepEqual(Theory.scaleInfo(7, "major").notes.map(n => n.name), ["G", "A", "B", "C", "D", "E", "F#"]);
   assert.deepEqual(Theory.scaleInfo(5, "minor-blues").notes.map(n => n.name), ["F", "Ab", "Bb", "B", "C", "Eb"]);
   assert.deepEqual(Theory.scaleInfo(3, "minor-blues").notes.map(n => n.name), ["Eb", "Gb", "Ab", "A", "Bb", "Db"]);
-  assert.deepEqual(Theory.scaleInfo(8, "harmonic-minor").notes.map(n => n.name), ["Ab", "Bb", "Cb", "Db", "Eb", "Fb", "G"]);
-  // no double sharps or flats anywhere
+  // G# harmonic minor is written with F double sharp, as teachers write it
+  assert.deepEqual(Theory.scaleInfo(8, "harmonic-minor").notes.map(n => n.name), ["G#", "A#", "B", "C#", "D#", "E", "F##"]);
+  // a respelled blue note is labeled to match its letter
+  assert.deepEqual(Theory.scaleInfo(5, "minor-blues").notes.map(n => n.interval), ["1", "b3", "4", "#4", "5", "b7"]);
+  // no double flats anywhere; double sharps only as the leading tone of G# harmonic/melodic minor
   Theory.SCALES.forEach(sc => { for (let k = 0; k < 12; k++) {
-    Theory.scaleInfo(k, sc.id).notes.forEach(n => assert.doesNotMatch(n.name, /bb|##/, `${sc.id} key ${k}: ${n.name}`));
+    Theory.scaleInfo(k, sc.id).notes.forEach(n => {
+      assert.doesNotMatch(n.name, /bb/, `${sc.id} key ${k}: ${n.name}`);
+      if (/##/.test(n.name)) assert.ok(/harmonic|melodic/.test(sc.id) && k === 8, `${sc.id} key ${k}: ${n.name}`);
+    });
   } });
 });
 
@@ -210,4 +216,36 @@ test("practice patterns", () => {
 test("diatonic chords", () => {
   assert.deepEqual(Theory.diatonicChords(7, "major").map(c => c.name), ["G", "Am", "Bm", "C", "D", "Em", "F#dim"]);
   assert.deepEqual(Theory.diatonicChords(9, "minor-pentatonic").map(c => c.roman), ["i", "ii°", "bIII", "iv", "v", "bVI", "bVII"]);
+});
+
+test("fingerings: one finger per fret, never one finger for two frets on a string", () => {
+  Theory.SCALES.forEach(sc => {
+    for (let key = 0; key < 12; key++) {
+      Theory.buildShapes(key, sc.id).forEach(sh => {
+        for (let s = 0; s < 6; s++) {
+          const row = sh.notes.filter(n => n.s === s && n.f > 0).sort((a, b) => a.f - b.f);
+          row.forEach((n, i) => {
+            assert.ok(n.finger >= 1 && n.finger <= 4);
+            if (i) assert.ok(n.finger > row[i - 1].finger, `${sc.id} key ${key} ${sh.letter} string ${s}: ${row.map(r => r.f + "(" + r.finger + ")").join(" ")}`);
+          });
+        }
+      });
+    }
+  });
+  // A minor pentatonic C shape (frets 9-13): fingers 1 and 3 at the 10th fret, index reaches back to 9
+  const c = shapeOf(9, "minor-pentatonic", "C");
+  assert.deepEqual(c.notes.filter(n => n.s === 0).map(n => n.finger), [1, 3]);
+  assert.deepEqual(c.notes.filter(n => n.s === 3).map(n => [n.f, n.finger]), [[9, 1], [12, 3]]);
+  // F minor pentatonic E shape at fret 1: 1 and 4 on the outer strings
+  assert.deepEqual(shapeOf(5, "minor-pentatonic", "E").notes.filter(n => n.s === 0).map(n => n.finger), [1, 4]);
+});
+
+test("seventh chords and blues chords", () => {
+  assert.deepEqual(Theory.diatonicChords(7, "major", "sevenths").map(c => c.name),
+    ["Gmaj7", "Am7", "Bm7", "Cmaj7", "D7", "Em7", "F#m7b5"]);
+  assert.deepEqual(Theory.diatonicChords(7, "major", "sevenths").map(c => c.roman),
+    ["Imaj7", "ii7", "iii7", "IVmaj7", "V7", "vi7", "viiø7"]);
+  const blues = Theory.diatonicChords(9, "minor-blues");
+  assert.deepEqual(blues.map(c => c.name), ["A7", "D7", "E7"]);
+  assert.deepEqual(blues[0].names, ["A", "C#", "E", "G"]);
 });

@@ -2896,6 +2896,8 @@ input[type="range"] { accent-color: var(--sand); }
 
 /* ------------------------------------------------------------------
    Scale chart (SCALES tab)
+   Built for practicing with a guitar in hand: the play bar stays at the
+   bottom of the screen, Focus mode hides everything but the board.
    ------------------------------------------------------------------ */
 .scales-section {
     --sx-root: #e8604c;
@@ -2903,25 +2905,22 @@ input[type="range"] { accent-color: var(--sand); }
     --sx-note-ink: #17130c;
     --sx-board: #121212;
     --sx-play: #4fa3ff;
+    --sx-transport-h: 76px;
+    padding-bottom: calc(var(--sx-transport-h) + 40px) !important;
 }
+
+.scales-section h2#sxTitle { margin-bottom: 14px; }
 
 .sx-pickers {
     display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0 auto 16px;
+    gap: 10px;
+    margin: 0 auto 12px;
     max-width: 560px;
 }
 
-.sx-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 120px;
-}
-
-.sx-field-wide { flex: 1; min-width: 200px; }
+.sx-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.sx-field-key { flex: 0 0 116px; }
+.sx-field-wide { flex: 1 1 auto; }
 
 .sx-field > span {
     font-family: var(--display);
@@ -2931,15 +2930,15 @@ input[type="range"] { accent-color: var(--sand); }
     color: var(--ink-3);
 }
 
-.sx-select,
-.sx-bpm input {
+.sx-select {
     background: var(--bg-2);
     border: 1px solid var(--line-2);
     color: var(--ink);
     padding: 10px 12px;
-    font-size: 15px;
+    font-size: 16px;
     border-radius: 8px;
-    min-height: 44px;
+    min-height: 46px;
+    width: 100%;
 }
 
 .sx-select option, .sx-select optgroup { background: #111; color: #fff; }
@@ -2947,19 +2946,19 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-seg {
     display: flex;
     justify-content: center;
-    margin: 0 auto 16px;
+    margin: 0 auto 12px;
     max-width: 420px;
 }
 
 .sx-seg button {
     flex: 1;
-    min-height: 44px;
+    min-height: 46px;
     padding: 10px 12px;
     background: transparent;
     border: 1px solid var(--line-2);
     color: var(--ink-2);
     font-family: var(--display);
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     cursor: pointer;
@@ -2971,12 +2970,13 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-seg button.active { background: var(--sand); border-color: var(--sand); color: var(--on-sand); }
 
 .sx-board-card,
+.sx-tab-card,
 .sx-card {
     background: var(--bg-2);
     border: 1px solid var(--line);
     border-radius: 14px;
-    padding: 16px;
-    margin: 0 auto 16px;
+    padding: 14px;
+    margin: 0 auto 14px;
 }
 
 .sx-board {
@@ -2988,80 +2988,132 @@ input[type="range"] { accent-color: var(--sand); }
 }
 
 .sx-svg { display: block; width: 100%; height: auto; margin: 0 auto; user-select: none; -webkit-user-select: none; }
-.sx-fret { stroke: rgba(244,239,230,0.28); stroke-width: 1.4; }
-.sx-nut { stroke: var(--ink); stroke-width: 5; }
-.sx-string { stroke: rgba(244,239,230,0.55); }
-.sx-inlay { fill: rgba(244,239,230,0.10); }
-.sx-string-label { fill: var(--ink-3); font-size: 12px; font-family: var(--display); text-anchor: middle; }
-.sx-fret-num { fill: var(--ink-3); font-size: 12px; font-family: var(--display); text-anchor: middle; }
-.sx-fret-num.marked { fill: var(--ink-2); }
-.sx-outline { fill: none; stroke-width: 3.5; opacity: 0.95; }
+.sx-fret { stroke: rgba(244,239,230,0.30); stroke-width: 1.5; }
+.sx-nut { stroke: var(--ink); stroke-width: 6; }
+.sx-string { stroke: rgba(244,239,230,0.58); }
+.sx-inlay { fill: rgba(244,239,230,0.12); }
+.sx-string-label { fill: var(--ink-2); font-size: 14px; font-family: var(--display); text-anchor: middle; }
+.sx-fret-num { fill: var(--ink-2); font-size: 15px; font-family: var(--display); text-anchor: middle; }
+.sx-fret-num.marked { fill: var(--ink); font-weight: 600; }
+.sx-outline { fill: none; stroke-width: 4; opacity: 0.95; }
 
 .sx-note { cursor: pointer; }
-.sx-note .sx-dot { fill: var(--sx-note); stroke: rgba(0,0,0,0.35); stroke-width: 1; transition: transform 0.12s ease; }
-.sx-note .sx-label { fill: var(--sx-note-ink); font-size: 11px; font-weight: 700; text-anchor: middle; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-.sx-note .sx-label.small { font-size: 9.5px; }
-.sx-note .sx-ring { fill: none; stroke: transparent; stroke-width: 3; }
+.sx-note .sx-dot { fill: var(--sx-note); stroke: rgba(0,0,0,0.35); stroke-width: 1; }
+.sx-note .sx-label { fill: var(--sx-note-ink); font-size: 14px; font-weight: 700; text-anchor: middle; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+.sx-note .sx-label.small { font-size: 12.5px; letter-spacing: -0.02em; }
+.sx-note .sx-ring { fill: none; stroke: transparent; stroke-width: 3.5; }
 .sx-note.root .sx-dot,
 .sx-note.chord-root .sx-dot { fill: var(--sx-root); }
 .sx-note.root .sx-label,
 .sx-note.chord-root .sx-label { fill: #fff; }
 .sx-note.chord-tone .sx-dot { fill: var(--sand-bright); }
 .sx-note.dim { opacity: 0.28; }
-.sx-note.ghost .sx-dot { fill: transparent; stroke: var(--sand); stroke-dasharray: 3 2.5; stroke-width: 1.5; }
+.sx-note.ghost .sx-dot { fill: transparent; stroke: var(--sand); stroke-dasharray: 3 2.5; stroke-width: 1.6; }
 .sx-note.ghost .sx-label { fill: var(--sand); }
-.sx-note.playing .sx-ring { stroke: var(--sx-play); filter: drop-shadow(0 0 5px var(--sx-play)); }
+.sx-note.playing .sx-ring { stroke: var(--sx-play); filter: drop-shadow(0 0 6px var(--sx-play)); }
 .sx-note.playing { opacity: 1; }
 .sx-note.tapped .sx-ring { stroke: var(--sand); }
 
-.sx-finger-hint { display: none; text-align: center; font-size: 13px; color: var(--sand); margin-top: 10px; }
+.sx-finger-hint { display: none; text-align: center; font-size: 14px; color: var(--sand); margin-top: 10px; }
 
 .sx-shapes {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 12px;
 }
 
 .sx-shape-btns { display: flex; gap: 6px; flex-wrap: nowrap; justify-content: center; }
 
 .sx-arrow,
 .sx-shape-btn {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 48px;
+    min-height: 48px;
     border-radius: 9px;
     border: 1px solid var(--line-2);
     background: var(--bg-3);
     color: var(--ink);
     font-family: var(--display);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
 }
 
-.sx-arrow { background: transparent; border-color: transparent; font-size: 26px; color: var(--ink-2); }
+.sx-arrow { background: transparent; border-color: transparent; font-size: 28px; color: var(--ink-2); }
 .sx-shape-btn { --shape: var(--sand); border-bottom: 3px solid var(--shape); }
-.sx-shape-btn.full { font-size: 13px; letter-spacing: 0.06em; padding: 0 12px; border-bottom-color: var(--line-2); }
+.sx-shape-btn.full { font-size: 14px; letter-spacing: 0.06em; padding: 0 12px; border-bottom-color: var(--line-2); }
 .sx-shape-btn.active { background: var(--shape); border-color: var(--shape); color: #0b0b0b; }
 .sx-shape-btn.full.active { background: var(--sand); border-color: var(--sand); color: var(--on-sand); }
 
-.sx-shapes-label { text-align: center; color: var(--ink-3); font-size: 12px; margin-top: 6px; }
+.sx-caption { text-align: center; margin-top: 10px; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
 
-.sx-toggles {
+.sx-chord-row {
     display: flex;
-    gap: 18px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--ink-2);
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
 }
 
-.sx-toggles label { display: flex; align-items: center; gap: 8px; min-height: 36px; cursor: pointer; }
-.sx-toggles input { width: 18px; height: 18px; accent-color: var(--sand); }
+.sx-row-label {
+    flex: 0 0 auto;
+    font-family: var(--display);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sand);
+}
 
-.sx-caption { text-align: center; margin-top: 10px; font-size: 14px; color: var(--ink); line-height: 1.5; }
+.sx-chords {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+}
+.sx-chords::-webkit-scrollbar { display: none; }
+
+.sx-chord-btn {
+    flex: 0 0 auto;
+    min-height: 46px;
+    min-width: 46px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line-2);
+    background: var(--bg-3);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.15;
+}
+
+.sx-chord-btn span { font-size: 10px; color: var(--ink-3); font-weight: 500; letter-spacing: 0.04em; }
+.sx-chord-btn.active { background: var(--sand); border-color: var(--sand); color: var(--on-sand); }
+.sx-chord-btn.active span { color: var(--on-sand); }
+
+.sx-chord-type { display: flex; flex: 0 0 auto; margin-right: 4px; }
+.sx-chord-type button {
+    min-height: 46px;
+    padding: 0 10px;
+    background: transparent;
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+    font-size: 13px;
+    cursor: pointer;
+}
+.sx-chord-type button:first-child { border-radius: 8px 0 0 8px; border-right: none; }
+.sx-chord-type button:last-child { border-radius: 0 8px 8px 0; }
+.sx-chord-type button.active { background: var(--bg-3); color: var(--ink); border-color: var(--sand); }
+
+.sx-chord-note { margin-top: 8px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
 
 .sx-h3 {
     font-family: var(--display);
@@ -3073,48 +3125,22 @@ input[type="range"] { accent-color: var(--sand); }
     font-weight: 600;
 }
 
-.sx-player {
+.sx-player { display: flex; gap: 12px; flex-wrap: wrap; }
+.sx-player .sx-field { flex: 1 1 160px; }
+
+.sx-toggles {
     display: flex;
-    gap: 12px;
-    align-items: flex-end;
+    gap: 6px 18px;
     flex-wrap: wrap;
-}
-
-.sx-play {
-    min-height: 44px;
-    min-width: 110px;
-    padding: 0 18px;
-    border-radius: 8px;
-    background: var(--sand);
-    border: 1px solid var(--sand);
-    color: var(--on-sand);
-    font-family: var(--display);
+    margin-top: 12px;
     font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
+    color: var(--ink-2);
 }
 
-.sx-play.playing { background: transparent; color: var(--sand); }
-
-.sx-bpm { display: flex; align-items: stretch; }
-.sx-bpm input { width: 70px; text-align: center; border-radius: 0; -moz-appearance: textfield; }
-.sx-bpm input::-webkit-outer-spin-button,
-.sx-bpm input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.sx-bpm button {
-    min-width: 44px;
-    background: var(--bg-3);
-    border: 1px solid var(--line-2);
-    color: var(--ink);
-    font-size: 18px;
-    cursor: pointer;
-}
-.sx-bpm button:first-child { border-radius: 8px 0 0 8px; border-right: none; }
-.sx-bpm button:last-child { border-radius: 0 8px 8px 0; border-left: none; }
+.sx-toggles label { display: flex; align-items: center; gap: 8px; min-height: 40px; cursor: pointer; }
+.sx-toggles input { width: 20px; height: 20px; accent-color: var(--sand); }
 
 .sx-tab {
-    margin-top: 14px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     background: var(--sx-board);
@@ -3133,30 +3159,6 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-tab-note.playing text { fill: #fff; }
 .sx-tab-info { margin-top: 8px; font-size: 12px; color: var(--ink-3); }
 
-.sx-chords { display: flex; gap: 6px; flex-wrap: wrap; }
-
-.sx-chord-btn {
-    min-height: 44px;
-    padding: 4px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--line-2);
-    background: var(--bg-3);
-    color: var(--ink);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.15;
-}
-
-.sx-chord-btn span { font-size: 10px; color: var(--ink-3); font-weight: 500; letter-spacing: 0.04em; }
-.sx-chord-btn.active { background: var(--sand); border-color: var(--sand); color: var(--on-sand); }
-.sx-chord-btn.active span { color: var(--on-sand); }
-.sx-chord-note { margin-top: 10px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
-
 .sx-formula { display: flex; gap: 8px; flex-wrap: wrap; }
 .sx-formula-note {
     display: flex;
@@ -3173,19 +3175,184 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-formula-note.root strong { color: var(--sx-root); }
 
 .sx-guide summary { cursor: pointer; font-family: var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); font-size: 14px; min-height: 28px; }
-.sx-guide ol { margin: 14px 0 0 20px; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
+.sx-guide ol { margin: 14px 0 0 20px; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
 .sx-guide li { margin-bottom: 8px; }
 .sx-guide li strong { color: var(--ink); }
 .sx-guide p { margin-top: 8px; font-size: 13px; color: var(--ink-3); }
 
+/* Play bar: fixed to the bottom of the screen while the SCALES tab is open
+   (it lives inside the section, so it hides with the tab). */
+.sx-transport {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(11,11,11,0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line-2);
+}
+
+.sx-play {
+    min-height: 56px;
+    min-width: 132px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background: var(--sand);
+    border: 1px solid var(--sand);
+    color: var(--on-sand);
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.sx-play.playing { background: transparent; color: var(--sand); }
+
+.sx-bpm { display: flex; align-items: stretch; height: 56px; }
+.sx-bpm button {
+    min-width: 52px;
+    background: var(--bg-3);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    font-size: 24px;
+    cursor: pointer;
+}
+.sx-bpm button:first-child { border-radius: 10px 0 0 10px; }
+.sx-bpm button:last-child { border-radius: 0 10px 10px 0; }
+.sx-bpm-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+}
+.sx-bpm-value input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    padding: 0;
+    -moz-appearance: textfield;
+}
+.sx-bpm-value input::-webkit-outer-spin-button,
+.sx-bpm-value input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.sx-bpm-value span { font-size: 9px; letter-spacing: 0.14em; color: var(--ink-3); }
+
+.sx-focus-btn {
+    min-height: 56px;
+    padding: 0 16px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.sx-focus-btn.active { border-color: var(--sand); color: var(--sand); }
+
+/* Focus mode: board, tab and play bar only. */
+.sx-focusbar { display: none; }
+body.sx-focus .sx-focusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-family: var(--display);
+    font-size: 17px;
+    color: var(--ink);
+}
+.sx-focus-exit {
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line-2);
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 14px;
+    cursor: pointer;
+}
+body.sx-focus .header,
+body.sx-focus #sxTitle,
+body.sx-focus .sx-pickers,
+body.sx-focus .sx-settings,
+body.sx-focus .sx-guide,
+body.sx-focus .sx-card,
+body.sx-focus .sx-caption,
+body.sx-focus .sx-chord-note,
+body.sx-focus .sx-tab-info { display: none !important; }
+body.sx-focus .scales-section { padding-top: 12px; }
+
+/* Phones and short screens: only the tab row of the header on this tab. */
+@media (max-width: 700px), (max-height: 520px) {
+    body[data-tab="scales"] .header-topbar { display: none; }
+}
+
 @media (max-width: 600px) {
-    .sx-board-card, .sx-card { padding: 12px; border-radius: 12px; }
-    .sx-player { gap: 10px; }
-    .sx-player .sx-field { flex: 1 1 140px; }
-    .sx-play { flex: 1 1 100%; }
+    .scales-section { padding-left: 12px !important; padding-right: 12px !important; }
+    .scales-section h2#sxTitle { font-size: 23px; margin-bottom: 10px; }
+    .sx-board-card, .sx-tab-card, .sx-card { padding: 10px; border-radius: 12px; }
     .sx-shapes { gap: 0; }
-    .sx-shape-btns { gap: 4px; }
-    .sx-arrow { min-width: 28px; padding: 0; }
-    .sx-shape-btn { min-width: 40px; padding: 0; }
-    .sx-shape-btn.full { padding: 0 8px; }
+    .sx-shape-btns { gap: 5px; }
+    .sx-arrow { display: none; }
+    .sx-shape-btn { min-width: 46px; padding: 0; }
+    .sx-shape-btn.full { padding: 0 10px; }
+    .sx-transport { gap: 8px; padding-left: 10px; padding-right: 10px; }
+    .sx-play { min-width: 0; flex: 1 1 auto; }
+    .sx-bpm button { min-width: 46px; }
+    .sx-bpm-value { width: 60px; }
+    .sx-focus-btn { padding: 0 12px; }
+}
+
+/* Phone on its side on a stand: play bar becomes a column on the right,
+   pickers and labels share one row, and the board fits the screen height. */
+@media (orientation: landscape) and (max-height: 520px) {
+    .scales-section {
+        padding: 8px 160px 16px 12px !important;
+        max-width: none !important;
+    }
+    .scales-section h2#sxTitle { display: none; }
+    .sx-pickers, .sx-seg { display: inline-flex; vertical-align: top; margin: 0 0 8px; }
+    .sx-pickers { width: 54%; max-width: none; margin-right: 1.5%; }
+    .sx-seg { width: 44%; max-width: none; }
+    .sx-pickers .sx-field > span { display: none; }
+    .sx-field-key { flex-basis: 90px; }
+    .sx-seg button { min-height: 42px; padding: 6px 6px; font-size: 13px; }
+    .sx-select { min-height: 42px; padding: 6px 10px; }
+    .sx-board-card { padding: 8px; }
+    .sx-svg { max-height: calc(100vh - 190px); max-height: calc(100dvh - 190px); }
+    body.sx-focus .sx-svg { max-height: calc(100vh - 140px); max-height: calc(100dvh - 140px); }
+    body.sx-focus .sx-focusbar { display: none; }
+    .sx-shapes { margin-top: 8px; }
+    .sx-transport {
+        left: auto;
+        top: 0;
+        width: 148px;
+        flex-direction: column;
+        border-top: none;
+        border-left: 1px solid var(--line-2);
+        padding: 54px 10px calc(10px + env(safe-area-inset-bottom));
+    }
+    .sx-play, .sx-focus-btn { width: 100%; min-width: 0; }
+    .sx-bpm { width: 100%; }
+    .sx-bpm button { min-width: 40px; flex: 0 0 40px; }
+    .sx-bpm-value { flex: 1; width: auto; }
 }

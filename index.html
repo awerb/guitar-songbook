@@ -97,11 +97,14 @@
         </div>
 
         <div class="scales-section" id="scalesSection">
+            <div class="sx-focusbar" id="sxFocusBar">
+                <strong id="sxFocusTitle"></strong>
+                <button type="button" class="sx-focus-exit" id="sxFocusExit">Exit focus</button>
+            </div>
             <h2 id="sxTitle">A Minor Pentatonic</h2>
-            <p class="artist">Scale chart and shape practice</p>
 
             <div class="sx-pickers">
-                <label class="sx-field">
+                <label class="sx-field sx-field-key">
                     <span>Key</span>
                     <select id="sxKey" class="sx-select"></select>
                 </label>
@@ -126,18 +129,23 @@
                     <div class="sx-shape-btns" id="sxShapeBtns"></div>
                     <button type="button" class="sx-arrow" id="sxNext" aria-label="Next shape">&rsaquo;</button>
                 </div>
-                <p class="sx-shapes-label">CAGED scale shapes, in order up the neck</p>
-                <div class="sx-toggles">
-                    <label><input type="checkbox" id="sxCombine"> Combine shapes</label>
-                    <label><input type="checkbox" id="sxZoom"> Zoom to shape</label>
-                </div>
                 <p class="sx-caption" id="sxCaption"></p>
+
+                <div class="sx-chord-row">
+                    <span class="sx-row-label">Chord tones</span>
+                    <div class="sx-chords" id="sxChords"></div>
+                </div>
+                <p class="sx-chord-note" id="sxChordNote"></p>
             </div>
 
-            <div class="sx-card">
-                <h3 class="sx-h3">Play the shape</h3>
+            <div class="sx-tab-card">
+                <div class="sx-tab" id="sxTab" aria-label="Tab of the practice pattern"></div>
+                <p class="sx-tab-info" id="sxTabInfo"></p>
+            </div>
+
+            <div class="sx-card sx-settings">
+                <h3 class="sx-h3">Practice settings</h3>
                 <div class="sx-player">
-                    <button type="button" class="sx-play" id="sxPlay"><span aria-hidden="true">&#9654;</span> Play</button>
                     <label class="sx-field">
                         <span>Pattern</span>
                         <select id="sxPattern" class="sx-select"></select>
@@ -151,27 +159,13 @@
                             <option value="4">4 (sixteenth)</option>
                         </select>
                     </label>
-                    <div class="sx-field">
-                        <span>Tempo (BPM)</span>
-                        <div class="sx-bpm">
-                            <button type="button" id="sxBpmDown" aria-label="Slower">&minus;</button>
-                            <input type="number" id="sxBpm" min="30" max="260" step="1" inputmode="numeric" aria-label="Tempo in BPM">
-                            <button type="button" id="sxBpmUp" aria-label="Faster">+</button>
-                        </div>
-                    </div>
                 </div>
                 <div class="sx-toggles">
                     <label><input type="checkbox" id="sxClick"> Metronome click</label>
                     <label><input type="checkbox" id="sxLoop"> Loop</label>
+                    <label><input type="checkbox" id="sxCombine"> Combine shapes</label>
+                    <label><input type="checkbox" id="sxZoom"> Zoom to shape</label>
                 </div>
-                <div class="sx-tab" id="sxTab" aria-label="Tab of the practice pattern"></div>
-                <p class="sx-tab-info" id="sxTabInfo"></p>
-            </div>
-
-            <div class="sx-card">
-                <h3 class="sx-h3">Chord tones</h3>
-                <div class="sx-chords" id="sxChords"></div>
-                <p class="sx-chord-note" id="sxChordNote"></p>
             </div>
 
             <div class="sx-card">
@@ -182,16 +176,26 @@
             <details class="sx-card sx-guide">
                 <summary>How to practice with this chart</summary>
                 <ol>
-                    <li><strong>Learn one shape.</strong> Pick a shape (start with the one that has the root on the 6th string). Set the tempo to 60, turn on the click, and play it up and down. Say the root name each time you land on a red note.</li>
-                    <li><strong>Check your fingering.</strong> Switch the labels to Fingers. Keep your index finger on the lowest fret of the shape and use one finger per fret.</li>
+                    <li><strong>Learn one shape.</strong> Start with the E shape: its root sits on the 6th string, like a barred E or Em chord. Set the tempo to 60, turn on the click, press Play and play along up and down. Say the root name each time you land on a red note.</li>
+                    <li><strong>Check your fingering.</strong> Switch the labels to Fingers. Your hand covers four frets, one finger per fret. A note one fret outside that span is a stretch with the index or the pinky.</li>
                     <li><strong>Learn the sound of each note.</strong> Switch to Intervals. R is the root, b3 is the minor third, 5 is the fifth. Tap any note on the chart to hear it.</li>
-                    <li><strong>Practice patterns.</strong> Once up and down is clean, try groups of 3, groups of 4 and thirds. Raise the tempo 5 BPM at a time.</li>
+                    <li><strong>Practice patterns.</strong> Once up and down is clean, try groups of 3, groups of 4 and thirds (under Practice settings). Raise the tempo 5 BPM at a time.</li>
                     <li><strong>Connect shapes.</strong> Turn on Combine shapes and select two shapes next to each other. They share notes, so you can slide from one into the next.</li>
-                    <li><strong>Change key.</strong> The five shapes always come in the same order (C, A, G, E, D, then C again). Changing key moves them up or down the neck as a group.</li>
-                    <li><strong>Aim for chord tones.</strong> Pick a chord under Chord tones and end your phrases on the highlighted notes.</li>
+                    <li><strong>Change key.</strong> Each shape is named after the open chord it is built on: minor scales use the minor chord forms (E shape = Em form), major scales the major forms. Up the neck the shapes always follow the cycle C, A, G, E, D, then C again. Changing key moves them up or down the neck as a group.</li>
+                    <li><strong>Aim for chord tones.</strong> Pick a chord under Chord tones (triads or 7ths) and end your phrases on the highlighted notes. For blues, use the I7, IV7 and V7 chords.</li>
                 </ol>
-                <p>Keyboard: left and right arrows change shape, space starts and stops playback.</p>
+                <p>Focus hides everything except the fretboard, the tab and the play bar, and keeps the screen awake. Keyboard: left and right arrows change shape, space starts and stops playback, F toggles focus.</p>
             </details>
+
+            <div class="sx-transport" id="sxTransport">
+                <button type="button" class="sx-play" id="sxPlay"><span aria-hidden="true">&#9654;</span> Play</button>
+                <div class="sx-bpm">
+                    <button type="button" id="sxBpmDown" aria-label="Slower">&minus;</button>
+                    <label class="sx-bpm-value"><input type="number" id="sxBpm" min="30" max="260" step="1" inputmode="numeric" aria-label="Tempo in BPM"><span>BPM</span></label>
+                    <button type="button" id="sxBpmUp" aria-label="Faster">+</button>
+                </div>
+                <button type="button" class="sx-focus-btn" id="sxFocus" aria-pressed="false">Focus</button>
+            </div>
         </div>
     </div>
 

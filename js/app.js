@@ -792,6 +792,7 @@
             if (search) search.value = '';
 
             document.querySelector('.header').style.display = 'block';
+            document.body.dataset.tab = 'songs';
 
             stopAutoScroll();
             renderSongList();
@@ -1673,6 +1674,7 @@
             }
 
             document.querySelector('.header').style.display = 'block';
+            document.body.dataset.tab = tab;
 
             if (tab === 'songs') {
                 songsTab.classList.add('active');

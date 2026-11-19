@@ -106,10 +106,14 @@
         const rootPc = noteNamePc(root);
         return scale.intervals.map(iv => {
             let name = spell(root, iv);
+            let label = iv;
             const isBlueNote = (scale.group === 'Blues') && ENHARMONIC_INTERVAL[iv] &&
                 !(scale.id === 'minor-blues' && iv === 'b3');
-            if (isBlueNote && (/bb|##/.test(name) || AWKWARD.test(name))) name = spell(root, ENHARMONIC_INTERVAL[iv]);
-            return { interval: iv, name, pc: mod(rootPc + INTERVAL_SEMITONES[iv], 12) };
+            if (isBlueNote && (/bb|##/.test(name) || AWKWARD.test(name))) {
+                label = ENHARMONIC_INTERVAL[iv];
+                name = spell(root, label);
+            }
+            return { interval: label, name, pc: mod(rootPc + INTERVAL_SEMITONES[iv], 12) };
         });
     }
 
@@ -122,7 +126,11 @@
     function scaleInfo(keyPc, scaleId) {
         const scale = getScale(scaleId);
         const preferred = rootName(keyPc, scale);
-        const options = [preferred].concat((ROOT_OPTIONS[mod(keyPc, 12)] || []).filter(r => r !== preferred));
+        // Harmonic and melodic minor keep the usual minor-key name (G# harmonic
+        // minor with its F double sharp), as teachers write them.
+        const fixedRoot = scale.id === 'harmonic-minor' || scale.id === 'melodic-minor';
+        const options = fixedRoot ? [preferred]
+            : [preferred].concat((ROOT_OPTIONS[mod(keyPc, 12)] || []).filter(r => r !== preferred));
         let root = preferred;
         let notes = spellScale(preferred, scale);
         options.slice(1).forEach(r => {
@@ -204,11 +212,50 @@
         const letter = names[box];
         const min = Math.min(...out.map(n => n.f));
         const max = Math.max(...out.map(n => n.f));
-        // Fingering: index finger sits on the box's lowest fret.
-        const start = Math.max(1, boxMin);
-        out.forEach(n => { n.finger = n.f === 0 ? 0 : Math.min(4, Math.max(1, n.f - start + 1)); });
+        assignFingers(out);
         const rootStrings = out.filter(n => n.pc === info.rootPc).map(n => n.s);
         return { letter, box, notes: out, min, max, boxMin, boxMax, color: SHAPE_COLORS[letter], rootStrings };
+    }
+
+    /**
+     * One finger per fret. The hand sits on the 4-fret span that covers the
+     * most notes (on a tie, the higher span, so the index reaches back).
+     * Notes outside the span are stretches. A string never uses the same
+     * finger for two frets; where it would, that string's fingering slides
+     * to fit, and a string spanning more than 4 frets is marked as a shift.
+     */
+    function assignFingers(notes) {
+        const fretted = notes.filter(n => n.f > 0);
+        notes.forEach(n => { n.finger = 0; n.shift = false; });
+        if (!fretted.length) return;
+        const lo = Math.min(...fretted.map(n => n.f));
+        const hi = Math.max(...fretted.map(n => n.f));
+        let p = lo;
+        if (hi - lo > 3) {
+            let bestCover = -1;
+            for (let c = lo; c <= hi - 3; c++) {
+                const cover = fretted.filter(n => n.f >= c && n.f <= c + 3).length;
+                if (cover >= bestCover) { bestCover = cover; p = c; }
+            }
+        }
+        fretted.forEach(n => { n.finger = Math.min(4, Math.max(1, n.f - p + 1)); });
+        for (let s = 0; s < 6; s++) {
+            const row = fretted.filter(n => n.s === s).sort((a, b) => a.f - b.f);
+            const ok = row.every((n, i) => i === 0 || n.finger > row[i - 1].finger);
+            if (ok) continue;
+            const fmin = row[0].f, fmax = row[row.length - 1].f;
+            if (fmax - fmin <= 3) {
+                if (fmin < p) row.forEach(n => { n.finger = n.f - fmin + 1; });
+                else row.forEach(n => { n.finger = 4 - (fmax - n.f); });
+            } else {
+                row.forEach((n, i) => {
+                    n.shift = true;
+                    if (i === 0) n.finger = 1;
+                    else if (i === row.length - 1) n.finger = 4;
+                    else n.finger = Math.min(3, Math.max(2, n.f - p + 1, row[i - 1].finger + 1));
+                });
+            }
+        }
     }
 
     /** All five shapes, sorted by position on the neck (low to high). */
@@ -271,10 +318,31 @@
         return patternIndexes(sorted.length, patternId).map(i => sorted[i]);
     }
 
-    // Diatonic triads, from the scale itself (7 notes) or its parent scale.
+    // Diatonic chords (triads or 7ths) from the scale itself (7 notes) or its
+    // parent scale. Blues scales get the dominant I7, IV7 and V7 of a blues.
     const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-    function diatonicChords(keyPc, scaleId) {
+    const SEVENTH_TYPES = {
+        '4,7,11': { suffix: 'maj7', roman: 'maj7', minor: false },
+        '4,7,10': { suffix: '7', roman: '7', minor: false },
+        '3,7,10': { suffix: 'm7', roman: '7', minor: true },
+        '3,6,10': { suffix: 'm7b5', roman: 'ø7', minor: true },
+        '3,6,9': { suffix: 'dim7', roman: '°7', minor: true },
+        '3,7,11': { suffix: 'm(maj7)', roman: '(maj7)', minor: true },
+        '4,8,11': { suffix: 'maj7#5', roman: '+maj7', minor: false }
+    };
+
+    function diatonicChords(keyPc, scaleId, type) {
         let info = scaleInfo(keyPc, scaleId);
+        if (info.scale.group === 'Blues') {
+            return [['1', 'I'], ['4', 'IV'], ['5', 'V']].map(([iv, roman], i) => {
+                const root = spell(info.root, iv);
+                const names = ['1', '3', '5', 'b7'].map(x => spell(root, x));
+                return {
+                    degree: i, roman: roman + '7', name: root + '7',
+                    rootPc: noteNamePc(root), tones: names.map(noteNamePc), names
+                };
+            });
+        }
         if (info.notes.length !== 7) {
             info = scaleInfo(keyPc, info.scale.quality === 'major' ? 'major' : 'aeolian');
         }
@@ -282,8 +350,20 @@
         return n.map((note, i) => {
             const third = n[(i + 2) % 7];
             const fifth = n[(i + 4) % 7];
+            const seventh = n[(i + 6) % 7];
             const t = mod(third.pc - note.pc, 12);
             const f = mod(fifth.pc - note.pc, 12);
+            const acc = note.interval.replace(/[0-9]/g, '');
+            if (type === 'sevenths') {
+                const sv = mod(seventh.pc - note.pc, 12);
+                const kind = SEVENTH_TYPES[t + ',' + f + ',' + sv] || { suffix: '?', roman: '?', minor: false };
+                const base = kind.minor ? ROMAN[i].toLowerCase() : ROMAN[i];
+                return {
+                    degree: i, roman: acc + base + kind.roman, name: note.name + kind.suffix, rootPc: note.pc,
+                    tones: [note.pc, third.pc, fifth.pc, seventh.pc],
+                    names: [note.name, third.name, fifth.name, seventh.name]
+                };
+            }
             let quality = 'other', suffix = '?';
             if (t === 4 && f === 7) { quality = 'maj'; suffix = ''; }
             else if (t === 3 && f === 7) { quality = 'min'; suffix = 'm'; }
@@ -293,7 +373,6 @@
             if (quality === 'min' || quality === 'dim') roman = roman.toLowerCase();
             if (quality === 'dim') roman += '°';
             if (quality === 'aug') roman += '+';
-            const acc = note.interval.replace(/[0-9]/g, '');
             return {
                 degree: i,
                 roman: acc + roman,
@@ -305,12 +384,12 @@
         });
     }
 
-    const CHORD_INTERVAL = { 0: 'R', 3: 'b3', 4: '3', 6: 'b5', 7: '5', 8: '#5' };
+    const CHORD_INTERVAL = { 0: 'R', 3: 'b3', 4: '3', 6: 'b5', 7: '5', 8: '#5', 9: 'bb7', 10: 'b7', 11: '7' };
     const GENERIC_INTERVAL = ['R', 'b2', '2', 'b3', '3', '4', 'b5', '5', 'b6', '6', 'b7', '7'];
 
     const ScaleTheory = {
         OPEN_MIDI, STRING_NAMES, KEYS, SCALES, PATTERNS, SHAPE_COLORS,
-        getScale, rootName, spell, scaleInfo, pentatonicBox, buildShape, buildShapes,
+        getScale, rootName, spell, scaleInfo, pentatonicBox, buildShape, buildShapes, assignFingers,
         fullNeck, patternIndexes, sequenceFor, diatonicChords, mod
     };
 
@@ -402,19 +481,25 @@
     const STORE_KEY = 'songbook.scales.v1';
     const DEFAULTS = {
         key: 9, scale: 'minor-pentatonic', labels: 'notes', shapes: [], combine: false,
-        zoom: true, pattern: 'updown', sub: 2, bpm: 80, click: true, loop: true, chord: null
+        zoom: true, pattern: 'updown', sub: 2, bpm: 80, click: true, loop: true, chord: null, chordType: 'triads'
     };
     const state = Object.assign({}, DEFAULTS);
     try {
         const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
         if (saved && typeof saved === 'object') Object.assign(state, saved);
     } catch (e) { /* storage unavailable */ }
+    let hadSaved = false;
+    try { hadSaved = !!localStorage.getItem(STORE_KEY); } catch (e) { /* ignore */ }
     if (!Array.isArray(state.shapes)) state.shapes = [];
+    // On a phone the full neck is too small to read from a music stand,
+    // so a first visit opens on the shape with the root on the 6th string.
+    if (!hadSaved && window.innerWidth < 700) state.shapes = ['E'];
     state.chord = null;
+    state.focus = false;
 
     function save() {
         try {
-            const { chord, ...rest } = state;
+            const { chord, focus, ...rest } = state;
             localStorage.setItem(STORE_KEY, JSON.stringify(rest));
         } catch (e) { /* ignore */ }
     }
@@ -429,7 +514,12 @@
         const shapes = buildShapes(state.key, state.scale);
         const maxShapeFret = Math.max(...shapes.map(s => s.max));
         const maxFret = Math.max(15, maxShapeFret);
-        const chords = diatonicChords(state.key, state.scale);
+        const chords = diatonicChords(state.key, state.scale, state.chordType);
+        // Thirds skip unevenly through the 6-note blues scales.
+        const isBlues = info.scale.group === 'Blues';
+        if (isBlues && state.pattern === 'thirds') state.pattern = 'updown';
+        const thirdsOpt = document.querySelector('#sxPattern option[value="thirds"]');
+        if (thirdsOpt) thirdsOpt.disabled = isBlues;
         // drop selections that no longer exist (all five letters always exist)
         state.shapes = state.shapes.filter(l => shapes.some(s => s.letter === l));
         if (state.chord !== null && !chords[state.chord]) state.chord = null;
@@ -471,7 +561,9 @@
         if (state.labels === 'intervals') {
             if (chord) {
                 const semis = mod(n.pc - chord.rootPc, 12);
-                return chord.tones.includes(n.pc) ? CHORD_INTERVAL[semis] : GENERIC_INTERVAL[semis];
+                if (chord.tones.includes(n.pc)) return CHORD_INTERVAL[semis];
+                const majorThird = chord.tones.includes(mod(chord.rootPc + 4, 12));
+                return semis === 6 && majorThird ? '#4' : GENERIC_INTERVAL[semis];
             }
             const note = model.info.byPc[n.pc];
             return note ? (note.interval === '1' ? 'R' : note.interval) : '';
@@ -489,7 +581,7 @@
     // ---------------------------------------------------------------
     // Fretboard SVG
     // ---------------------------------------------------------------
-    const G = { labelW: 24, openW: 36, fretW: 48, rowH: 32, top: 18, bottom: 38, r: 12.5 };
+    const G = { labelW: 26, openW: 40, fretW: 54, rowH: 38, top: 21, bottom: 40, r: 15 };
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
     function geometry(lo, hi) {
@@ -604,12 +696,12 @@
         for (let s = 0; s < 6; s++) {
             const y = geo.y(s);
             svg.appendChild(svgEl('line', { x1: geo.x0, x2: right, y1: y, y2: y, class: 'sx-string', 'stroke-width': 0.8 + (5 - s) * 0.28 }));
-            svg.appendChild(svgEl('text', { x: 10, y: y + 4, class: 'sx-string-label' }, s === 5 ? 'e' : STRING_NAMES[s]));
+            svg.appendChild(svgEl('text', { x: 11, y: y + 5, class: 'sx-string-label' }, s === 5 ? 'e' : STRING_NAMES[s]));
         }
         // fret numbers
         for (let f = lo; f <= hi; f++) {
             if (f === 0) continue;
-            svg.appendChild(svgEl('text', { x: geo.cx(f), y: geo.y(0) + G.r + 20, class: 'sx-fret-num' + (single.includes(f) || f === 12 ? ' marked' : '') }, String(f)));
+            svg.appendChild(svgEl('text', { x: geo.cx(f), y: geo.y(0) + G.r + 21, class: 'sx-fret-num' + (single.includes(f) || f === 12 ? ' marked' : '') }, String(f)));
         }
 
         // outlines
@@ -655,7 +747,7 @@
             g.appendChild(svgEl('circle', { cx, cy, r: G.r + 4, class: 'sx-ring' }));
             g.appendChild(svgEl('circle', { cx, cy, r: G.r, class: 'sx-dot' }));
             const label = labelFor(n);
-            g.appendChild(svgEl('text', { x: cx, y: cy + 4, class: 'sx-label' + (label.length > 2 ? ' small' : '') }, label));
+            g.appendChild(svgEl('text', { x: cx, y: cy + 4.5, class: 'sx-label' + (label.length > 2 ? ' small' : '') }, label));
             svg.appendChild(g);
         });
 
@@ -696,6 +788,11 @@
         el('sxClick').addEventListener('change', e => { state.click = e.target.checked; save(); });
         el('sxLoop').addEventListener('change', e => { state.loop = e.target.checked; save(); });
         el('sxPlay').addEventListener('click', togglePlay);
+        el('sxFocus').addEventListener('click', () => setFocus(!state.focus));
+        el('sxFocusExit').addEventListener('click', () => setFocus(false));
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && state.focus) requestWakeLock();
+        });
         el('sxBpmDown').addEventListener('click', () => setBpm(state.bpm - 5));
         el('sxBpmUp').addEventListener('click', () => setBpm(state.bpm + 5));
         el('sxBpm').addEventListener('change', e => setBpm(parseInt(e.target.value, 10)));
@@ -715,7 +812,29 @@
             if (e.key === 'ArrowRight') { stepShape(1); e.preventDefault(); }
             else if (e.key === 'ArrowLeft') { stepShape(-1); e.preventDefault(); }
             else if (e.key === ' ') { togglePlay(); e.preventDefault(); }
+            else if (e.key === 'f' || e.key === 'F') { setFocus(!state.focus); e.preventDefault(); }
+            else if (e.key === 'Escape' && state.focus) { setFocus(false); }
         });
+    }
+
+    // Focus mode: hide everything but the fretboard, tab and play bar,
+    // and keep the screen awake while practicing.
+    let wakeLock = null;
+    function requestWakeLock() {
+        if (!('wakeLock' in navigator) || wakeLock) return;
+        navigator.wakeLock.request('screen').then(lock => {
+            wakeLock = lock;
+            lock.addEventListener('release', () => { wakeLock = null; });
+        }).catch(() => { /* not allowed; ignore */ });
+    }
+    function releaseWakeLock() {
+        if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+    }
+    function setFocus(on) {
+        state.focus = !!on;
+        if (state.focus) requestWakeLock(); else releaseWakeLock();
+        update(false);
+        window.scrollTo(0, 0);
     }
 
     function setBpm(v) {
@@ -774,7 +893,7 @@
         });
     }
 
-    const ORD = ['6th', '5th', '4th', '3rd', '2nd', '1st'];
+    const ORD = ['6th (low E)', '5th (A)', '4th (D)', '3rd (G)', '2nd (B)', '1st (high e)'];
     function joinList(a) {
         return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
     }
@@ -782,14 +901,15 @@
         const sel = selectedShapes();
         const cap = el('sxCaption');
         if (!sel.length) {
-            cap.textContent = 'Every ' + model.info.root + ' ' + model.info.scale.name.toLowerCase() +
-                ' note on the neck. Pick a shape to practice one position at a time.' +
+            cap.textContent = 'All ' + model.info.root + ' ' + model.info.scale.name.toLowerCase() +
+                ' notes. Tap a shape, then press Play.' +
                 (window.innerWidth < 700 ? ' Swipe the chart sideways to see more frets.' : '');
             return;
         }
         cap.textContent = sel.map(sh => {
             const strings = [...new Set(sh.rootStrings)].sort((a, b) => a - b).map(s => ORD[s]);
-            return sh.letter + ' shape: frets ' + sh.min + ' to ' + sh.max +
+            const form = model.info.scale.quality === 'minor' ? sh.letter + 'm' : sh.letter;
+            return sh.letter + ' shape (built on the ' + form + ' chord form): frets ' + sh.min + ' to ' + sh.max +
                 (strings.length ? ', root on the ' + joinList(strings) + (strings.length > 1 ? ' strings' : ' string') : '');
         }).join(' · ');
     }
@@ -804,6 +924,20 @@
     function renderChords() {
         const host = el('sxChords');
         host.innerHTML = '';
+        if (model.info.scale.group !== 'Blues') {
+            const seg = document.createElement('div');
+            seg.className = 'sx-chord-type';
+            [['triads', 'Triads'], ['sevenths', '7ths']].forEach(([id, label]) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.textContent = label;
+                b.className = state.chordType === id ? 'active' : '';
+                b.setAttribute('aria-pressed', String(state.chordType === id));
+                b.addEventListener('click', () => { state.chordType = id; update(false); });
+                seg.appendChild(b);
+            });
+            host.appendChild(seg);
+        }
         const off = document.createElement('button');
         off.type = 'button';
         off.className = 'sx-chord-btn' + (state.chord === null ? ' active' : '');
@@ -827,7 +961,9 @@
                 '. Chord tones are highlighted; other scale notes are dimmed.' +
                 (missing.length ? ' Dashed notes (' + missing.join(', ') + ') are chord tones outside this scale.' : '');
         } else {
-            note.textContent = 'Pick a chord to see its root, 3rd and 5th inside the scale.';
+            note.textContent = model.info.scale.group === 'Blues'
+                ? 'Blues uses the I7, IV7 and V7 chords. Pick one to see its tones (R 3 5 b7) and aim for them.'
+                : 'Pick a chord to see its ' + (state.chordType === 'sevenths' ? 'root, 3rd, 5th and 7th' : 'root, 3rd and 5th') + ' inside the scale.';
         }
     }
 
@@ -847,6 +983,11 @@
             b.setAttribute('aria-pressed', String(on));
         });
         el('sxTitle').textContent = model.info.root + ' ' + model.info.scale.name;
+        const sel = state.shapes.length ? ' · ' + state.shapes.join(' + ') + ' shape' : ' · full neck';
+        el('sxFocusTitle').textContent = model.info.root + ' ' + model.info.scale.name + sel;
+        el('sxFocus').setAttribute('aria-pressed', String(state.focus));
+        el('sxFocus').classList.toggle('active', state.focus);
+        document.body.classList.toggle('sx-focus', state.focus);
         const fingerHint = el('sxFingerHint');
         fingerHint.style.display = state.labels === 'fingers' && !state.shapes.length ? 'block' : 'none';
     }
