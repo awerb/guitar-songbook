@@ -49,6 +49,39 @@ It's for the player with a notebook full of songs they keep forgetting the chord
 
 To back your songs up or move them to another device, open **Library → Export to file**. To restore, **Library → Import & Merge**.
 
+## How to use the Scales tab
+
+The Scales tab is a fretboard chart for learning scales one shape at a time, with playback you can play along with. It works best on a phone or tablet on a music stand.
+
+**Pick what to practice**
+
+1. Choose a **Key** and a **Scale** at the top: Minor Pentatonic, Major Pentatonic, Blues, Major or Natural Minor.
+2. Choose how the notes are labeled:
+   - **Notes:** note names (A, C, D...).
+   - **Intervals:** where each note sits in the scale (R for the root, b3, 5...).
+   - **Fingers:** which finger to use, one finger per fret.
+3. Tap a shape under the fretboard: **C, A, G, E** or **D**. The buttons run in order up the neck, and each shape gets a colored outline. **All** shows every note of the scale on the neck. Red notes are the root.
+
+**Play along**
+
+1. Press **Play** in the bar at the bottom of the screen. The shape plays up and down, and the current note lights up on the fretboard and in the tab below it.
+2. Use **-** and **+** to change the tempo. Start around 60 BPM and add 5 at a time.
+3. Under **Pattern**, try **Groups of 3** or **Thirds** once up and down feels easy. **Click** turns the metronome click on or off.
+4. Tap any note on the fretboard to hear it.
+
+**While you play**
+
+- **Focus** hides everything except the fretboard, the tab and the play bar, and keeps the screen from dimming. Tap **Exit focus** to get the rest back.
+- On a phone turned sideways, the play controls move to a column on the right so the whole fretboard fits.
+
+**Go further**
+
+- **Connect two shapes:** turn this on and tap two neighboring shapes to practice moving between them.
+- **Chords:** tap a chord under the fretboard (for example Am, C or G) to light up its notes inside the shape. Aim to end your phrases on those notes. Blues shows the I7, IV7 and V7 chords.
+- **How to practice** at the bottom of the tab gives a short 5-step routine.
+
+On a computer, the left and right arrow keys change shape, the space bar starts and stops playback, and F turns Focus on and off. Your key, scale, shape and tempo are remembered the next time you open the tab.
+
 ## Sample songs
 
 Songbook ships with 10 verified public-domain songs across folk, blues, jazz, and rock-style arrangements. Each entry includes a `license` field with the source attribution.
