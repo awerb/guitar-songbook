@@ -2909,7 +2909,7 @@ input[type="range"] { accent-color: var(--sand); }
     padding-bottom: calc(var(--sx-transport-h) + 40px) !important;
 }
 
-.scales-section h2#sxTitle { margin-bottom: 14px; }
+.scales-section h2#sxTitle { margin-bottom: 14px; font-size: 32px; }
 
 .sx-pickers {
     display: flex;
@@ -2935,9 +2935,10 @@ input[type="range"] { accent-color: var(--sand); }
     border: 1px solid var(--line-2);
     color: var(--ink);
     padding: 10px 12px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 600;
     border-radius: 8px;
-    min-height: 46px;
+    min-height: 50px;
     width: 100%;
 }
 
@@ -2952,13 +2953,14 @@ input[type="range"] { accent-color: var(--sand); }
 
 .sx-seg button {
     flex: 1;
-    min-height: 46px;
+    min-height: 50px;
     padding: 10px 12px;
     background: transparent;
     border: 1px solid var(--line-2);
     color: var(--ink-2);
     font-family: var(--display);
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     cursor: pointer;
@@ -2999,8 +3001,8 @@ input[type="range"] { accent-color: var(--sand); }
 
 .sx-note { cursor: pointer; }
 .sx-note .sx-dot { fill: var(--sx-note); stroke: rgba(0,0,0,0.35); stroke-width: 1; }
-.sx-note .sx-label { fill: var(--sx-note-ink); font-size: 14px; font-weight: 700; text-anchor: middle; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
-.sx-note .sx-label.small { font-size: 12.5px; letter-spacing: -0.02em; }
+.sx-note .sx-label { fill: var(--sx-note-ink); font-size: 16px; font-weight: 700; text-anchor: middle; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+.sx-note .sx-label.small { font-size: 14px; letter-spacing: -0.02em; }
 .sx-note .sx-ring { fill: none; stroke: transparent; stroke-width: 3.5; }
 .sx-note.root .sx-dot,
 .sx-note.chord-root .sx-dot { fill: var(--sx-root); }
@@ -3014,7 +3016,7 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-note.playing { opacity: 1; }
 .sx-note.tapped .sx-ring { stroke: var(--sand); }
 
-.sx-finger-hint { display: none; text-align: center; font-size: 14px; color: var(--sand); margin-top: 10px; }
+.sx-finger-hint { display: none; text-align: center; font-size: 16px; color: var(--sand); margin-top: 10px; }
 
 .sx-shapes {
     display: flex;
@@ -3035,8 +3037,8 @@ input[type="range"] { accent-color: var(--sand); }
     background: var(--bg-3);
     color: var(--ink);
     font-family: var(--display);
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
 }
 
@@ -3046,7 +3048,7 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-shape-btn.active { background: var(--shape); border-color: var(--shape); color: #0b0b0b; }
 .sx-shape-btn.full.active { background: var(--sand); border-color: var(--sand); color: var(--on-sand); }
 
-.sx-caption { text-align: center; margin-top: 10px; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.sx-caption { text-align: center; margin-top: 10px; font-size: 16px; color: var(--ink); line-height: 1.5; }
 
 .sx-chord-row {
     display: flex;
@@ -3060,7 +3062,8 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-row-label {
     flex: 0 0 auto;
     font-family: var(--display);
-    font-size: 11px;
+    font-size: 13px;
+    font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--sand);
@@ -3085,8 +3088,8 @@ input[type="range"] { accent-color: var(--sand); }
     border: 1px solid var(--line-2);
     background: var(--bg-3);
     color: var(--ink);
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -3113,7 +3116,7 @@ input[type="range"] { accent-color: var(--sand); }
 .sx-chord-type button:last-child { border-radius: 0 8px 8px 0; }
 .sx-chord-type button.active { background: var(--bg-3); color: var(--ink); border-color: var(--sand); }
 
-.sx-chord-note { margin-top: 8px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.sx-chord-note { margin-top: 8px; font-size: 15px; color: var(--ink-2); line-height: 1.5; }
 
 .sx-h3 {
     font-family: var(--display);
@@ -3133,12 +3136,12 @@ input[type="range"] { accent-color: var(--sand); }
     gap: 6px 18px;
     flex-wrap: wrap;
     margin-top: 12px;
-    font-size: 15px;
-    color: var(--ink-2);
+    font-size: 17px;
+    color: var(--ink);
 }
 
 .sx-toggles label { display: flex; align-items: center; gap: 8px; min-height: 40px; cursor: pointer; }
-.sx-toggles input { width: 20px; height: 20px; accent-color: var(--sand); }
+.sx-toggles input { width: 22px; height: 22px; accent-color: var(--sand); }
 
 .sx-tab {
     overflow-x: auto;
@@ -3151,9 +3154,9 @@ input[type="range"] { accent-color: var(--sand); }
 
 .sx-tab-svg { display: block; }
 .sx-tab-line { stroke: rgba(244,239,230,0.22); stroke-width: 1; }
-.sx-tab-string { fill: var(--ink-3); font-size: 10px; font-family: var(--mono); }
+.sx-tab-string { fill: var(--ink-2); font-size: 12px; font-family: var(--mono); }
 .sx-tab-note rect { fill: var(--sx-board); }
-.sx-tab-note text { fill: var(--ink); font-size: 12px; font-family: var(--mono); text-anchor: middle; }
+.sx-tab-note text { fill: var(--ink); font-size: 15px; font-weight: 600; font-family: var(--mono); text-anchor: middle; }
 .sx-tab-note.root text { fill: var(--sx-root); font-weight: 700; }
 .sx-tab-note.playing rect { fill: var(--sx-play); }
 .sx-tab-note.playing text { fill: #fff; }
@@ -3169,13 +3172,13 @@ input[type="range"] { accent-color: var(--sand); }
     border: 1px solid var(--line-2);
     border-radius: 8px;
 }
-.sx-formula-note strong { font-size: 16px; color: var(--ink); }
-.sx-formula-note em { font-style: normal; font-size: 12px; color: var(--ink-3); }
+.sx-formula-note strong { font-size: 20px; color: var(--ink); }
+.sx-formula-note em { font-style: normal; font-size: 14px; color: var(--ink-3); }
 .sx-formula-note.root { border-color: var(--sx-root); }
 .sx-formula-note.root strong { color: var(--sx-root); }
 
-.sx-guide summary { cursor: pointer; font-family: var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); font-size: 14px; min-height: 28px; }
-.sx-guide ol { margin: 14px 0 0 20px; color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.sx-guide summary { cursor: pointer; font-family: var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); font-size: 16px; font-weight: 600; min-height: 28px; }
+.sx-guide ol { margin: 14px 0 0 22px; color: var(--ink); font-size: 17px; line-height: 1.6; }
 .sx-guide li { margin-bottom: 8px; }
 .sx-guide li strong { color: var(--ink); }
 .sx-guide p { margin-top: 8px; font-size: 13px; color: var(--ink-3); }
@@ -3308,7 +3311,7 @@ body.sx-focus .scales-section { padding-top: 12px; }
 
 @media (max-width: 600px) {
     .scales-section { padding-left: 12px !important; padding-right: 12px !important; }
-    .scales-section h2#sxTitle { font-size: 23px; margin-bottom: 10px; }
+    .scales-section h2#sxTitle { font-size: 27px; margin-bottom: 10px; }
     .sx-board-card, .sx-tab-card, .sx-card { padding: 10px; border-radius: 12px; }
     .sx-shapes { gap: 0; }
     .sx-shape-btns { gap: 5px; }

@@ -5,7 +5,7 @@ All notable changes to Songbook are documented here. The format follows [Keep a 
 ## [Unreleased]
 
 ### Added
-- **Interactive scale chart** in the SCALES tab, replacing the static pentatonic text diagrams. Key and scale pickers (13 scales), Notes / Intervals / Fingers labels, CAGED shape buttons ordered up the neck with colored outlines, combine shapes, zoom to shape, tap a note to hear it, playback with practice patterns, tempo, notes per beat, metronome click and a tab view that follows the playing note, plus diatonic chord tones.
+- **Interactive scale chart** in the SCALES tab, replacing the static pentatonic text diagrams. Five beginner-friendly scales in any key, Notes / Intervals / Fingers labels, CAGED shape buttons with outlines, a fixed play bar with tempo, practice patterns shown as tab, chord highlighting, and a Focus mode for playing with a guitar in hand.
 - **PWA install button** in the header. On supported browsers (Chrome, Edge, Android Chrome), an "INSTALL" button appears when the browser offers PWA installation. Tap it to install Songbook to your home screen.
 - **Dismissible install prompt**. The INSTALL button now has a dismiss (×) control. Once dismissed, the prompt won't reappear. If the app is installed (standalone mode detected), the prompt is permanently hidden.
 - **Proper 192×192 and 180×180 icons** for better home-screen quality on Android and iOS.

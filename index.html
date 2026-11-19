@@ -122,7 +122,7 @@
 
             <div class="sx-board-card">
                 <div class="sx-board" id="sxBoard"></div>
-                <p class="sx-finger-hint" id="sxFingerHint">Fingers show when a shape is selected. Pick C, A, G, E or D below.</p>
+                <p class="sx-finger-hint" id="sxFingerHint">Pick a shape to see fingers.</p>
 
                 <div class="sx-shapes">
                     <button type="button" class="sx-arrow" id="sxPrev" aria-label="Previous shape">&lsaquo;</button>
@@ -132,7 +132,7 @@
                 <p class="sx-caption" id="sxCaption"></p>
 
                 <div class="sx-chord-row">
-                    <span class="sx-row-label">Chord tones</span>
+                    <span class="sx-row-label">Chords</span>
                     <div class="sx-chords" id="sxChords"></div>
                 </div>
                 <p class="sx-chord-note" id="sxChordNote"></p>
@@ -140,31 +140,18 @@
 
             <div class="sx-tab-card">
                 <div class="sx-tab" id="sxTab" aria-label="Tab of the practice pattern"></div>
-                <p class="sx-tab-info" id="sxTabInfo"></p>
             </div>
 
             <div class="sx-card sx-settings">
-                <h3 class="sx-h3">Practice settings</h3>
                 <div class="sx-player">
                     <label class="sx-field">
                         <span>Pattern</span>
                         <select id="sxPattern" class="sx-select"></select>
                     </label>
-                    <label class="sx-field">
-                        <span>Notes per beat</span>
-                        <select id="sxSub" class="sx-select">
-                            <option value="1">1 (quarter)</option>
-                            <option value="2">2 (eighth)</option>
-                            <option value="3">3 (triplet)</option>
-                            <option value="4">4 (sixteenth)</option>
-                        </select>
-                    </label>
                 </div>
                 <div class="sx-toggles">
-                    <label><input type="checkbox" id="sxClick"> Metronome click</label>
-                    <label><input type="checkbox" id="sxLoop"> Loop</label>
-                    <label><input type="checkbox" id="sxCombine"> Combine shapes</label>
-                    <label><input type="checkbox" id="sxZoom"> Zoom to shape</label>
+                    <label><input type="checkbox" id="sxClick"> Click</label>
+                    <label><input type="checkbox" id="sxCombine"> Connect two shapes</label>
                 </div>
             </div>
 
@@ -174,17 +161,14 @@
             </div>
 
             <details class="sx-card sx-guide">
-                <summary>How to practice with this chart</summary>
+                <summary>How to practice</summary>
                 <ol>
-                    <li><strong>Learn one shape.</strong> Start with the E shape: its root sits on the 6th string, like a barred E or Em chord. Set the tempo to 60, turn on the click, press Play and play along up and down. Say the root name each time you land on a red note.</li>
-                    <li><strong>Check your fingering.</strong> Switch the labels to Fingers. Your hand covers four frets, one finger per fret. A note one fret outside that span is a stretch with the index or the pinky.</li>
-                    <li><strong>Learn the sound of each note.</strong> Switch to Intervals. R is the root, b3 is the minor third, 5 is the fifth. Tap any note on the chart to hear it.</li>
-                    <li><strong>Practice patterns.</strong> Once up and down is clean, try groups of 3, groups of 4 and thirds (under Practice settings). Raise the tempo 5 BPM at a time.</li>
-                    <li><strong>Connect shapes.</strong> Turn on Combine shapes and select two shapes next to each other. They share notes, so you can slide from one into the next.</li>
-                    <li><strong>Change key.</strong> Each shape is named after the open chord it is built on: minor scales use the minor chord forms (E shape = Em form), major scales the major forms. Up the neck the shapes always follow the cycle C, A, G, E, D, then C again. Changing key moves them up or down the neck as a group.</li>
-                    <li><strong>Aim for chord tones.</strong> Pick a chord under Chord tones (triads or 7ths) and end your phrases on the highlighted notes. For blues, use the I7, IV7 and V7 chords.</li>
+                    <li><strong>Pick one shape.</strong> Start with E. Red notes are the root.</li>
+                    <li><strong>Play along slowly.</strong> Press Play at 60 and play up and down with it.</li>
+                    <li><strong>Check your fingers.</strong> Tap Fingers. One finger per fret.</li>
+                    <li><strong>Speed up.</strong> Add 5 BPM when it feels easy. Then try Groups of 3.</li>
+                    <li><strong>Move on.</strong> Learn the next shape, then connect the two.</li>
                 </ol>
-                <p>Focus hides everything except the fretboard, the tab and the play bar, and keeps the screen awake. Keyboard: left and right arrows change shape, space starts and stops playback, F toggles focus.</p>
             </details>
 
             <div class="sx-transport" id="sxTransport">

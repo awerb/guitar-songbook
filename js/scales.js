@@ -479,6 +479,20 @@
     // UI state
     // ---------------------------------------------------------------
     const STORE_KEY = 'songbook.scales.v1';
+    // The engine knows more scales and patterns; the screen shows the ones a
+    // beginner to intermediate player needs.
+    const UI_SCALES = [
+        ['minor-pentatonic', 'Minor Pentatonic'],
+        ['major-pentatonic', 'Major Pentatonic'],
+        ['minor-blues', 'Blues'],
+        ['major', 'Major'],
+        ['aeolian', 'Natural Minor']
+    ];
+    const UI_PATTERNS = [['updown', 'Up and down'], ['groups3', 'Groups of 3'], ['thirds', 'Thirds']];
+    function scaleLabel(id) {
+        const hit = UI_SCALES.find(x => x[0] === id);
+        return hit ? hit[1] : getScale(id).name;
+    }
     const DEFAULTS = {
         key: 9, scale: 'minor-pentatonic', labels: 'notes', shapes: [], combine: false,
         zoom: true, pattern: 'updown', sub: 2, bpm: 80, click: true, loop: true, chord: null, chordType: 'triads'
@@ -491,6 +505,12 @@
     let hadSaved = false;
     try { hadSaved = !!localStorage.getItem(STORE_KEY); } catch (e) { /* ignore */ }
     if (!Array.isArray(state.shapes)) state.shapes = [];
+    if (!UI_SCALES.some(x => x[0] === state.scale)) state.scale = DEFAULTS.scale;
+    if (!UI_PATTERNS.some(x => x[0] === state.pattern)) state.pattern = DEFAULTS.pattern;
+    state.chordType = 'triads';
+    state.sub = 2;
+    state.loop = true;
+    state.zoom = true;
     // On a phone the full neck is too small to read from a music stand,
     // so a first visit opens on the shape with the root on the 6th string.
     if (!hadSaved && window.innerWidth < 700) state.shapes = ['E'];
@@ -568,7 +588,7 @@
             const note = model.info.byPc[n.pc];
             return note ? (note.interval === '1' ? 'R' : note.interval) : '';
         }
-        if (state.labels === 'fingers' && n.finger !== undefined) return String(n.finger);
+        if (state.labels === 'fingers' && n.finger !== undefined) return n.f === 0 ? 'O' : String(n.finger);
         const note = model.info.byPc[n.pc];
         if (note) return note.name;
         if (chord) {
@@ -581,7 +601,7 @@
     // ---------------------------------------------------------------
     // Fretboard SVG
     // ---------------------------------------------------------------
-    const G = { labelW: 26, openW: 40, fretW: 54, rowH: 38, top: 21, bottom: 40, r: 15 };
+    const G = { labelW: 26, openW: 42, fretW: 56, rowH: 40, top: 22, bottom: 40, r: 16.5 };
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
     function geometry(lo, hi) {
@@ -720,19 +740,7 @@
                 if (n && n.finger === undefined) n.finger = sn.finger;
             }));
         }
-        // chord tones not in the scale, drawn as ghosts inside the view
         const ghosts = [];
-        if (chord) {
-            const windows = sel.length ? sel.map(sh => [sh.min, sh.max]) : [[0, model.maxFret]];
-            for (let s = 0; s < 6; s++) {
-                for (let f = lo; f <= hi; f++) {
-                    const pc = mod(OPEN_MIDI[s] + f, 12);
-                    if (!chord.tones.includes(pc) || model.info.pcs.has(pc)) continue;
-                    if (!windows.some(w => f >= w[0] && f <= w[1])) continue;
-                    ghosts.push({ s, f, midi: OPEN_MIDI[s] + f, pc, ghost: true });
-                }
-            }
-        }
         notes.concat(ghosts).forEach(n => {
             if (n.f < lo || n.f > hi) return;
             const isRoot = n.pc === model.info.rootPc;
@@ -747,7 +755,7 @@
             g.appendChild(svgEl('circle', { cx, cy, r: G.r + 4, class: 'sx-ring' }));
             g.appendChild(svgEl('circle', { cx, cy, r: G.r, class: 'sx-dot' }));
             const label = labelFor(n);
-            g.appendChild(svgEl('text', { x: cx, y: cy + 4.5, class: 'sx-label' + (label.length > 2 ? ' small' : '') }, label));
+            g.appendChild(svgEl('text', { x: cx, y: cy + 5.5, class: 'sx-label' + (label.length > 2 ? ' small' : '') }, label));
             svg.appendChild(g);
         });
 
@@ -763,16 +771,12 @@
         const keySel = el('sxKey');
         keySel.innerHTML = KEYS.map(k => '<option value="' + k.pc + '">' + k.label + '</option>').join('');
         const scaleSel = el('sxScale');
-        const groups = [...new Set(SCALES.map(s => s.group))];
-        scaleSel.innerHTML = groups.map(g => '<optgroup label="' + g + '">' +
-            SCALES.filter(s => s.group === g).map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('') +
-            '</optgroup>').join('');
-        el('sxPattern').innerHTML = PATTERNS.map(p => '<option value="' + p.id + '">' + p.name + '</option>').join('');
+        scaleSel.innerHTML = UI_SCALES.map(([id, name]) => '<option value="' + id + '">' + name + '</option>').join('');
+        el('sxPattern').innerHTML = UI_PATTERNS.map(([id, name]) => '<option value="' + id + '">' + name + '</option>').join('');
 
         keySel.addEventListener('change', () => { state.key = parseInt(keySel.value, 10); state.chord = null; update(true); });
         scaleSel.addEventListener('change', () => { state.scale = scaleSel.value; state.chord = null; update(true); });
         el('sxPattern').addEventListener('change', e => { state.pattern = e.target.value; update(true); });
-        el('sxSub').addEventListener('change', e => { state.sub = parseInt(e.target.value, 10); save(); restartIfPlaying(); });
 
         document.querySelectorAll('#sxLabels button').forEach(b => {
             b.addEventListener('click', () => { state.labels = b.dataset.mode; update(false); });
@@ -784,9 +788,7 @@
             if (!state.combine && state.shapes.length > 1) state.shapes = [state.shapes[state.shapes.length - 1]];
             update(true);
         });
-        el('sxZoom').addEventListener('change', e => { state.zoom = e.target.checked; update(false); });
         el('sxClick').addEventListener('change', e => { state.click = e.target.checked; save(); });
-        el('sxLoop').addEventListener('change', e => { state.loop = e.target.checked; save(); });
         el('sxPlay').addEventListener('click', togglePlay);
         el('sxFocus').addEventListener('click', () => setFocus(!state.focus));
         el('sxFocusExit').addEventListener('click', () => setFocus(false));
@@ -875,7 +877,7 @@
         const full = document.createElement('button');
         full.type = 'button';
         full.className = 'sx-shape-btn full' + (state.shapes.length ? '' : ' active');
-        full.textContent = 'Full';
+        full.textContent = 'All';
         full.setAttribute('aria-pressed', String(!state.shapes.length));
         full.addEventListener('click', () => clickShape(null));
         host.appendChild(full);
@@ -901,17 +903,11 @@
         const sel = selectedShapes();
         const cap = el('sxCaption');
         if (!sel.length) {
-            cap.textContent = 'All ' + model.info.root + ' ' + model.info.scale.name.toLowerCase() +
-                ' notes. Tap a shape, then press Play.' +
-                (window.innerWidth < 700 ? ' Swipe the chart sideways to see more frets.' : '');
+            cap.textContent = 'Tap a shape, then press Play.';
             return;
         }
-        cap.textContent = sel.map(sh => {
-            const strings = [...new Set(sh.rootStrings)].sort((a, b) => a - b).map(s => ORD[s]);
-            const form = model.info.scale.quality === 'minor' ? sh.letter + 'm' : sh.letter;
-            return sh.letter + ' shape (built on the ' + form + ' chord form): frets ' + sh.min + ' to ' + sh.max +
-                (strings.length ? ', root on the ' + joinList(strings) + (strings.length > 1 ? ' strings' : ' string') : '');
-        }).join(' · ');
+        cap.textContent = sel.map(sh => sh.letter + ' shape · frets ' + sh.min + ' to ' + sh.max).join('  ·  ') +
+            ' · red = root';
     }
 
     function renderFormula() {
@@ -924,20 +920,6 @@
     function renderChords() {
         const host = el('sxChords');
         host.innerHTML = '';
-        if (model.info.scale.group !== 'Blues') {
-            const seg = document.createElement('div');
-            seg.className = 'sx-chord-type';
-            [['triads', 'Triads'], ['sevenths', '7ths']].forEach(([id, label]) => {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.textContent = label;
-                b.className = state.chordType === id ? 'active' : '';
-                b.setAttribute('aria-pressed', String(state.chordType === id));
-                b.addEventListener('click', () => { state.chordType = id; update(false); });
-                seg.appendChild(b);
-            });
-            host.appendChild(seg);
-        }
         const off = document.createElement('button');
         off.type = 'button';
         off.className = 'sx-chord-btn' + (state.chord === null ? ' active' : '');
@@ -945,46 +927,37 @@
         off.addEventListener('click', () => { state.chord = null; update(false); });
         host.appendChild(off);
         model.chords.forEach((c, i) => {
+            // Diminished chords are rare for beginners; leave them out.
+            if (/dim|m7b5/.test(c.name)) return;
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'sx-chord-btn' + (state.chord === i ? ' active' : '');
-            b.innerHTML = '<span>' + c.roman + '</span>' + c.name;
+            b.textContent = c.name;
             b.title = c.name + ': ' + c.names.join(' ');
             b.addEventListener('click', () => { state.chord = state.chord === i ? null : i; update(false); });
             host.appendChild(b);
         });
         const chord = activeChord();
-        const note = el('sxChordNote');
-        if (chord) {
-            const missing = chord.names.filter((nm, i) => !model.info.pcs.has(chord.tones[i]));
-            note.textContent = chord.name + ' = ' + chord.names.join(' ') +
-                '. Chord tones are highlighted; other scale notes are dimmed.' +
-                (missing.length ? ' Dashed notes (' + missing.join(', ') + ') are chord tones outside this scale.' : '');
-        } else {
-            note.textContent = model.info.scale.group === 'Blues'
-                ? 'Blues uses the I7, IV7 and V7 chords. Pick one to see its tones (R 3 5 b7) and aim for them.'
-                : 'Pick a chord to see its ' + (state.chordType === 'sevenths' ? 'root, 3rd, 5th and 7th' : 'root, 3rd and 5th') + ' inside the scale.';
-        }
+        el('sxChordNote').textContent = chord
+            ? chord.name + ' = ' + chord.names.join(' ') + '. Land on the bright notes.'
+            : 'Pick a chord to light up its notes.';
     }
 
     function syncInputs() {
         el('sxKey').value = String(state.key);
         el('sxScale').value = state.scale;
         el('sxPattern').value = state.pattern;
-        el('sxSub').value = String(state.sub);
         el('sxBpm').value = state.bpm;
         el('sxCombine').checked = state.combine;
-        el('sxZoom').checked = state.zoom;
         el('sxClick').checked = state.click;
-        el('sxLoop').checked = state.loop;
         document.querySelectorAll('#sxLabels button').forEach(b => {
             const on = b.dataset.mode === state.labels;
             b.classList.toggle('active', on);
             b.setAttribute('aria-pressed', String(on));
         });
-        el('sxTitle').textContent = model.info.root + ' ' + model.info.scale.name;
-        const sel = state.shapes.length ? ' · ' + state.shapes.join(' + ') + ' shape' : ' · full neck';
-        el('sxFocusTitle').textContent = model.info.root + ' ' + model.info.scale.name + sel;
+        const title = model.info.root + ' ' + scaleLabel(state.scale);
+        el('sxTitle').textContent = title;
+        el('sxFocusTitle').textContent = title + (state.shapes.length ? ' · ' + state.shapes.join(' + ') + ' shape' : '');
         el('sxFocus').setAttribute('aria-pressed', String(state.focus));
         el('sxFocus').classList.toggle('active', state.focus);
         document.body.classList.toggle('sx-focus', state.focus);
@@ -1014,28 +987,25 @@
         const host = el('sxTab');
         const seq = buildSequence();
         player.seq = seq;
-        const colW = 26, rowH = 15, left = 18, top = 10;
+        const colW = 32, rowH = 19, left = 20, top = 12;
         const width = left + seq.length * colW + 12;
         const height = top + 5 * rowH + 12;
         const svg = svgEl('svg', { viewBox: '0 0 ' + width + ' ' + height, width, height, class: 'sx-tab-svg' });
         for (let s = 0; s < 6; s++) {
             const y = top + (5 - s) * rowH;
-            svg.appendChild(svgEl('text', { x: 3, y: y + 3.5, class: 'sx-tab-string' }, s === 5 ? 'e' : STRING_NAMES[s]));
+            svg.appendChild(svgEl('text', { x: 3, y: y + 4, class: 'sx-tab-string' }, s === 5 ? 'e' : STRING_NAMES[s]));
             svg.appendChild(svgEl('line', { x1: left, x2: width - 4, y1: y, y2: y, class: 'sx-tab-line' }));
         }
         seq.forEach((n, i) => {
             const x = left + i * colW + colW / 2;
             const y = top + (5 - n.s) * rowH;
             const g = svgEl('g', { class: 'sx-tab-note' + (n.pc === model.info.rootPc ? ' root' : ''), 'data-i': i });
-            g.appendChild(svgEl('rect', { x: x - 11, y: y - 7, width: 22, height: 14, rx: 3 }));
-            g.appendChild(svgEl('text', { x, y: y + 4 }, String(n.f)));
+            g.appendChild(svgEl('rect', { x: x - 13, y: y - 9, width: 26, height: 18, rx: 4 }));
+            g.appendChild(svgEl('text', { x, y: y + 5 }, String(n.f)));
             svg.appendChild(g);
         });
         host.innerHTML = '';
         host.appendChild(svg);
-        el('sxTabInfo').textContent = seq.length + ' notes · ' +
-            PATTERNS.find(p => p.id === state.pattern).name.toLowerCase() +
-            (selectedShapes().length ? '' : ' · all five shapes in a row');
     }
 
     function markPlaying() {
